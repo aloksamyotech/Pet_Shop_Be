@@ -3,13 +3,13 @@ import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
 export const productData = async (req) => {
-  try {
-    const { productName, type, price, discount } = req?.body;
+ 
+  const { productName, type, price, discount } = req?.body;
 
     if (!productName || !type || !price || !discount) {
       throw new CustomError(
         statusCodes?.badRequest,
-        Message?.invalidInput || "Invalid input.",
+        Message?.invalidInput,
         errorCodes?.invalid_input
       );
     }
@@ -22,19 +22,16 @@ export const productData = async (req) => {
     });
 
     return productSchema; 
-  } catch (error) {
-    throw new CustomError(
-      statusCodes?.internalServerError,
-      error.message || "Error creating product.",
-      errorCodes?.server_error
-    );
-  }
+   
+    
+    
+  
 };
 
 
 
 export const getProductData = async () => {
-    try {
+    
       const products = await ProductSchemaModel.find();
   
       if (!products || products.length === 0) {
@@ -46,19 +43,13 @@ export const getProductData = async () => {
       }
   
       return products;
-    } catch (error) {
-      throw new CustomError(
-        statusCodes?.internalServerError,
-        error.message || "Error fetching products.",
-        errorCodes?.server_error || "SERVER_ERROR"
-      );
-    }
+    
   };
 
 
   export const updateProductData  = async (req) =>{
 
-    try{
+   
        const {productId , productName, type, price,discount} = req?.body;
        if(!productId || (!productName && !type && !price && !discount)){
 
@@ -71,47 +62,28 @@ export const getProductData = async () => {
        }
     const product = await ProductSchemaModel.findById(productId);
 
-
-
-       if(!product){
+      if(!product){
         throw new CustomError(
             statusCodes?.notFound,
             error.message || "Product not found",
             errorCodes?.server_error || "NOT_FOUND")
+           }
 
-       }
-
-
-         product.productName = productName || product.productName;
+      product.productName = productName || product.productName;
        product.type = type || product.type;
        product.price = price || product.price;
        product.discount = discount || product.discount;
 
+         const  updateProduct = await product.save();
+        return updateProduct;
 
 
-       const  updateProduct = await product.save();
-
-       return updateProduct;
-
-
-    }
-
-    catch(error){
-        throw new CustomError(
-            statusCodes?.internalServerError,
-            error.message || "Error updating product.",
-            errorCodes?.server_error || "SERVER_ERROR"
-          );
-    }
   }
   
-  export const deleteProductData =  async (req,res, next) =>{
-
-    try{
-
-        const {productId} = req.params;    
-
-        if(!productId){
+  export const deleteProductData =  async (req) =>{
+   const {productId} = req.params;    
+    
+   if(!productId){
 
             throw new CustomError(
                 statusCodes?.badRequest,
@@ -119,9 +91,7 @@ export const getProductData = async () => {
                 errorCodes?.invalid_input || "INVALID_INPUT"
               );
         }
-
-
-        const product = await ProductSchemaModel.findByIdAndDelete(productId);
+       const product = await ProductSchemaModel.findByIdAndDelete(productId);
 
         if(!product){
             throw new CustomError(
@@ -132,14 +102,6 @@ export const getProductData = async () => {
         }
 
      return product;
-    }
+    
 
-    catch(error){
-        throw new CustomError(
-            statusCodes?.internalServerError,
-            error.message || "Error deleting  product.",
-            errorCodes?.server_error || "SERVER_ERROR"
-          );
-
-    }
   } 
