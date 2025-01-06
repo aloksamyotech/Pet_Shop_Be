@@ -16,8 +16,7 @@ const product = async (req, res) => {
 
 
 const getProducts = async (req, res, next) => {
-  
-    const products = await getProductData();
+  const products = await getProductData();
     res.status(statusCodes?.ok).json({ 
       success: true,
       message: "Products fetched successfully.",

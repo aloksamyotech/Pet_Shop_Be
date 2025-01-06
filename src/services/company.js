@@ -1,4 +1,4 @@
-import { CompanySchemaModel } from "../models/Comapny.js";
+import { CompanySchemaModel } from "../models/company.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 

@@ -30,13 +30,13 @@
       
       companyType: {
         type: String,
-        enum: ["regular", "Premium", "Business"],
-        default: "Regular",
+        enum: ["regular", "premium", "business"],
+        default: "regular",
       },
       status: {
         type: String,
-        enum: ["Active", "Inactive", "Blocked"],
-        default: "Active",
+        enum: ["active", "inactive", "blocked"],
+        default: "active",
       },
     },
     { timestamps: true }

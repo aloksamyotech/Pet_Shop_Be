@@ -4,12 +4,16 @@ import productTypeController from "./productType.js";
 import customerController from "./customer.js";
 import companyController from "./company.js";
 import purchaseController from "./purchase.js";
+import categoryController from "./category.js"
+import orderController from "./order.js"
 
 export { userController ,
     productController,
     productTypeController,
     customerController,
     companyController,
-    purchaseController
+    purchaseController,
+    categoryController,
+    orderController
     
 };

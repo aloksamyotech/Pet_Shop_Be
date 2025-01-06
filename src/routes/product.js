@@ -6,12 +6,8 @@ const router = Router();
 
 
 router.post("/save", asyncHandler(productController.product));
-
-
 router.get("/fetch", asyncHandler(productController.getProducts));
-
 router.put("/updated",asyncHandler(productController.updateProducts));
-
 router.delete("/:productId",asyncHandler(productController.deleteProducts));
 
 
