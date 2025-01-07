@@ -96,8 +96,7 @@ export const getCompanyData = async () => {
 
             throw new CustomError(
                 statusCodes?.badRequest,
-                "company ID is required for deletion.",
-                errorCodes?.invalid_input || "INVALID_INPUT"
+                errorCodes?.invalid_input ,
               );
         }
 
@@ -107,8 +106,7 @@ export const getCompanyData = async () => {
         if(!company){
             throw new CustomError(
                 statusCodes?.notFound,
-                "Company not found",
-                errorCodes?.notFound
+               errorCodes?.notFound
             )
         }
 

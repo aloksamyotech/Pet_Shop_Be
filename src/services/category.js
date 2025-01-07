@@ -6,7 +6,7 @@ import CustomError from "../utils/exception.js";
 export const categoryData = async (req) => {
   
     const { name , description} = req?.body;
-    console.log("value+++++++++++++++++++++",req.body)
+   
 
     if (!name || !description  ) {
       throw new CustomError(
@@ -28,7 +28,7 @@ export const categoryData = async (req) => {
 export const getCategoryData = async () => {
    
       const category= await CategorySchemaModel.find();
-      console.log("data>>>>>>>>>>>>>>>>>>>>>>",category);
+     
   
       if (!category || category.length === 0) {
         throw new CustomError(

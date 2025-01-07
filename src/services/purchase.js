@@ -102,8 +102,8 @@ export const getPurchaseData = async () => {
         if(!purchase){
             throw new CustomError(
                 statusCodes?.notFound,
-                Message?.notFound || "invalidInput",
-                Message?.notFound || "invalidInput",
+                Message?.notFound ,
+                Message?.notFound ,
             )
         }
 

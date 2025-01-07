@@ -7,17 +7,9 @@ const productSchema = new Schema(
       required: true,
       trim: true,
     },
-    type: {
-      type: String,
-      required: true,
-      
-    },
     price: {
       type: Number,
       required: true,
-    
-      
-     
     },
     discount: {
       type: Number,
@@ -30,6 +22,8 @@ const productSchema = new Schema(
       ref :'Category',  
       required:true
     }
+
+    
   },
 { timestamps: true },
 );

@@ -33,8 +33,8 @@ export const getCustomerData = async () => {
       if (! customers|| customers.length === 0) {
         throw new CustomError(
           statusCodes?.notFound,
-          Message?.notFound || "No customers found.",
-          errorCodes?.not_Found || "NOT_FOUND"
+          Message?.notFound ,
+          errorCodes?.not_Found ,
         );
       }
   
