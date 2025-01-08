@@ -27,6 +27,9 @@ export const statusCodes = {
 export const Message = {
   notFound: "Not Found",
   registerSuccessfully: "Successfully Registered",
+  DeleteSuccessfully:"delete  successfully.",
+  Successfully:"Successfully created",
+  FetchSuccessfully: " Data fetched successfully.",
   inValid: "Invalid Credentials",
   successfullyUpdate: "Updated Successfully",
   alreadyExist: "Already Exist",

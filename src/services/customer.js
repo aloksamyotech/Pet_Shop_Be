@@ -28,9 +28,9 @@ export const customerData = async (req) => {
 
 export const getCustomerData = async () => {
    
-      const customers = await CustomerSchemaModel.find();
+      const customers = await CustomerSchemaModel.find().sort({createdAt: -1});
   
-      if (customers) {
+      if (!customers) {
         throw new CustomError(
           statusCodes?.notFound,
           Message?.notFound ,

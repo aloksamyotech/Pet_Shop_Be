@@ -7,7 +7,7 @@ const customer = async (req, res, next) => {
     const data = await customerData(req); 
     res.status(statusCodes?.created).json({ 
       success: true,
-      message: "Customer created successfully.",
+      message : Message.Successfully,
       data 
     });
  
@@ -18,7 +18,7 @@ const getCustomer= async (req, res, next) => {
     const customers = await getCustomerData();
        res.status(statusCodes?.ok).json({ 
       success: true,
-      message: "Customer fetched successfully.",
+      message: Message.successfullyUpdate,
       data: customers,
     });
  
@@ -31,7 +31,7 @@ const updateCustomers  = async (req, res, next) =>{
 const customers = await updateCustomerData(req);
 res.status(statusCodes?.ok).json({ 
   success: true,
-  message: "Customer  Data updated  successfully.",
+  message: Message.DeleteSuccessfully,
   data: customers,
 });
  

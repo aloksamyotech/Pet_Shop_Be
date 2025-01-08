@@ -8,7 +8,7 @@ const order = async (req, res) => {
     const data = await orderData(req); 
     res.status(statusCodes?.created).json({ 
       success: true,
-      message: Message.product_add_success,
+      message : Message.Successfully,
       data 
     });
 
@@ -19,7 +19,7 @@ const getOrders = async (req, res, next) => {
   const order = await getOrderData();
     res.status(statusCodes?.ok).json({ 
       success: true,
-      message: "order fetched successfully.",
+      message: Message.FetchSuccessfully,
       data: order,
     });
 };
@@ -31,7 +31,7 @@ const updateOrders  = async (req, res, next) =>{
  const orders = await updateOrderData(req);
 res.status(statusCodes?.ok).json({ 
   success: true,
-  message: "Orders updated  successfully.",
+  message: Message.successfullyUpdate,
   data: orders,
 });
   }

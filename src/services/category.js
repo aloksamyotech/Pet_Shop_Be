@@ -27,7 +27,7 @@ export const categoryData = async (req) => {
 
 export const getCategoryData = async () => {
 
-  const category = await CategorySchemaModel.find();
+  const category = await CategorySchemaModel.find().sort({createdAt: -1});
 
 
   if (!category) {

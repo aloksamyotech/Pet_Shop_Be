@@ -1,11 +1,15 @@
 import { PurchaseSchemaModel } from "../models/purchase.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+import { ProductSchemaModel } from "../models/product.js";
 
 export const purchaseData = async (req) => {
  
     const { productId , totalPrice,discount,quantity,paymentStatus } = req?.body;
 
+    console.log(req?.body)
+
+   
     if (!productId|| !totalPrice || !discount || !quantity || !paymentStatus) {
       throw new CustomError(
         statusCodes?.badRequest,
@@ -17,6 +21,7 @@ export const purchaseData = async (req) => {
     const purchaseSchema = await PurchaseSchemaModel.create({
       productId , totalPrice,discount,quantity,paymentStatus
     });
+    
     
     return purchaseSchema; 
  
@@ -33,7 +38,15 @@ export const getPurchaseData = async () => {
             localField: "productId",
             foreignField: "_id",
             as: "productName"
-          } },
+          } ,
+         },
+
+         {
+          $sort:{
+            createdAt : -1,
+          }
+         }
+        
         ]
       );
   

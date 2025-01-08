@@ -14,6 +14,15 @@ export const companyData = async (req) => {
       );
     }
 
+    const existingCompany = await CompanySchemaModel.findOne({ email });
+      if (existingCompany) {
+        throw new CustomError(
+          statusCodes?.badRequest,
+          errorCodes?.already_exist,
+          Message?.alreadyExist,
+        );
+      }
+
     const companySchema = await CompanySchemaModel.create({
         companyName, address, description, email,phoneNumber,companyType,status
     });
@@ -26,7 +35,7 @@ export const companyData = async (req) => {
 
 export const getCompanyData = async () => {
    
-      const company = await CompanySchemaModel.find();
+      const company = await CompanySchemaModel.find().sort({createdAt: -1});
   
       if (!company) {
         throw new CustomError(

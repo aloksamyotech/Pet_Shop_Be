@@ -8,8 +8,8 @@ const category = async (req, res) => {
   const data = await categoryData(req);
   res.status(statusCodes?.created).json({
     success: true,
-     Message.product_add_success,
-    data
+    message : Message.Successfully,
+   data
   });
 
 };
@@ -18,7 +18,11 @@ const category = async (req, res) => {
 const getCategory = async (req, res, next) => {
 
   const category = await getCategoryData();
-  res.status(statusCodes?.ok).json(category);
+  res.status(statusCodes?.ok).json({ 
+    success: true,
+    message: Message.FetchSuccessfully,
+    data: category,
+  });
 
 };
 
@@ -30,7 +34,7 @@ const updateCategory = async (req, res) => {
   const category = await updateCategoryData(req);
   res.status(statusCodes?.ok).json({
     success: true,
-    message: "Category updated  successfully.",
+    message: Message.successfullyUpdate,
     data: category,
   });
 }
@@ -41,7 +45,7 @@ const deleteCategory = async (req, res) => {
   const category = await deleteCategoryData(req);
   res.status(statusCodes?.ok).json({
     success: true,
-    message: "Category delete  successfully.",
+    message: Message.DeleteSuccessfully,
     data: category,
   });
 }

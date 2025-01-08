@@ -37,10 +37,15 @@ export const getProductData = async () => {
         localField: "categoryId",
         foreignField: "_id",
         as: "category"
-      } },
+      } 
+    },
 
 
-      
+    {
+      $sort:{
+        createdAt : -1,
+      }
+     }
       
       ])
 
