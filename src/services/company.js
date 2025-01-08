@@ -28,11 +28,11 @@ export const getCompanyData = async () => {
    
       const company = await CompanySchemaModel.find();
   
-      if (!company || company.length === 0) {
+      if (!company) {
         throw new CustomError(
           statusCodes?.notFound,
-          Message?.notFound || "No products found.",
-          errorCodes?.not_Found || "NOT_FOUND"
+          Message?.notFound ,
+          errorCodes?.not_Found,
         );
       }
   
@@ -53,8 +53,8 @@ export const getCompanyData = async () => {
 
         throw new CustomError(
             statusCodes?.badRequest,
-            error.message || "invalidInput",
-            errorCodes?.server_error || "invalid_input"
+           Message?.notFound,
+            errorCodes?.server_error ,
         )
 
        }
@@ -65,8 +65,9 @@ export const getCompanyData = async () => {
        if(!company){
         throw new CustomError(
             statusCodes?.notFound,
-            error.message || "Product not found",
-            errorCodes?.server_error || "NOT_FOUND")
+            Message?.notFound,
+            errorCodes?.server_error 
+        )
 
        }
 
@@ -82,6 +83,15 @@ export const getCompanyData = async () => {
 
 
        const  updateCompany= await company.save();
+
+       if(!updateCompany){
+        throw new CustomError(
+            statusCodes?.notFound,
+            Message?.notFound,
+            errorCodes?.server_error 
+        )
+
+       }
 
        return updateCompany;
 

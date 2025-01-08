@@ -8,7 +8,7 @@ const category = async (req, res) => {
   const data = await categoryData(req);
   res.status(statusCodes?.created).json({
     success: true,
-    message: Message.product_add_success,
+     Message.product_add_success,
     data
   });
 

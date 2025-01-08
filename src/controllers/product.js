@@ -7,7 +7,7 @@ const product = async (req, res) => {
  
     const data = await productData(req); 
 
-    console.log(data)
+   
     res.status(statusCodes?.created).json({ 
       success: true,
       message: Message.product_add_success,

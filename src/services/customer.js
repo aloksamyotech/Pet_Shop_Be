@@ -10,8 +10,8 @@ export const customerData = async (req) => {
       if (existingCustomer) {
         throw new CustomError(
           statusCodes?.badRequest,
-          "Customer with this email already exists.",
-          errorCodes?.duplicate_entry 
+          errorCodes?.already_exist,
+          Message?.alreadyExist,
         );
       }
 
@@ -30,7 +30,7 @@ export const getCustomerData = async () => {
    
       const customers = await CustomerSchemaModel.find();
   
-      if (! customers|| customers.length === 0) {
+      if (customers) {
         throw new CustomError(
           statusCodes?.notFound,
           Message?.notFound ,
@@ -50,20 +50,18 @@ export const getCustomerData = async () => {
 
         throw new CustomError(
             statusCodes?.badRequest,
-            error.message || "invalidInput",
-            errorCodes?.server_error || "invalid_input"
+            errorCodes?.server_error ,
         )
 
        }
     const customer = await CustomerSchemaModel.findById(customerId);
 
-
-
-       if(!customer){
+         if(!customer){
         throw new CustomError(
             statusCodes?.notFound,
-            error.message || "Customer not found",
-            errorCodes?.server_error || "NOT_FOUND")
+            errorCodes?.server_error,
+            Message?.notFound,
+          )
 
        }
 
@@ -98,8 +96,7 @@ export const getCustomerData = async () => {
 
             throw new CustomError(
                 statusCodes?.badRequest,
-                "CustomerID is required for deletion.",
-                errorCodes?.invalid_input || "INVALID_INPUT"
+                errorCodes?.invalid_input ,
               );
         }
 
@@ -109,8 +106,8 @@ export const getCustomerData = async () => {
         if(!customer){
             throw new CustomError(
                 statusCodes?.notFound,
-                "Product not found",
-                errorCodes?.notFound
+                errorCodes?.notFound,
+                Message?.notFound
             )
         }
 

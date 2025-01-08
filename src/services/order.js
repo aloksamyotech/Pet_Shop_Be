@@ -28,11 +28,11 @@ export const getOrderData = async () => {
    
       const order = await OrderSchemaModel.find();
   
-      if (!order || order.length === 0) {
+      if (!order) {
         throw new CustomError(
           statusCodes?.notFound,
-          Message?.notFound || "No products found.",
-          errorCodes?.not_Found || "NOT_FOUND"
+          Message?.notFound ,
+          errorCodes?.not_Found ,
         );
       }
   
@@ -53,8 +53,8 @@ export const getOrderData = async () => {
 
         throw new CustomError(
             statusCodes?.badRequest,
-            error.message || "invalidInput",
-            errorCodes?.server_error || "invalid_input"
+            Message?.notFound ,
+            errorCodes?.server_error,
         )
 
        }
@@ -65,8 +65,9 @@ export const getOrderData = async () => {
        if(!order){
         throw new CustomError(
             statusCodes?.notFound,
-            error.message || "Product not found",
-            errorCodes?.server_error || "NOT_FOUND")
+            Message?.notFound ,
+            errorCodes?.server_error 
+          )
 
        }
 
@@ -79,6 +80,15 @@ export const getOrderData = async () => {
 
 
        const  updateOrder= await order.save();
+
+       if(!updateOrder){
+        throw new CustomError(
+            statusCodes?.notFound,
+            Message?.notFound ,
+            errorCodes?.server_error 
+          )
+
+       }
 
        return updateOrder;
 
@@ -93,8 +103,7 @@ export const getOrderData = async () => {
 
             throw new CustomError(
                 statusCodes?.badRequest,
-                "company ID is required for deletion.",
-                errorCodes?.invalid_input || "INVALID_INPUT"
+                Message?.notFound ,
               );
         }
 
@@ -104,8 +113,7 @@ export const getOrderData = async () => {
         if(!order){
             throw new CustomError(
                 statusCodes?.notFound,
-                "Company not found",
-                errorCodes?.notFound
+              errorCodes?.notFound
             )
         }
 

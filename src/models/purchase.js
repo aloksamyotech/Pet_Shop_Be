@@ -2,17 +2,13 @@ import mongoose, { Schema } from "mongoose";
 
 const purchaseSchema = new Schema(
   {
-    productName: {
-      type: String,
-      required: true,
-      trim: true,
+    productId: {
+     type: mongoose.Schema.Types.ObjectId,
+          ref :'Product',  
+          required:true
     },
-    type: {
-      type: String,
-      required: true,
-      
-    },
-    totalPrice: {
+   
+   totalPrice: {
       type: Number,
       required: true,
      

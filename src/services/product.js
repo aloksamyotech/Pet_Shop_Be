@@ -25,8 +25,7 @@ export const productData = async (req) => {
   });
 
 
-  console.log(productSchema);
-
+ 
   return productSchema;
 };
 
@@ -45,15 +44,15 @@ export const getProductData = async () => {
       
       ])
 
-  if (!products || products.length === 0) {
+  if (!products) {
     throw new CustomError(
       statusCodes?.notFound,
-      Message?.notFound || "No products found.",
-      errorCodes?.not_Found || "NOT_FOUND"
+      Message?.notFound ,
+      errorCodes?.not_Found 
     );
   }
 
-  console.log("products __________________",products)
+  
  
  return products;
 };
@@ -63,12 +62,12 @@ export const updateProductData = async (req) => {
 
 
   const { productId, productName, type, price, discount } = req?.body;
-  if (!productId || (!productName && !type && !price && !discount)) {
 
-    throw new CustomError(
+  if (!productId || (!productName && !type && !price && !discount)) {
+  throw new CustomError(
       statusCodes?.badRequest,
-      error.message || "invalidInput",
-      errorCodes?.server_error || "invalid_input"
+      Message?.inValid,
+      errorCodes?.server_error 
     )
 
   }
@@ -77,8 +76,10 @@ export const updateProductData = async (req) => {
   if (!product) {
     throw new CustomError(
       statusCodes?.notFound,
-      error.message || "Product not found",
-      errorCodes?.server_error || "NOT_FOUND")
+      Message?.notFound,
+      errorCodes?.server_error ,
+    
+    )
   }
 
   product.productName = productName || product.productName;
@@ -88,6 +89,14 @@ export const updateProductData = async (req) => {
 
 
   const updateProduct = await product.save();
+
+  if (!updateProduct) {
+    throw new CustomError(
+      statusCodes?.notFound,
+      Message?.notFound ,
+      errorCodes?.not_Found 
+    );
+  }
   return updateProduct;
 
 
@@ -100,16 +109,16 @@ export const deleteProductData = async (req) => {
 
     throw new CustomError(
       statusCodes?.badRequest,
-      "Product ID is required for deletion.",
-      errorCodes?.invalid_input || "INVALID_INPUT"
+     errorCodes?.invalid_input,
+     Message?.notFound
     );
   }
   const product = await ProductSchemaModel.findByIdAndDelete(productId);
 
   if (!product) {
     throw new CustomError(
-      statusCodes?.notFound,
-      "Product not found",
+      statusCodes?.notFound, 
+      Message?.notFound,
       errorCodes?.notFound
     )
   }

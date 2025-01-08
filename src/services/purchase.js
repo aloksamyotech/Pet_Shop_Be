@@ -4,9 +4,9 @@ import CustomError from "../utils/exception.js";
 
 export const purchaseData = async (req) => {
  
-    const { productName , type, totalPrice,discount,quantity,paymentStatus } = req?.body;
+    const { productId , totalPrice,discount,quantity,paymentStatus } = req?.body;
 
-    if (!productName|| !type || !totalPrice || !discount || !quantity || !paymentStatus) {
+    if (!productId|| !totalPrice || !discount || !quantity || !paymentStatus) {
       throw new CustomError(
         statusCodes?.badRequest,
         Message?.invalidInput,
@@ -15,7 +15,7 @@ export const purchaseData = async (req) => {
     }
 
     const purchaseSchema = await PurchaseSchemaModel.create({
-      productName , type, totalPrice,discount,quantity,paymentStatus
+      productId , totalPrice,discount,quantity,paymentStatus
     });
     
     return purchaseSchema; 
@@ -26,9 +26,18 @@ export const purchaseData = async (req) => {
 
 export const getPurchaseData = async () => {
     
-      const purchase = await PurchaseSchemaModel.find();
+      const purchase = await PurchaseSchemaModel.aggregate([
+        {
+          $lookup: {
+            from: "products",
+            localField: "productId",
+            foreignField: "_id",
+            as: "productName"
+          } },
+        ]
+      );
   
-      if (!purchase || purchase.length === 0) {
+      if (!purchase) {
         throw new CustomError(
           statusCodes?.notFound,
           Message?.notFound ,
@@ -49,8 +58,8 @@ export const getPurchaseData = async () => {
 
         throw new CustomError(
             statusCodes?.badRequest,
-            Message?.notFound || "invalidInput",
-            errorCodes?.server_error || "invalid_input"
+            Message?.notFound,
+            errorCodes?.server_error ,
         )
 
        }
@@ -61,8 +70,9 @@ export const getPurchaseData = async () => {
        if(!purchase){
         throw new CustomError(
             statusCodes?.notFound,
-            Message?.notFound || "invalidInput",
-            errorCodes?.server_error || "NOT_FOUND")
+            Message?.notFound ,
+            errorCodes?.server_error,
+          )
 
        }
 
@@ -78,6 +88,15 @@ export const getPurchaseData = async () => {
 
        const  updatePurchase = await purchase.save();
 
+       if(!updatePurchase){
+        throw new CustomError(
+            statusCodes?.notFound,
+            Message?.notFound ,
+            errorCodes?.server_error,
+          )
+
+       }
+
        return updatePurchase;
 
 
@@ -91,8 +110,8 @@ export const getPurchaseData = async () => {
 
             throw new CustomError(
                 statusCodes?.badRequest,
-                Message?.notFound || "invalidInput",
-                errorCodes?.invalid_input || "INVALID_INPUT"
+                Message?.notFound ,
+                errorCodes?.invalid_input ,
               );
         }
 
