@@ -5,12 +5,12 @@ import { ProductSchemaModel } from "../models/product.js";
 
 export const purchaseData = async (req) => {
  
-    const { productId , totalPrice,discount,quantity,paymentStatus } = req?.body;
+    const { productId ,discount,quantity,paymentStatus } = req?.body;
 
     console.log(req?.body)
 
    
-    if (!productId|| !totalPrice || !discount || !quantity || !paymentStatus) {
+    if (!productId|| !discount || !quantity || !paymentStatus) {
       throw new CustomError(
         statusCodes?.badRequest,
         Message?.invalidInput,
@@ -19,7 +19,7 @@ export const purchaseData = async (req) => {
     }
 
     const purchaseSchema = await PurchaseSchemaModel.create({
-      productId , totalPrice,discount,quantity,paymentStatus
+      productId ,discount,quantity,paymentStatus
     });
     
     
@@ -66,7 +66,7 @@ export const getPurchaseData = async () => {
   export const updatePurchaseData  = async (req) =>{
 
     
-       const {purchaseId , productName , type, totalPrice,discount,quantity,paymentStatus} = req?.body;
+       const {purchaseId , productName , type,discount,quantity,paymentStatus} = req?.body;
        if(!purchaseId || (!productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus)){
 
         throw new CustomError(

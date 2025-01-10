@@ -38,13 +38,13 @@
       },
       customerType: {
         type: String,
-        enum: ["regular", "premium", "business"],
+        enum: ["Regular", "Premium", "Business"],
         default: "Regular",
       },
       status: {
         type: String,
-        enum: ["active", "inactive", "blocked"],
-        default: "active",
+        enum: ["Active", "Inactive", "Blocked"],
+        default: "Active",
       },
     },
     { timestamps: true }

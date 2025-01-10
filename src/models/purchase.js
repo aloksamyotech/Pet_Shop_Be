@@ -8,11 +8,11 @@ const purchaseSchema = new Schema(
           required:true
     },
    
-   totalPrice: {
-      type: Number,
-      required: true,
+  //  totalPrice: {
+  //     type: Number,
+  //     required: true,
      
-    },
+  //   },
     discount: {
       type: Number,
      default:0,
@@ -23,8 +23,8 @@ const purchaseSchema = new Schema(
       },
       paymentStatus: {
         type: String,
-        enum: ["pending", "completed", "failed"],
-        default: "pending",
+        enum: ["Pending", "Completed", "Failed"],
+        default: "Pending",
       },
   },    
   { timestamps: true },
