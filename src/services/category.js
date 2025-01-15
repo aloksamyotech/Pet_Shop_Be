@@ -103,3 +103,38 @@ export const deleteCategoryData = async (req, res, next) => {
   return category;
 
 } 
+
+export const categoryBulk = async (req) => {
+  const categories = req?.body;
+
+  if (!Array.isArray(categories)) {
+        throw new CustomError(
+            statusCodes?.badRequest,
+            Message?.invalidInput,
+            errorCodes?.invalid_input
+        )
+    }
+
+
+    const isValid = categories.every(
+        (category) => {
+            category.name && typeof category.name === "string" &&
+                category.description && typeof category.description === "string"
+        }
+    );
+
+    if (isValid) {
+        throw new CustomError(
+            statusCodes?.badRequest,
+            Message?.invalidInput,
+            errorCodes?.invalid_input
+        )
+    }
+
+
+    const result = await CategorySchemaModel.insertMany(categories)
+    return result;
+
+
+
+}
