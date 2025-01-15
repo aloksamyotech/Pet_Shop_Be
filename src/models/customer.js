@@ -12,10 +12,7 @@
         required: true,
         trim: true,
       },
-      gender: {
-        type: String,
-        enum: ["male", "female", "other"],
-      },
+   
       email: {
         type: String,
         required: true,
@@ -36,15 +33,11 @@
         required: true,
        
       },
-      customerType: {
-        type: String,
-        enum: ["regular", "premium", "business"],
-        default: "Regular",
-      },
+     
       status: {
         type: String,
-        enum: ["active", "inactive", "blocked"],
-        default: "active",
+        enum: ["Active", "Inactive", "Blocked"],
+        default: "Active",
       },
     },
     { timestamps: true }

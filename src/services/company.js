@@ -4,9 +4,9 @@ import CustomError from "../utils/exception.js";
 
 export const companyData = async (req) => {
   
-    const { companyName, address, description, email,phoneNumber,companyType,status} = req?.body;
+    const { companyName, address, description, email,phoneNumber,status} = req?.body;
 
-    if (!companyName || !address ||!description ||!email ||! phoneNumber || !companyType ||!status) {
+    if (!companyName || !address ||!description ||!email ||! phoneNumber  ||!status) {
       throw new CustomError(
         statusCodes?.badRequest,
         Message?.invalidInput,
@@ -24,7 +24,7 @@ export const companyData = async (req) => {
       }
 
     const companySchema = await CompanySchemaModel.create({
-        companyName, address, description, email,phoneNumber,companyType,status
+        companyName, address, description, email,phoneNumber,status
     });
     
     return companySchema; 
