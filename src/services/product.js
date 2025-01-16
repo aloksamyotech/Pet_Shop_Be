@@ -132,3 +132,20 @@ export const deleteProductData = async (req) => {
 
 
 } 
+
+export const productBulk = async (req) =>{
+
+  const products = req?.body;
+  
+  if(! Array.isArray(products)){
+    throw new CustomError(
+      statusCodes?.notFound, 
+      Message?.notFound,
+      errorCodes?.notFound
+      ) }
+
+const result =  await ProductSchemaModel.insertMany(products);
+return result;
+
+
+}

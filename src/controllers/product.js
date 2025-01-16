@@ -1,4 +1,4 @@
-import { productData , getProductData,updateProductData,deleteProductData} from "../services/product.js";
+import { productData , getProductData,updateProductData,deleteProductData,productBulk} from "../services/product.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
@@ -7,7 +7,7 @@ const product = async (req, res) => {
  
     const data = await productData(req); 
 
-    console.log(data)
+   
     res.status(statusCodes?.created).json({ 
       success: true,
       message : Message.Successfully,
@@ -15,6 +15,22 @@ const product = async (req, res) => {
     });
 
   };
+
+
+  const products = async (req,res) =>{
+
+const bulkProduct =  await productBulk(req);
+
+res.status(statusCodes?.created).json({ 
+  success: true,
+  message : Message.Successfully,
+  data : bulkProduct
+});
+
+
+
+
+  }
 
 
 const getProducts = async (req, res, next) => {
@@ -57,5 +73,7 @@ export default {
   product,
   getProducts,
   updateProducts,
-  deleteProducts
+  deleteProducts,
+  products
+ 
 };

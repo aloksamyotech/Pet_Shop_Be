@@ -44,8 +44,8 @@ export const getCategoryData = async () => {
 
 
 export const updateCategoryData = async (req) => {
-  const { Name, description, categoryId, active } = req?.body
-  if (!categoryId || !Name || !description || !active) {
+  const { name, description, categoryId, active } = req?.body
+  if (!categoryId || !name || !description || !active) {
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.incorrect_payload,
@@ -62,7 +62,7 @@ export const updateCategoryData = async (req) => {
     )
   }
 
-  category.Name = Name || category.Name;
+  category.name = name || category.name;
   category.active = active || category.active;
   category.description = description || category.description;
 
@@ -105,7 +105,9 @@ export const deleteCategoryData = async (req, res, next) => {
 } 
 
 export const categoryBulk = async (req) => {
-  const categories = req?.body;
+
+  const categories = req.body;
+  console.log("categories-------------",req.body);
 
   if (!Array.isArray(categories)) {
         throw new CustomError(
@@ -115,24 +117,9 @@ export const categoryBulk = async (req) => {
         )
     }
 
-
-    const isValid = categories.every(
-        (category) => {
-            category.name && typeof category.name === "string" &&
-                category.description && typeof category.description === "string"
-        }
-    );
-
-    if (isValid) {
-        throw new CustomError(
-            statusCodes?.badRequest,
-            Message?.invalidInput,
-            errorCodes?.invalid_input
-        )
-    }
-
-
+    
     const result = await CategorySchemaModel.insertMany(categories)
+    console.log("categories-------------",result);
     return result;
 
 

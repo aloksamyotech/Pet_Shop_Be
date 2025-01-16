@@ -53,6 +53,7 @@ const deleteCategory = async (req, res) => {
 const categoryBulkController = async (req, res) => {
 
   const data = await categoryBulk(req);
+  console.log("data__________________",data)
   res.status(statusCodes?.created).json({
     success: true,
     message : Message.Successfully,
