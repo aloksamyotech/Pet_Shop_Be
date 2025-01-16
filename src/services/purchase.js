@@ -89,7 +89,7 @@ export const getPurchaseData = async () => {
 
        }
 
-
+      
         purchase.productName = productName || purchase.productName;
        purchase.type = type || purchase.type;
        purchase.totalPrice = totalPrice || purchase.totalPrice;

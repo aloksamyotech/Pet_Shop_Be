@@ -1,4 +1,4 @@
-import { categoryData, getCategoryData, updateCategoryData, deleteCategoryData } from "../services/category.js";
+import { categoryData, getCategoryData, updateCategoryData, deleteCategoryData,categoryBulk } from "../services/category.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
@@ -50,9 +50,23 @@ const deleteCategory = async (req, res) => {
   });
 }
 
+const categoryBulkController = async (req, res) => {
+
+  const data = await categoryBulk(req);
+  console.log("data__________________",data)
+  res.status(statusCodes?.created).json({
+    success: true,
+    message : Message.Successfully,
+   data
+  });
+
+};
+
 export default {
   category,
   getCategory,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  categoryBulkController
 };
+

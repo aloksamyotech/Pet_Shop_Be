@@ -12,6 +12,6 @@ export { userController ,
     companyController,
     purchaseController,
     categoryController,
-    orderController
+    orderController,
     
 };

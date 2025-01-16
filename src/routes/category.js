@@ -9,6 +9,7 @@ router.post("/save", asyncHandler(categoryController.category));
 router.get("/fetch", asyncHandler(categoryController.getCategory));
 router.put("/update",asyncHandler(categoryController.updateCategory));
 router.delete("/:categoryId",asyncHandler(categoryController.deleteCategory));
+router.post("/bulkUpload", asyncHandler(categoryController.categoryBulkController));
 
 
 

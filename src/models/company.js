@@ -28,15 +28,11 @@
         required: true,
       },
       
-      companyType: {
-        type: String,
-        enum: ["regular", "premium", "business"],
-        default: "regular",
-      },
+      
       status: {
         type: String,
-        enum: ["active", "inactive", "blocked"],
-        default: "active",
+        enum: ["Active", "Inactive", "Blocked"],
+        default: "Active",
       },
     },
     { timestamps: true }

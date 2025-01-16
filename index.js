@@ -50,8 +50,6 @@ app.use('/category',categoryRouter);
 app.use('/order',orderRouter);
 
 
-
-
 app.use(globalExceptionHandler);
 
 app.listen(PORT, () => {
