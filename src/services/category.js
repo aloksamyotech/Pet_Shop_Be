@@ -107,7 +107,7 @@ export const deleteCategoryData = async (req, res, next) => {
 export const categoryBulk = async (req) => {
 
   const categories = req.body;
-  console.log("categories-------------",req.body);
+ 
 
   if (!Array.isArray(categories)) {
         throw new CustomError(
@@ -119,7 +119,7 @@ export const categoryBulk = async (req) => {
 
     
     const result = await CategorySchemaModel.insertMany(categories)
-    console.log("categories-------------",result);
+    
     return result;
 
 
