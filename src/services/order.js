@@ -4,9 +4,9 @@ import CustomError from "../utils/exception.js";
 
 export const orderData = async (req) => {
   
-    const { customerName,productName,totalPrice,paymentStatus} = req?.body;
+    const order = req?.body;
 
-    if (!customerName ||! productName|| !totalPrice|| !paymentStatus) {
+    if (order) {
       throw new CustomError(
         statusCodes?.badRequest,
         Message?.invalidInput,
@@ -14,8 +14,10 @@ export const orderData = async (req) => {
       );
     }
 
+
+
     const orderSchema = await OrderSchemaModel.create({
-        customerName,productName,totalPrice,paymentStatus
+        totalPrice,productId,productName,price,discount,categoryId,tax,quantity
     });
     
     return orderSchema; 

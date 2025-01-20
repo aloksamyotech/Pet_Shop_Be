@@ -1,29 +1,51 @@
 
 
   import mongoose, { Schema } from "mongoose";
+  import { ProductSchemaModel } from "./product.js";
+import category from "../controllers/category.js";
+
+  const productSchema = new mongoose.Schema({
+    productId:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref :'Product',  
+      required:true
+    },
+    productName:{
+      type:String,
+      required:true
+    },
+    price:{
+      type: Number,
+      required:true,
+    },
+  discount:{
+      type: Number,
+      required:true,
+    },
+
+    categoryId:{
+      type:Number,
+      required:true
+    }
+  })
 
   const orderSchema = new Schema(
-    {
-      customerName: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      
-      productName: {
-        type: String,
-        required: true,
-      },
+    
+    {  products: [productSchema],
+
       totalPrice:{
-        type:String,
-        default: "active",
+        type:Number,
       },
-      paymentStatus:{
-        type: String,
-        enum: ["online","offline"],
-        required: true,
-      }
-     },
+
+      quantity:{
+        type:Number,
+        required:true,
+      },
+    tax:{
+      type:Number,
+      required:true
+    }
+       },
     { timestamps: true }
   );
 

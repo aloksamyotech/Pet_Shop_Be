@@ -6,7 +6,7 @@ import logger from './src/core/config/logger.js';
 import "dotenv/config"
 import responseInterceptor from './src/utils/responseInterceptor.js';
 
-import { userRouter , productRouter,customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter} from './src/routes/routes.js';
+import { userRouter , productRouter,customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,payRouter} from './src/routes/routes.js';
 
 const app = express();
 
@@ -42,7 +42,7 @@ app.use('/product', productRouter);
 
 
 
-
+app.use('/invoice',payRouter);
 app.use('/customer', customerRouter);
 app.use('/company', companyRouter);
 app.use('/purchase', purchaseRouter);
