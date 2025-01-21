@@ -4,7 +4,8 @@ import customerController from "./customer.js";
 import companyController from "./company.js";
 import purchaseController from "./purchase.js";
 import categoryController from "./category.js"
-import orderController from "./order.js"
+import orderController from "./order.js";
+import invoiceController from "./pay.js"
 
 export { userController ,
     productController,
@@ -13,5 +14,6 @@ export { userController ,
     purchaseController,
     categoryController,
     orderController,
+    invoiceController
     
 };
