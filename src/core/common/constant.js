@@ -4,6 +4,8 @@ export const database_urls = Object.freeze({
   db_name: process.env.DB_NAME || "heyreach",
 });
 
+export const image_url = {url: "http://localhost:7200/"};
+
 export const statusCodes = {
   ok: 200,
   created: 201,

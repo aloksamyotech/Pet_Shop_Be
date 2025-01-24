@@ -18,7 +18,11 @@
           type:String,
           enum: ["active", "inactive", "blocked"],
           default: "active",
-        }
+        },
+
+        categoryImage: {
+        type:String ,
+}
       },
       { timestamps: true }
     );

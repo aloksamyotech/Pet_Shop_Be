@@ -1,5 +1,5 @@
 import { ProductSchemaModel } from "../models/product.js";
-import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
+import { errorCodes, Message, statusCodes, image_url } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
 export const productData = async (req) => {
@@ -14,14 +14,12 @@ export const productData = async (req) => {
       errorCodes?.invalid_input
     );
   }
-
-
   const productSchema = await ProductSchemaModel.create({
     productName,
     price,
     discount,
-    categoryId
-    
+    categoryId,
+    image: req.file ? req.file.path : null,
   });
 
 
@@ -39,8 +37,13 @@ export const getProductData = async () => {
         as: "category"
       } 
     },
-
-
+    {
+      $addFields: {
+        imageUrl: {
+          $ifNull: [{ $concat: [image_url.url, "$image"] }, ""],
+        },
+      },
+    },
     {
       $sort:{
         createdAt : -1,

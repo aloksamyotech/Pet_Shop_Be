@@ -1,10 +1,12 @@
 import { CategorySchemaModel } from "../models/category.js";
-import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
+import { errorCodes, Message, statusCodes ,image_url} from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
 
 export const categoryData = async (req) => {
 
+
+  console.log("9999999",req.file)
   const { name, description } = req?.body;
 
 
@@ -17,7 +19,8 @@ export const categoryData = async (req) => {
   }
 
   const categorySchema = await CategorySchemaModel.create({
-    name, description
+    name, description,
+    categoryImage : req.file ? req.file.path : null
   });
   return categorySchema;
 
@@ -27,7 +30,20 @@ export const categoryData = async (req) => {
 
 export const getCategoryData = async () => {
 
-  const category = await CategorySchemaModel.find().sort({createdAt: -1});
+  const category = await CategorySchemaModel.aggregate([
+     {
+          $addFields: {
+            imageUrl: {
+              $ifNull: [{ $concat: [image_url.url, "$categoryImage"] }, ""],
+            },
+          },
+        },
+        {
+          $sort:{
+            createdAt : -1,
+          }
+         }
+  ])
 
 
   if (!category) {
