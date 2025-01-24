@@ -1,52 +1,56 @@
+import mongoose, { Schema } from "mongoose";
 
+const productOrderSchema = new mongoose.Schema({
+  productId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product", 
+    required: true,
+  },
+  productName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  productPrice: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true, 
+  },
+});
 
-  import mongoose, { Schema } from "mongoose";
-  import { ProductSchemaModel } from "./product.js";
-import category from "../controllers/category.js";
-
-  const productSchema = new mongoose.Schema({
-    productId:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref :'Product',  
-      required:true
-    },
-    productName:{
-      type:String,
-      required:true
-    },
-    price:{
-      type: Number,
-      required:true,
-    },
-  discount:{
-      type: Number,
-      required:true,
-    },
-
-    categoryId:{
-      type:Number,
-      required:true
-    }
-  })
-
-  const orderSchema = new Schema(
+const orderSchema = new Schema(
+  {
+    products: [productOrderSchema], 
     
-    {  products: [productSchema],
+    totalAmount: {
+      type: Number,
+      default: 0, 
+    },
+    customerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer", 
+      required: true,
+    },
+    customerName :{
+      type: String ,
+      required: true,
 
-      totalPrice:{
-        type:Number,
-      },
+},
 
-      quantity:{
-        type:Number,
-        required:true,
-      },
-    tax:{
-      type:Number,
-      required:true
-    }
-       },
-    { timestamps: true }
-  );
+customerEmail:{
+  type : String,
+},
+customerPhone :{
+  type :Number,
+}
+    
+  },
+  { timestamps: true }
+);
 
-  export const OrderSchemaModel = mongoose.model("Order", orderSchema);
+
+
+export const OrderSchemaModel = mongoose.model("Order", orderSchema);

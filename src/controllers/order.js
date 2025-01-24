@@ -1,4 +1,4 @@
-import { orderData , getOrderData,updateOrderData,deleteOderData} from "../services/order.js";
+import { orderData ,getOrderData,updateOrderData,deleteOrderData} from "../services/order.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
@@ -6,6 +6,7 @@ import CustomError from "../utils/exception.js";
 const order = async (req, res) => {
  
     const data = await orderData(req); 
+    console.log("sssssssss------------",data)
     res.status(statusCodes?.created).json({ 
       success: true,
       message : Message.Successfully,
@@ -39,7 +40,7 @@ res.status(statusCodes?.ok).json({
 
 
   const deleteOrders  = async (req, res, next) =>{
-   const orders = await deleteOderData(req);
+   const orders = await deleteOrderData(req);
   res.status(statusCodes?.ok).json({ 
     success: true,
     message: "orders delete  successfully.",
