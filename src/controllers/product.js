@@ -4,6 +4,7 @@ import CustomError from "../utils/exception.js";
 
 
 const product = async (req, res) => {
+  
  
     const data = await productData(req); 
 

@@ -16,6 +16,9 @@ const PORT = (() => {
     return env === 'development' ? 7200 : 4545;
 })();
 
+
+app.use("/uploads", express.static( 'uploads'));
+
 app.use(express.json());
 app.use(corsConfig);
 
