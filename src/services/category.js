@@ -5,10 +5,10 @@ import CustomError from "../utils/exception.js";
 
 export const categoryData = async (req) => {
 
-
-  console.log("9999999",req.file)
   const { name, description } = req?.body;
 
+  console.log("==========================================",req?.file?.path);
+  
 
   if (!name || !description) {
     throw new CustomError(
@@ -22,6 +22,7 @@ export const categoryData = async (req) => {
     name, description,
     categoryImage : req.file ? req.file.path : null
   });
+  
   return categorySchema;
 
 };

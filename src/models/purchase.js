@@ -23,7 +23,7 @@ const purchaseSchema = new Schema(
       },
       paymentStatus: {
         type: String,
-        enum: ["Pending", "Completed", "Failed"],
+        enum: ["Pending", "Success", "Failed"],
         default: "Pending",
       },
   },    

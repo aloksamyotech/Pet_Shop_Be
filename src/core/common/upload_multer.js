@@ -2,16 +2,18 @@ import multer from 'multer';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    console.log("Saving file to uploads directory...");
     cb(null, '././uploads');
   },
   filename: (req, file, cb) => {
+    console.log("Processing file:", file.originalname);
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     cb(null, uniqueSuffix + '-' + file.originalname);
   },
 });
 export const upload = multer({ storage: storage }).single('image');
 
-export const categoryUpload = multer({storage:storage}).single('categoryImage')
+export const categoryUpload = multer({storage:storage}).single('categoryImage');
 
 
 
