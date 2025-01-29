@@ -28,12 +28,7 @@
         type: Number,
         required: true,
       },
-      dateOfBirth: {
-        type: Date,
-        required: true,
-       
-      },
-     
+           
       status: {
         type: String,
         enum: ["Active", "Inactive", "Blocked"],

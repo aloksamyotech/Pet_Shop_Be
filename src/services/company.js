@@ -24,7 +24,8 @@ export const companyData = async (req) => {
       }
 
     const companySchema = await CompanySchemaModel.create({
-        companyName, address, description, email,phoneNumber,status
+        companyName, address, description, email,phoneNumber,status,
+        isDelete: false,
     });
     
     return companySchema; 
@@ -34,8 +35,9 @@ export const companyData = async (req) => {
 
 
 export const getCompanyData = async () => {
+  const condition_obj = { isDelete: false };
    
-      const company = await CompanySchemaModel.find().sort({createdAt: -1});
+      const company = await CompanySchemaModel.find(condition_obj).sort({ createdAt: -1 });
   
       if (!company) {
         throw new CustomError(
@@ -109,9 +111,9 @@ export const getCompanyData = async () => {
 
   export const deleteCompanyData =  async (req,res, next) =>{
 
-        const {companyId} = req.params;    
+        const {id} = req.params;    
 
-        if(!companyId){
+        if(!id){
 
             throw new CustomError(
                 statusCodes?.badRequest,
@@ -120,7 +122,7 @@ export const getCompanyData = async () => {
         }
 
 
-        const company = await CompanySchemaModel.findByIdAndDelete(companyId);
+        const company = await CompanySchemaModel.findByIdAndDelete(id);
 
         if(!company){
             throw new CustomError(

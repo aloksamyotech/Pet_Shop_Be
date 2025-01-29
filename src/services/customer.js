@@ -4,7 +4,7 @@ import CustomError from "../utils/exception.js";
 
 export const customerData = async (req) => {
    
-      const { firstName, lastName, email, address, phoneNumber, dateOfBirth,status } = req?.body;
+      const { firstName, lastName, email, address, phoneNumber,status } = req?.body;
   
       const existingCustomer = await CustomerSchemaModel.findOne({ email });
       if (existingCustomer) {
@@ -16,7 +16,7 @@ export const customerData = async (req) => {
       }
 
  const customerSchema = await CustomerSchemaModel.create({
-        firstName, lastName,  email, address, phoneNumber, dateOfBirth,  status
+        firstName, lastName,  email, address, phoneNumber, status
       });
   
       return customerSchema; 
