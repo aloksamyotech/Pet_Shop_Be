@@ -5,23 +5,24 @@ import { ProductSchemaModel } from "../models/product.js";
 
 export const purchaseData = async (req) => {
  
-    const { productId , totalPrice,discount,quantity,paymentStatus } = req?.body;
-
-    console.log(req?.body)
+    const { productId , totalPrice,discount,quantity,paymentStatus,companyId } = req?.body;
 
    
-    if (!productId|| !totalPrice || !discount || !quantity || !paymentStatus) {
+   
+    if (!productId || !totalPrice || !discount || !quantity || !paymentStatus || !companyId) {
       throw new CustomError(
         statusCodes?.badRequest,
         Message?.invalidInput,
         errorCodes?.invalid_input
       );
     }
+    
 
     const purchaseSchema = await PurchaseSchemaModel.create({
-      productId , totalPrice,discount,quantity,paymentStatus
+      productId , totalPrice,discount,quantity,paymentStatus,companyId
     });
     
+   
     
     return purchaseSchema; 
  
@@ -38,6 +39,14 @@ export const getPurchaseData = async () => {
             localField: "productId",
             foreignField: "_id",
             as: "productName"
+          } ,
+         },
+         {
+          $lookup: {
+            from: "companies",
+            localField: "companyId",
+            foreignField: "_id",
+            as: "CompanyName"
           } ,
          },
 

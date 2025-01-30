@@ -14,12 +14,12 @@
           type: String,
           required: true,
         },
-        active :{
-          type:String,
-          enum: ["active", "inactive", "blocked"],
-          default: "active",
-        },
+        
 
+        isDelete  :{
+          type : Boolean,
+          default: false,
+        } ,
         categoryImage: {
         type:String ,
 }

@@ -47,7 +47,8 @@ export const Message = {
   notUpdate: "Update Failed",
   serverError: "Intrnal Server Error",
   invalidInput :"Invalid input", 
-  incorrect_payload : "Incorrect Payload"
+  incorrect_payload : "Incorrect Payload",
+  
 };
 
 export const errorCodes = Object.freeze({

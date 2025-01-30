@@ -23,9 +23,14 @@ const purchaseSchema = new Schema(
       },
       paymentStatus: {
         type: String,
-        enum: ["Pending", "Completed", "Failed"],
+        enum: ["Pending", "Success", "Failed"],
         default: "Pending",
       },
+      companyId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref :'Company',  
+        required:true
+      }
   },    
   { timestamps: true },
 );

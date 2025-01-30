@@ -34,7 +34,13 @@
         enum: ["Active", "Inactive", "Blocked"],
         default: "Active",
       },
-    },
+      isDelete  :{
+        type : Boolean,
+        default: false,
+      } ,
+    
+
+      },
     { timestamps: true }
   );
   

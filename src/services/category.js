@@ -4,12 +4,7 @@ import CustomError from "../utils/exception.js";
 
 
 export const categoryData = async (req) => {
-
-
-  console.log("9999999",req.file)
   const { name, description } = req?.body;
-
-
   if (!name || !description) {
     throw new CustomError(
       statusCodes?.badRequest,
@@ -17,35 +12,22 @@ export const categoryData = async (req) => {
       errorCodes?.invalid_input
     );
   }
-
-  const categorySchema = await CategorySchemaModel.create({
+  const  exitCategory = await CategorySchemaModel.findOne({name});
+  if(exitCategory){
+    throw new CustomError(
+      statusCodes?.badRequest,
+      Message?.alreadyExist )
+  }
+   const categorySchema = await CategorySchemaModel.create({
     name, description,
-    categoryImage : req.file ? req.file.path : null
+    isDelete: false,
   });
   return categorySchema;
-
 };
 
-
-
 export const getCategoryData = async () => {
-
-  const category = await CategorySchemaModel.aggregate([
-     {
-          $addFields: {
-            imageUrl: {
-              $ifNull: [{ $concat: [image_url.url, "$categoryImage"] }, ""],
-            },
-          },
-        },
-        {
-          $sort:{
-            createdAt : -1,
-          }
-         }
-  ])
-
-
+  const condition_obj = { isDelete: false };
+   const category = await CategorySchemaModel.find(condition_obj).sort({ createdAt: -1 });
   if (!category) {
     throw new CustomError(
       statusCodes?.notFound,
@@ -53,91 +35,60 @@ export const getCategoryData = async () => {
       errorCodes?.not_found,
     );
   }
-
   return category;
-
 };
 
-
 export const updateCategoryData = async (req) => {
-  const { name, description, categoryId, active } = req?.body
-  if (!categoryId || !name || !description || !active) {
+  const { name, description} = req.body;
+  const { id } = req.params;
+  console.log("id",name)
+
+  if (!name || !description) {  
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.incorrect_payload,
       errorCodes?.bad_request,
-    )
+    );
   }
-  const category = await CategorySchemaModel.findById(categoryId);
 
+  const category = await CategorySchemaModel.findById(id);
   if (!category) {
     throw new CustomError(
       statusCodes?.notFound,
       Message?.notFound,
-      errorCodes?.not_found,
-    )
-  }
-
-  category.name = name || category.name;
-  category.active = active || category.active;
-  category.description = description || category.description;
-
-  const updateCategory = await category.save();
-
-  if (!updateCategory) {
-    throw new CustomError(
-      statusCodes?.notFound,
-      Message?.notFound,
-      errorCodes?.not_found,
-    )
-  }
-  return updateCategory;
-}
-
-export const deleteCategoryData = async (req, res, next) => {
-
-  const { categoryId } = req.params;
-
-  if (!categoryId) {
-    throw new CustomError(
-      statusCodes?.badRequest,
       errorCodes?.not_found,
     );
   }
 
+    category.name = name || category.name;
+    category.description = description || category.description;
+    const updatedCategory = await category.save();
 
-  const category = await CategorySchemaModel.findByIdAndDelete(categoryId);
-
-
-  if (!category) {
+  if (!updatedCategory) {
     throw new CustomError(
-      statusCodes?.notFound,
-      errorCodes?.notFound
-    )
+      statusCodes?.internalServerError,
+      Message?.updateFailed, 
+      errorCodes?.internal_server_error,
+    );
   }
 
+  return updatedCategory;
+};
+
+export const deleteCategoryData = async (req) => {
+  const { id } = req.params;
+  if (!id) {
+    throw new CustomError(statusCodes?.badRequest, errorCodes?.not_found);
+  }
+  const category = await CategorySchemaModel.findByIdAndUpdate(
+    id,
+    { isDelete: true },
+   );
+
+  if (!category) {
+    throw new CustomError(statusCodes?.notFound, errorCodes?.notFound);
+  }
   return category;
-
-} 
-
-export const categoryBulk = async (req) => {
-
-  const categories = req.body;
- 
-
-  if (!Array.isArray(categories)) {
-        throw new CustomError(
-            statusCodes?.badRequest,
-            Message?.invalidInput,
-            errorCodes?.invalid_input
-        )
-    }
-
-    
-    const result = await CategorySchemaModel.insertMany(categories)
-    
-    return result;
+};
 
 
-
-}

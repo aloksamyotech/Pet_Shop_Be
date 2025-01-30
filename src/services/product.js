@@ -6,7 +6,7 @@ export const productData = async (req) => {
 
   const { productName, price, discount ,categoryId} = req?.body;
 
-  if (!productName || !price || !discount ||!categoryId ) {
+  if (!productName || !price || !discount ||!categoryId) {
 
     throw new CustomError(
       statusCodes?.badRequest,
@@ -19,6 +19,7 @@ export const productData = async (req) => {
     price,
     discount,
     categoryId,
+    
     image: req.file ? req.file.path : null,
   });
 

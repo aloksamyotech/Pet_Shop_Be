@@ -20,4 +20,4 @@ const userLogin = async (req, res, next) => {
 export default {
   userRegistration,
   userLogin,
-};
+};  
