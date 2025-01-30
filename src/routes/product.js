@@ -7,8 +7,8 @@ const router = Router();
 
 router.post("/save",upload, asyncHandler(productController.product));
 router.get("/fetch", asyncHandler(productController.getProducts));
-router.put("/updated",asyncHandler(productController.updateProducts));
-router.delete("/:productId",asyncHandler(productController.deleteProducts));
+router.put("/update/:id",asyncHandler(productController.updateProducts));
+router.delete("/:id",asyncHandler(productController.deleteProducts));
 router.post("/bulkUpload", asyncHandler(productController.products));
 
 

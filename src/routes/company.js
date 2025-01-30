@@ -7,7 +7,7 @@ const router = Router();
 
 router.post("/save", asyncHandler(companyController.company));
 router.get("/fetch", asyncHandler(companyController.getCompany));
-router.put("/updated",asyncHandler(companyController.updateCompany));
+router.put("/update/:id",asyncHandler(companyController.updateCompany));
 router.delete("/:id",asyncHandler(companyController.deleteCompany));
 
 export default router;

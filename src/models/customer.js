@@ -7,11 +7,6 @@
         required: true,
         trim: true,
       },
-      lastName: {
-        type: String,
-        required: true,
-        trim: true,
-      },
    
       email: {
         type: String,
@@ -34,6 +29,11 @@
         enum: ["Active", "Inactive", "Blocked"],
         default: "Active",
       },
+      isDelete  :{
+        type : Boolean,
+        default: false,
+      } ,
+    
     },
     { timestamps: true }
   );

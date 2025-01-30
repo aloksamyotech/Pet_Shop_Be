@@ -39,11 +39,10 @@ export const getCategoryData = async () => {
 };
 
 export const updateCategoryData = async (req) => {
-  const { name, description} = req.body;
-  const { id } = req.params;
-  console.log("id",name)
+  const { name, description } = req.body;
+    const { id } = req.params;
 
-  if (!name || !description) {  
+  if (!name || !description) {
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.incorrect_payload,
@@ -60,20 +59,23 @@ export const updateCategoryData = async (req) => {
     );
   }
 
-    category.name = name || category.name;
-    category.description = description || category.description;
-    const updatedCategory = await category.save();
+ 
+  category.name = name || category.name;
+  category.description = description || category.description;
+
+  const updatedCategory = await category.save();
 
   if (!updatedCategory) {
     throw new CustomError(
       statusCodes?.internalServerError,
-      Message?.updateFailed, 
+      Message?.updateFailed,
       errorCodes?.internal_server_error,
     );
   }
 
   return updatedCategory;
 };
+
 
 export const deleteCategoryData = async (req) => {
   const { id } = req.params;

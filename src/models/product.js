@@ -23,7 +23,10 @@ const productSchema = new Schema(
       required:true
     },
 
-
+    isDelete  :{
+      type : Boolean,
+      default: false,
+    } ,
    image :{
       type: String
       }

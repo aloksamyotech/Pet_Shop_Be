@@ -31,14 +31,21 @@ const getCategory = async (req, res, next) => {
 
 
 const updateCategory = async (req, res) => {
+  try {
     const category = await updateCategoryData(req);
     res.status(statusCodes?.ok).json({
       success: true,
       message: Message?.successfullyUpdate,
       data: category,
     });
- 
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      message: error.message || "Internal Server Error",
+    });
+  }
 };
+
 
 const deleteCategory = async (req, res) => {
     const category = await deleteCategoryData(req);

@@ -19,7 +19,7 @@ export const productData = async (req) => {
     price,
     discount,
     categoryId,
-    
+    isDelete: false,
     image: req.file ? req.file.path : null,
   });
 
@@ -29,7 +29,9 @@ export const productData = async (req) => {
 };
 
 export const getProductData = async () => {
+  const condition_obj = { isDelete: false };
  const products = await ProductSchemaModel.aggregate([
+  { $match: condition_obj},
     {
       $lookup: {
         from: "categories",
@@ -70,9 +72,10 @@ export const getProductData = async () => {
 export const updateProductData = async (req) => {
 
 
-  const { productId, productName, type, price, discount } = req?.body;
+  const { productName, type, price, discount } = req?.body;
+  const { id } = req.params;
 
-  if (!productId || (!productName && !type && !price && !discount)) {
+  if (productName && !type && !price && !discount) {
   throw new CustomError(
       statusCodes?.badRequest,
       Message?.inValid,
@@ -80,7 +83,7 @@ export const updateProductData = async (req) => {
     )
 
   }
-  const product = await ProductSchemaModel.findById(productId);
+  const product = await ProductSchemaModel.findById(id);
 
   if (!product) {
     throw new CustomError(
@@ -112,9 +115,9 @@ export const updateProductData = async (req) => {
 }
 
 export const deleteProductData = async (req) => {
-  const { productId } = req.params;
+  const {id} = req.params;
 
-  if (!productId) {
+  if (! id) {
 
     throw new CustomError(
       statusCodes?.badRequest,
@@ -122,7 +125,8 @@ export const deleteProductData = async (req) => {
      Message?.notFound
     );
   }
-  const product = await ProductSchemaModel.findByIdAndDelete(productId);
+  const product = await ProductSchemaModel.findByIdAndUpdate( id,
+    { isDelete: true },);
 
   if (!product) {
     throw new CustomError(
