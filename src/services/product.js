@@ -115,7 +115,7 @@ export const updateProductData = async (req) => {
 }
 
 export const deleteProductData = async (req) => {
-  const {id} = req.params;
+  const {id} = req?.params;
 
   if (! id) {
 

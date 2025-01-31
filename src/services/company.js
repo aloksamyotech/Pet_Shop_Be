@@ -108,7 +108,7 @@ export const getCompanyData = async () => {
 
   export const deleteCompanyData =  async (req) =>{
 
-        const {id} = req.params;    
+        const {id} = req?.params;    
 
         if(!id){
 

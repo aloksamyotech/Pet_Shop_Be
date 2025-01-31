@@ -87,7 +87,7 @@ export const getCustomerData = async () => {
   }
   
   export const deleteCustomerData =  async (req) =>{
-        const {id} = req.params;   
+        const {id} = req?.params;   
 
         if(! id){
             throw new CustomError(

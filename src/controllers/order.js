@@ -6,7 +6,7 @@ import CustomError from "../utils/exception.js";
 const order = async (req, res) => {
  
     const data = await orderData(req); 
-    console.log("sssssssss------------",data)
+
     res.status(statusCodes?.created).json({ 
       success: true,
       message : Message.Successfully,

@@ -78,7 +78,7 @@ export const updateCategoryData = async (req) => {
 
 
 export const deleteCategoryData = async (req) => {
-  const { id } = req.params;
+  const { id } = req?.params;
   if (!id) {
     throw new CustomError(statusCodes?.badRequest, errorCodes?.not_found);
   }
