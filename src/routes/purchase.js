@@ -5,7 +5,7 @@ import { purchaseController} from "../controllers/controllers.js";
 const router = Router();
 router.post("/save", asyncHandler(purchaseController.purchase));
 router.get("/fetch", asyncHandler(purchaseController.getPurchases));
-router.put("/updated",asyncHandler(purchaseController.updatePurchases));
-router.delete("/:purchaseId",asyncHandler(purchaseController.deletePurchases));
+router.put("/update/:id",asyncHandler(purchaseController.updatePurchases));
+router.delete("/:id",asyncHandler(purchaseController.deletePurchases));
 
 export default router;
