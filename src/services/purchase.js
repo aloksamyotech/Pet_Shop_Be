@@ -19,7 +19,8 @@ export const purchaseData = async (req) => {
     
 
     const purchaseSchema = await PurchaseSchemaModel.create({
-      productId , totalPrice,discount,quantity,paymentStatus,companyId
+      productId , totalPrice,discount,quantity,paymentStatus,companyId,
+      isDelete: false,
     });
     
    
@@ -32,7 +33,9 @@ export const purchaseData = async (req) => {
 
 export const getPurchaseData = async () => {
     
+  const condition_obj = { isDelete: false };
       const purchase = await PurchaseSchemaModel.aggregate([
+        { $match: condition_obj},
         {
           $lookup: {
             from: "products",
@@ -75,8 +78,9 @@ export const getPurchaseData = async () => {
   export const updatePurchaseData  = async (req) =>{
 
     
-       const {purchaseId , productName , type, totalPrice,discount,quantity,paymentStatus} = req?.body;
-       if(!purchaseId || (!productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus)){
+       const {productName , type, totalPrice,discount,quantity,paymentStatus} = req?.body;
+       const { id } = req?.params;
+       if( !productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus){
 
         throw new CustomError(
             statusCodes?.badRequest,
@@ -85,7 +89,7 @@ export const getPurchaseData = async () => {
         )
 
        }
-    const purchase = await PurchaseSchemaModel.findById(purchaseId);
+    const purchase = await PurchaseSchemaModel.findById(id);
 
 
 
@@ -126,9 +130,9 @@ export const getPurchaseData = async () => {
   }
   
   export const deletePurchaseData =  async (req) =>{
-        const {purchaseId} = req.params;    
+    const { id } = req?.params;  
 
-        if(!purchaseId){
+        if(! id){
 
             throw new CustomError(
                 statusCodes?.badRequest,
@@ -138,7 +142,8 @@ export const getPurchaseData = async () => {
         }
 
 
-        const purchase = await PurchaseSchemaModel.findByIdAndDelete(purchaseId);
+        const purchase = await PurchaseSchemaModel.findByIdAndUpdate(id,
+          { isDelete: true },);
 
         if(!purchase){
             throw new CustomError(

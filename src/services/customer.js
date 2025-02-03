@@ -4,7 +4,7 @@ import CustomError from "../utils/exception.js";
 
 export const customerData = async (req) => {
    
-      const { firstName, lastName, email, address, phoneNumber,status } = req?.body;
+      const { firstName, email, address, phoneNumber,status } = req?.body;
   
       const existingCustomer = await CustomerSchemaModel.findOne({ email });
       if (existingCustomer) {
@@ -16,7 +16,8 @@ export const customerData = async (req) => {
       }
 
  const customerSchema = await CustomerSchemaModel.create({
-        firstName, lastName,  email, address, phoneNumber, status
+        firstName, email, address, phoneNumber, status,
+        isDelete: false,
       });
   
       return customerSchema; 
@@ -27,8 +28,8 @@ export const customerData = async (req) => {
 
 
 export const getCustomerData = async () => {
-   
-      const customers = await CustomerSchemaModel.find().sort({createdAt: -1});
+  const condition_obj = { isDelete: false };
+      const customers = await CustomerSchemaModel.find(condition_obj).sort({ createdAt: -1 });
   
       if (!customers) {
         throw new CustomError(
@@ -45,8 +46,10 @@ export const getCustomerData = async () => {
 
   export const updateCustomerData  = async (req) =>{
 
-       const {customerId, firstName,lastName,gender,email,address,phoneNumber,dateOfBirth,customerType,status} = req?.body;
-       if(!customerId || (!firstName && !lastName && !gender && !email && !address && !phoneNumber  && !dateOfBirth && !customerType && !status)){
+       const {firstName,email,address,phoneNumber,customerType,status} = req?.body;
+
+       const {id} = req?.params
+       if(firstName && !email && !address && !phoneNumber  && !customerType && !status){
 
         throw new CustomError(
             statusCodes?.badRequest,
@@ -54,7 +57,7 @@ export const getCustomerData = async () => {
         )
 
        }
-    const customer = await CustomerSchemaModel.findById(customerId);
+    const customer = await CustomerSchemaModel.findById(id);
 
          if(!customer){
         throw new CustomError(
@@ -67,13 +70,10 @@ export const getCustomerData = async () => {
 
 
          customer.firstName = firstName || customer.firstName;
-       customer.lastName = lastName || customer.lastName;
-       customer.gender = gender || customer.gender;
-       customer.email = email || customer.email;
+        customer.email = email || customer.email;
       customer.address = address || customer.address;
       customer.phoneNumber = phoneNumber || customer.phoneNumber;
-    customer.dateOfBirth = dateOfBirth || customer.dateOfBirth;
-    customer.customerType = customerType || customer.customerType;
+   customer.customerType = customerType || customer.customerType;
       customer.status = status || customer.status;
 
 
@@ -87,13 +87,9 @@ export const getCustomerData = async () => {
   }
   
   export const deleteCustomerData =  async (req) =>{
+        const {id} = req?.params;   
 
-   
-
-        const {customerId} = req.params;    
-
-        if(!customerId){
-
+        if(! id){
             throw new CustomError(
                 statusCodes?.badRequest,
                 errorCodes?.invalid_input ,
@@ -101,7 +97,8 @@ export const getCustomerData = async () => {
         }
 
 
-        const customer = await CustomerSchemaModel.findByIdAndDelete(customerId);
+        const customer = await CustomerSchemaModel.findByIdAndUpdate( id,
+          { isDelete: true },);
 
         if(!customer){
             throw new CustomError(

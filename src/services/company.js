@@ -52,15 +52,12 @@ export const getCompanyData = async () => {
   };
 
 
-  
-
-
-
   export const updateCompanyData  = async (req) =>{
 
     
-       const {companyId,companyName, address, description, email,phoneNumber,companyType,status } = req?.body;
-       if(!companyId || (!companyName && !address && !description && !email && ! phoneNumber && !companyType && !status)){
+       const {companyName, address, description, email,phoneNumber,companyType,status } = req?.body;
+       const { id } = req.params;
+       if(!companyName && !address && !description && !email && ! phoneNumber && !companyType && !status){
 
         throw new CustomError(
             statusCodes?.badRequest,
@@ -69,7 +66,7 @@ export const getCompanyData = async () => {
         )
 
        }
-    const company = await CompanySchemaModel.findById(companyId);
+    const company = await CompanySchemaModel.findById(id);
 
 
 
@@ -109,9 +106,9 @@ export const getCompanyData = async () => {
 
   }
 
-  export const deleteCompanyData =  async (req,res, next) =>{
+  export const deleteCompanyData =  async (req) =>{
 
-        const {id} = req.params;    
+        const {id} = req?.params;    
 
         if(!id){
 
@@ -120,9 +117,8 @@ export const getCompanyData = async () => {
                 errorCodes?.invalid_input ,
               );
         }
-
-
-        const company = await CompanySchemaModel.findByIdAndDelete(id);
+const company = await CompanySchemaModel.findByIdAndUpdate(id,
+          { isDelete: true },);
 
         if(!company){
             throw new CustomError(
@@ -134,3 +130,5 @@ export const getCompanyData = async () => {
      return company;
    
   } 
+
+  

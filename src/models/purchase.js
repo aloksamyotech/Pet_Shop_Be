@@ -30,7 +30,11 @@ const purchaseSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref :'Company',  
         required:true
-      }
+      },
+      isDelete  :{
+        type : Boolean,
+        default: false,
+      } ,
   },    
   { timestamps: true },
 );
