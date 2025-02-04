@@ -4,9 +4,9 @@ import CustomError from "../utils/exception.js";
 
 export const productData = async (req) => {
 
-  const { productName, price, discount ,categoryId} = req?.body;
+  const { productName, price, discount ,categoryId,quantity} = req?.body;
 
-  if (!productName || !price || !discount ||!categoryId) {
+  if (!productName || !price || !discount ||!categoryId  ||! quantity) {
 
     throw new CustomError(
       statusCodes?.badRequest,
@@ -20,6 +20,7 @@ export const productData = async (req) => {
     discount,
     categoryId,
     isDelete: false,
+    quantity,
     image: req.file ? req.file.path : null,
   });
 

@@ -27,12 +27,14 @@ const productSchema = new Schema(
       type : Boolean,
       default: false,
     } ,
+    quantity:{
+      type : String,
+      default :0,
+    },
    image :{
       type: String
       }
-
-    
-  },
+ },
 { timestamps: true },
 );
 
