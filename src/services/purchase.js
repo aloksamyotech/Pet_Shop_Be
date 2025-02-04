@@ -4,30 +4,45 @@ import CustomError from "../utils/exception.js";
 import { ProductSchemaModel } from "../models/product.js";
 
 export const purchaseData = async (req) => {
- 
-    const { productId , totalPrice,discount,quantity,paymentStatus,companyId } = req?.body;
+  const { productId, totalPrice, discount, quantity, paymentStatus, companyId } = req?.body;
 
-   
-   
-    if (!productId || !totalPrice || !discount || !quantity || !paymentStatus || !companyId) {
-      throw new CustomError(
-        statusCodes?.badRequest,
-        Message?.invalidInput,
-        errorCodes?.invalid_input
-      );
-    }
-    
+  if (!productId || !totalPrice || !discount || !quantity || !paymentStatus || !companyId) {
+    throw new CustomError(
+      statusCodes?.badRequest,
+      Message?.invalidInput,
+      errorCodes?.invalid_input
+    );
+  }
 
-    const purchaseSchema = await PurchaseSchemaModel.create({
-      productId , totalPrice,discount,quantity,paymentStatus,companyId,
-      isDelete: false,
-    });
-    
-   
-    
-    return purchaseSchema; 
+  const product = await ProductSchemaModel.findById(productId);
+
+  if (!product) {
+    throw new CustomError(
+      statusCodes?.notFound,
+      Message?.productNotFound,
+      errorCodes?.not_found
+    );
+  }
+
+  console.log("datajjjjjjjjjjjjjjjjj",product)
  
+  product.quantity =  product.quantity + quantity;
+  await product.save();
+
+ 
+  const purchaseSchema = await PurchaseSchemaModel.create({
+    productId,
+    totalPrice,
+    discount,
+    quantity,
+    paymentStatus,
+    companyId,
+    isDelete: false,
+  });
+
+  return purchaseSchema;
 };
+
 
 
 

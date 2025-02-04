@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
+
 const productSchema = new Schema(
   {
     productName: {
@@ -28,7 +29,7 @@ const productSchema = new Schema(
       default: false,
     } ,
     quantity:{
-      type : String,
+      type : Number,
       default :0,
     },
    image :{
