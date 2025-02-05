@@ -29,6 +29,10 @@ const productSchema = new Schema(
     } ,
    image :{
       type: String
+      },
+      quantity:{
+        type: Number,
+        default:0
       }
 
     
