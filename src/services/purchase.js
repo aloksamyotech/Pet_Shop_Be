@@ -7,8 +7,6 @@ export const purchaseData = async (req) => {
  
     const { productId , totalPrice,discount,quantity,paymentStatus,companyId } = req?.body;
 
-   
-   
     if (!productId || !totalPrice || !discount || !quantity || !paymentStatus || !companyId) {
       throw new CustomError(
         statusCodes?.badRequest,
@@ -16,16 +14,17 @@ export const purchaseData = async (req) => {
         errorCodes?.invalid_input
       );
     }
-    
 
-    const purchaseSchema = await PurchaseSchemaModel.create({
+    const product = await ProductSchemaModel.findById(productId);
+       product.quantity = product.quantity+ quantity; 
+       await product.save();
+
+    
+const purchaseSchema = await PurchaseSchemaModel.create({
       productId , totalPrice,discount,quantity,paymentStatus,companyId,
       isDelete: false,
     });
-    
-   
-    
-    return purchaseSchema; 
+     return purchaseSchema; 
  
 };
 

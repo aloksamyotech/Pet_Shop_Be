@@ -4,7 +4,7 @@ import CustomError from "../utils/exception.js";
 
 const invoiceData = async (req) => {
    const {name,price,quantity,total,invoiceNumber} = req?.body;
-   console.log("req..........",req.body)
+  
 
    if(!name || !price ||!quantity || !total || !invoiceNumber){
     throw new CustomError(

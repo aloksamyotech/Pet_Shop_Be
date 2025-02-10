@@ -1,6 +1,7 @@
 import { OrderSchemaModel } from "../models/order.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+import { ProductSchemaModel } from "../models/product.js";
 
 export const orderData = async (req) => {
   const {products,customerId ,customerName ,customerEmail,customerPhone }= req?.body;
@@ -14,12 +15,32 @@ export const orderData = async (req) => {
     );
   }
 
-const totalAmount = products.reduce(
-    (total, product) => total + product.productPrice * product.quantity,
-    0
-  );
+  let totalAmount = 0;
+  for (const item of products) {
+    const product = await ProductSchemaModel.findById(item.productId);
 
-  const order = await OrderSchemaModel.create({ products, totalAmount, customerId ,customerName,customerEmail,customerPhone});
+    console.log("item---------",item)
+    console.log("product------------",product)
+
+    if (!product) {
+      throw new CustomError(
+        statusCodes?.notFound,
+        errorCodes?.not_found
+      );
+    }
+
+    if (product.quantity < item.quantity) {
+      throw new CustomError(
+        statusCodes?.badRequest,
+        errorCodes?.out_of_stock
+      );
+    }
+
+    totalAmount += product.price * item.quantity;
+    product.quantity -= item.quantity;
+    await product.save();
+  }
+const order = await OrderSchemaModel.create({ products, totalAmount, customerId ,customerName,customerEmail,customerPhone});
   return order;
 };
 

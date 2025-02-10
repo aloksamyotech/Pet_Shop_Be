@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
+
 const productOrderSchema = new mongoose.Schema({
   productId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +19,7 @@ const productOrderSchema = new mongoose.Schema({
   quantity: {
     type: Number,
     required: true, 
-  },
+  }
 });
 
 const orderSchema = new Schema(
