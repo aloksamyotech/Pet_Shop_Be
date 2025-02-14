@@ -19,8 +19,7 @@ export const orderData = async (req) => {
   for (const item of products) {
     const product = await ProductSchemaModel.findById(item.productId);
 
-    console.log("item---------",item)
-    console.log("product------------",product)
+  
 
     if (!product) {
       throw new CustomError(
