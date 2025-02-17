@@ -29,6 +29,12 @@ export const productData = async (req) => {
   return productSchema;
 };
 
+export const getTotalProducts = async () => {
+  const totalProducts = await ProductSchemaModel.countDocuments({ isDelete: false });
+  return totalProducts;
+};
+
+
 export const getProductData = async () => {
   const condition_obj = { isDelete: false };
  const products = await ProductSchemaModel.aggregate([

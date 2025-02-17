@@ -7,5 +7,6 @@ import purchaseRouter from "./purchase.js";
 import categoryRouter from "./category.js";
 import orderRouter from "./order.js"
 import invoiceRouter from './invoice.js'
+import profileRouter from './profile.js'
 
-export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter};
+export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter};
