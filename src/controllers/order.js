@@ -1,6 +1,20 @@
-import { orderData ,getOrderData,updateOrderData,deleteOrderData} from "../services/order.js";
+import { orderData ,getOrderData,updateOrderData,deleteOrderData,getTotalOrders,getTotalSalesForMonth,getTotalQuantityForMonth} from "../services/order.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+
+
+const getOrderCount = async (req, res) => {
+  const totalOrders = await getTotalOrders();
+  res.status(statusCodes?.ok).json({
+    success: true,
+    message: 'Successfully fetched total orders',
+    totalOrders
+  });
+
+};
+
+
+
 
 
 const order = async (req, res) => {
@@ -50,11 +64,51 @@ res.status(statusCodes?.ok).json({
 
 
 
+   export const getMonthlySalesReport = async (req, res) => {
+    try {
+      const salesData = await getTotalSalesForMonth(req);
+      res.status(statusCodes.ok).json({
+        success: true,
+        data: salesData
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "errro "
+      });
+    }
+  };
+  
+
+
+
+  
+
+  export const getTotalQuantity = async (req, res) => {
+    try {
+      const salesData = await getTotalQuantityForMonth(req);
+      res.status(statusCodes.ok).json({
+        success: true,
+        data: salesData
+      });
+    } catch (error) {
+      res.status(statusCodes.internalServerError).json({
+        success: false,
+        message: "error"
+      });
+    }
+  };  
+
+
+
 
 
 export default {
     order,
   getOrders,
   updateOrders,
-  deleteOrders
+  deleteOrders,
+  getOrderCount,
+  getMonthlySalesReport,
+  getTotalQuantity
 };

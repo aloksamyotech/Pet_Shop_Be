@@ -34,6 +34,18 @@ export const companyData = async (req) => {
 
 
 
+export const countCompany = async (req) => {
+  
+  const condition_obj = { isDelete: false };
+  const companyCount = await CompanySchemaModel.countDocuments(condition_obj);
+  if (companyCount === 0) {
+    return { success: false, Message: "No data found" };
+  }
+  return companyCount;
+};
+
+
+
 export const getCompanyData = async () => {
   const condition_obj = { isDelete: false };
    

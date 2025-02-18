@@ -12,7 +12,7 @@ const productOrderSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  productPrice: {
+  price: {
     type: Number,
     required: true,
   },
@@ -41,12 +41,18 @@ const orderSchema = new Schema(
 
 },
 
+
 customerEmail:{
   type : String,
 },
 customerPhone :{
   type :Number,
-}
+},
+
+isDelete  :{
+  type : Boolean,
+  default: false,
+} ,
     
   },
   { timestamps: true }

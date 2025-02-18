@@ -10,11 +10,6 @@ router.get("/fetch", asyncHandler(productController.getProducts));
 router.put("/update/:id",asyncHandler(productController.updateProducts));
 router.delete("/:id",asyncHandler(productController.deleteProducts));
 router.post("/bulkUpload", asyncHandler(productController.products));
-
-
-
-
-
-
+router.get("/count", asyncHandler(productController.totalProducts));
 
 export default router;

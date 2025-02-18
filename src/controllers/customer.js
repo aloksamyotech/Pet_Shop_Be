@@ -1,6 +1,24 @@
-import { customerData , getCustomerData,updateCustomerData,deleteCustomerData} from "../services/customer.js";
+import { customerData , getCustomerData,updateCustomerData,deleteCustomerData,countCustomer} from "../services/customer.js";
+
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+
+const getCustomerCount = async (req, res) => {
+  try {
+    const customerCount = await countCustomer(req);
+    res.status(statusCodes.ok).json({
+      success: true,
+     count: customerCount,
+    });
+  } catch (error) {
+    res.status(statusCodes.internalServerError).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+
 
 
 const customer = async (req, res, next) => {
@@ -53,5 +71,6 @@ res.status(statusCodes?.ok).json({
   customer,
   getCustomer,
   updateCustomers,
-  deleteCustomers
+  deleteCustomers,
+  getCustomerCount
 };

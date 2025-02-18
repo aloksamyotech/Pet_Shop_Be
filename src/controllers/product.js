@@ -1,6 +1,22 @@
-import { productData , getProductData,updateProductData,deleteProductData,productBulk} from "../services/product.js";
+import { productData , getProductData,updateProductData,deleteProductData,productBulk,getTotalProducts} from "../services/product.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+
+
+
+const totalProducts = async (req, res) => {
+  
+  const total = await getTotalProducts();
+  res.status(200).json({
+    success: true,
+    message: "Total products fetched successfully",
+    totalProducts: total
+  });
+
+};
+
+
+
 
 
 const product = async (req, res) => {
@@ -75,6 +91,7 @@ export default {
   getProducts,
   updateProducts,
   deleteProducts,
-  products
+  products,
+  totalProducts
  
 };
