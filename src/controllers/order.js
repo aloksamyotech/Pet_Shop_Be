@@ -1,7 +1,16 @@
-import { orderData ,getOrderData,updateOrderData,deleteOrderData} from "../services/order.js";
+import { orderData ,getOrderData,updateOrderData,deleteOrderData,getTotalOrders} from "../services/order.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
+const getOrderCount = async (req, res) => {
+    const totalOrders = await getTotalOrders();
+    res.status(statusCodes?.ok).json({
+      success: true,
+      message: 'Successfully fetched total orders',
+      totalOrders
+    });
+  
+};
 
 const order = async (req, res) => {
  
@@ -56,5 +65,6 @@ export default {
     order,
   getOrders,
   updateOrders,
-  deleteOrders
+  deleteOrders,
+  getOrderCount
 };

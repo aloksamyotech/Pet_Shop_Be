@@ -1,6 +1,26 @@
-import { companyData , getCompanyData,updateCompanyData,deleteCompanyData} from "../services/company.js";
+import { companyData , getCompanyData,updateCompanyData,deleteCompanyData,countCompany} from "../services/company.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+
+
+export const getCompanyCount = async (req, res) => {
+  try {
+    const companyCount = await countCompany(req);
+    res.status(statusCodes.ok).json({
+      success: true,
+      count: companyCount,
+    });
+  } catch (error) {
+    res.status(statusCodes.internalServerError).json({
+      success: false,
+     
+      error: error.message,
+    });
+  }
+};
+
+
+
 
 
 const company = async (req, res, next) => {
@@ -50,5 +70,6 @@ export default {
   company,
   getCompany,
   updateCompany,
-  deleteCompany
-};
+  deleteCompany,
+  getCompanyCount
+  };

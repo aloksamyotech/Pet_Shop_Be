@@ -41,7 +41,7 @@ const updateCategory = async (req, res) => {
   } catch (error) {
     res.status(error.status || 500).json({
       success: false,
-      message: error.message || "Internal Server Error",
+      message: error.message ,
     });
   }
 };
@@ -56,10 +56,15 @@ const deleteCategory = async (req, res) => {
     });
 };
 
+
+
+
+
 export default {
   category,
   getCategory,
   updateCategory,
   deleteCategory,
+ 
 };
 
