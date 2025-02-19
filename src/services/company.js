@@ -2,6 +2,21 @@ import { CompanySchemaModel } from "../models/company.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
+
+
+
+export const countCompany = async (req) => {
+  
+  const condition_obj = { isDelete: false };
+  const companyCount = await CompanySchemaModel.countDocuments(condition_obj);
+  if (companyCount === 0) {
+    return { success: false, Message: "No data found" };
+  }
+  return companyCount;
+};
+
+
+
 export const companyData = async (req) => {
   
     const { companyName, address, description, email,phoneNumber,status} = req?.body;
@@ -48,8 +63,7 @@ export const countCompany = async (req) => {
 
 export const getCompanyData = async () => {
   const condition_obj = { isDelete: false };
-   
-      const company = await CompanySchemaModel.find(condition_obj).sort({ createdAt: -1 });
+   const company = await CompanySchemaModel.find(condition_obj).sort({ createdAt: -1 });
   
       if (!company) {
         throw new CustomError(

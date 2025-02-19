@@ -4,7 +4,18 @@ import CustomError from "../utils/exception.js";
 import { ProductSchemaModel } from "../models/product.js";
 
 
-export const orderData = async (req) => {
+
+
+
+
+export const getTotalOrders = async () => {
+   const totalOrders = await OrderSchemaModel.countDocuments();
+    return totalOrders;
+ };
+
+
+ export const orderData = async (req) => {
+
   const {products,customerId ,customerName ,customerEmail,customerPhone }= req?.body;
  
 
@@ -20,7 +31,7 @@ export const orderData = async (req) => {
   for (const item of products) {
     const product = await ProductSchemaModel.findById(item.productId);
 
-    
+
 
     if (!product) {
       throw new CustomError(

@@ -2,6 +2,15 @@ import { orderData ,getOrderData,updateOrderData,deleteOrderData,getTotalOrders,
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
+const getOrderCount = async (req, res) => {
+    const totalOrders = await getTotalOrders();
+    res.status(statusCodes?.ok).json({
+      success: true,
+      message: 'Successfully fetched total orders',
+      totalOrders
+    });
+  
+};
 
 const getOrderCount = async (req, res) => {
   const totalOrders = await getTotalOrders();
@@ -12,10 +21,6 @@ const getOrderCount = async (req, res) => {
   });
 
 };
-
-
-
-
 
 const order = async (req, res) => {
  
@@ -39,9 +44,6 @@ const getOrders = async (req, res, next) => {
     });
 };
 
-
-
-
 const updateOrders  = async (req, res, next) =>{
  const orders = await updateOrderData(req);
 res.status(statusCodes?.ok).json({ 
@@ -51,9 +53,7 @@ res.status(statusCodes?.ok).json({
 });
   }
 
-
-
-  const deleteOrders  = async (req, res, next) =>{
+ const deleteOrders  = async (req, res, next) =>{
    const orders = await deleteOrderData(req);
   res.status(statusCodes?.ok).json({ 
     success: true,
@@ -79,12 +79,7 @@ res.status(statusCodes?.ok).json({
     }
   };
   
-
-
-
-  
-
-  export const getTotalQuantity = async (req, res) => {
+export const getTotalQuantity = async (req, res) => {
     try {
       const salesData = await getTotalQuantityForMonth(req);
       res.status(statusCodes.ok).json({
@@ -98,10 +93,6 @@ res.status(statusCodes?.ok).json({
       });
     }
   };  
-
-
-
-
 
 export default {
     order,

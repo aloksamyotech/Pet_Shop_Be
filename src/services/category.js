@@ -94,3 +94,6 @@ export const deleteCategoryData = async (req) => {
 };
 
 
+
+
+

@@ -2,6 +2,11 @@ import { CustomerSchemaModel } from "../models/customer.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
+
+
+
+
+
 export const customerData = async (req) => {
    
       const { firstName, email, address, phoneNumber,status } = req?.body;
@@ -19,11 +24,26 @@ export const customerData = async (req) => {
         firstName, email, address, phoneNumber, status,
         isDelete: false,
       });
-  
-      return customerSchema; 
+   return customerSchema; 
     
   };
   
+
+export const countCustomer = async (req) => {
+  const condition_obj = { isDelete: false };
+   const customerCount = await CustomerSchemaModel.countDocuments(condition_obj);
+  if (customerCount === 0) {
+    return { success: false, Message: "No data found" };
+  }
+  return customerCount
+};
+
+
+
+
+
+
+
 
 
   export const countCustomer = async (req) => {

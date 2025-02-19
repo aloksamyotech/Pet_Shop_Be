@@ -10,4 +10,6 @@ router.get("/fetch", asyncHandler(categoryController.getCategory));
 router.put("/update/:id",asyncHandler(categoryController.updateCategory));
 router.delete("/:id",asyncHandler(categoryController.deleteCategory));
 
+
+
 export default router;

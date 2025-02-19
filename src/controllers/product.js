@@ -5,16 +5,14 @@ import CustomError from "../utils/exception.js";
 
 
 const totalProducts = async (req, res) => {
-  
-  const total = await getTotalProducts();
-  res.status(200).json({
-    success: true,
-    message: "Total products fetched successfully",
-    totalProducts: total
-  });
-
+    const total = await getTotalProducts();
+    res.status(200).json({
+      success: true,
+      message: "Total products fetched successfully",
+      totalProducts: total
+    });
+ 
 };
-
 
 
 

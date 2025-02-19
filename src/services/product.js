@@ -30,7 +30,6 @@ export const productData = async (req) => {
 };
 
 
-
 export const getTotalProducts = async () => {
   const totalProducts = await ProductSchemaModel.countDocuments({ isDelete: false });
   return totalProducts;
