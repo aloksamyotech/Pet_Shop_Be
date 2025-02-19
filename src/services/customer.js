@@ -29,14 +29,7 @@ export const customerData = async (req) => {
   };
   
 
-export const countCustomer = async (req) => {
-  const condition_obj = { isDelete: false };
-   const customerCount = await CustomerSchemaModel.countDocuments(condition_obj);
-  if (customerCount === 0) {
-    return { success: false, Message: "No data found" };
-  }
-  return customerCount
-};
+
 
 
 

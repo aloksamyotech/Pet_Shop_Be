@@ -59,10 +59,7 @@ const order = await OrderSchemaModel.create({ products, totalAmount, customerId 
 
 
 
-export const getTotalOrders = async () => {
-  const totalOrders = await OrderSchemaModel.countDocuments();
-   return totalOrders;
-};
+
 
 
 
