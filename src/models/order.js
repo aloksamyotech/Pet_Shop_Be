@@ -41,12 +41,18 @@ const orderSchema = new Schema(
 
 },
 
+
 customerEmail:{
   type : String,
 },
 customerPhone :{
   type :Number,
-}
+},
+
+isDelete  :{
+  type : Boolean,
+  default: false,
+} ,
     
   },
   { timestamps: true }

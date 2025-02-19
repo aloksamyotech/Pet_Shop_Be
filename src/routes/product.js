@@ -13,10 +13,4 @@ router.post("/bulkUpload", asyncHandler(productController.products));
 router.get("/count", asyncHandler(productController.totalProducts));
 
 
-
-
-
-
-
-
 export default router;

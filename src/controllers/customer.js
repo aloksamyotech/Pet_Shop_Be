@@ -2,6 +2,20 @@ import { customerData , getCustomerData,updateCustomerData,deleteCustomerData,co
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
+const getCustomerCount = async (req, res) => {
+  try {
+    const customerCount = await countCustomer(req);
+    res.status(statusCodes.ok).json({
+      success: true,
+     count: customerCount,
+    });
+  } catch (error) {
+    res.status(statusCodes.internalServerError).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
  const getCustomerCount = async (req, res) => {
   try {

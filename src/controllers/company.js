@@ -2,7 +2,6 @@ import { companyData , getCompanyData,updateCompanyData,deleteCompanyData,countC
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
-
 export const getCompanyCount = async (req, res) => {
   try {
     const companyCount = await countCompany(req);
@@ -18,10 +17,6 @@ export const getCompanyCount = async (req, res) => {
     });
   }
 };
-
-
-
-
 
 const company = async (req, res, next) => {
   
@@ -72,4 +67,5 @@ export default {
   updateCompany,
   deleteCompany,
   getCompanyCount
-  };
+};
+
