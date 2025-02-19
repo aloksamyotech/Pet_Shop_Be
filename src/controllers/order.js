@@ -2,15 +2,7 @@ import { orderData ,getOrderData,updateOrderData,deleteOrderData,getTotalOrders,
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
-const getOrderCount = async (req, res) => {
-    const totalOrders = await getTotalOrders();
-    res.status(statusCodes?.ok).json({
-      success: true,
-      message: 'Successfully fetched total orders',
-      totalOrders
-    });
-  
-};
+
 
 const getOrderCount = async (req, res) => {
   const totalOrders = await getTotalOrders();
