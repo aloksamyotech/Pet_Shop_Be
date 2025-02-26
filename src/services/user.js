@@ -43,13 +43,20 @@ export const registerUser = async (req) => {
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
+    if (!user) throw new Error("User not found");
+
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
+    console.log("Generated Access Token:", accessToken);
+    console.log("Generated Refresh Token:", refreshToken);
+
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
+
     return { accessToken, refreshToken };
   } catch (error) {
+    console.error("Token Generation Error:", error);
     throw new CustomError(
       statusCodes?.internalServerError,
       "Something went wrong while generating refresh and access tokens.",
@@ -57,6 +64,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
     );
   }
 };
+
 
 export const loginUser = async (req) => {
   const { email, password } = req.body;
@@ -97,7 +105,7 @@ export const loginUser = async (req) => {
   };
 
   return {
-    accessToken,
+    accessToken,  
     refreshToken,
     options,
     loginUser,
