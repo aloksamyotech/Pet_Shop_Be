@@ -75,17 +75,14 @@ export const getPurchaseData = async () => {
 
 
   export const updatePurchaseData  = async (req) =>{
-
-    
-       const {productName , type, totalPrice,discount,quantity,paymentStatus} = req?.body;
+      const {productName , type, totalPrice,discount,quantity,paymentStatus} = req?.body;
        const { id } = req?.params;
        if( !productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus){
 
         throw new CustomError(
             statusCodes?.badRequest,
             Message?.notFound,
-            errorCodes?.server_error ,
-        )
+            errorCodes?.server_error , )
 
        }
     const purchase = await PurchaseSchemaModel.findById(id);

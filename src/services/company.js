@@ -2,12 +2,6 @@ import { CompanySchemaModel } from "../models/company.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
-
-
-
-
-
-
 export const companyData = async (req) => {
   
     const { companyName, address, description, email,phoneNumber,status} = req?.body;

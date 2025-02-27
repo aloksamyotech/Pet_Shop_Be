@@ -15,11 +15,7 @@
           required: true,
         },
         
-        phoneNumber: {
-            type: Number,
-            default:89578990,
-            required: true,
-          },
+        
 
  },
       { timestamps: true }

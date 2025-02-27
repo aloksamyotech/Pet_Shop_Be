@@ -3,20 +3,21 @@ import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
 export const invoiceData = async (req) => {
-    const { orderId ,customerId } = req?.body;
+  const { orderId, customerId } = req?.body;
 
-    if (!orderId || !customerId) {
-        throw new CustomError(
-            statusCodes?.badRequest,
-            Message?.invalidInput,
-            errorCodes?.invalid_input
-        );
-    }
+  if (!orderId || !customerId) {
+    throw new CustomError(
+      statusCodes?.badRequest,
+      Message?.invalidInput,
+      errorCodes?.invalid_input
+    );
+  }
 
-    const InvoiceSchema = await InvoiceSchemaModel.create({ orderId ,customerId });
+  const invoice = await InvoiceSchemaModel.create({ orderId, customerId });
 
-    return InvoiceSchema;
+  return invoice;
 };
+
 
 
 export const getInvoiceData = async () => {

@@ -1,10 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
-
 const productOrderSchema = new mongoose.Schema({
   productId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Product", 
+    ref: "Product",
     required: true,
   },
   productName: {
@@ -18,46 +17,64 @@ const productOrderSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    required: true, 
+    required: true,
   }
 });
 
 const orderSchema = new Schema(
   {
-    products: [productOrderSchema], 
-    
+    orderId: {
+      type: String,
+      unique: true,
+      
+    },
+    products: [productOrderSchema],
+
     totalAmount: {
       type: Number,
-      default: 0, 
+      default: 0,
     },
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Customer", 
+      ref: "Customer",
       required: true,
     },
-    customerName :{
-      type: String ,
+    customerName: {
+      type: String,
       required: true,
-
-},
-
-
-customerEmail:{
-  type : String,
-},
-customerPhone :{
-  type :Number,
-},
-
-isDelete  :{
-  type : Boolean,
-  default: false,
-} ,
-    
+    },
+    customerEmail: {
+      type: String,
+    },
+    customerPhone: {
+      type: Number,
+    },
+    isDelete: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
 
 
+orderSchema.pre("save", async function (next) {
+  if (!this.orderId) {
+    const lastOrder = await mongoose
+      .model("Order")
+      .findOne({}, {}, { sort: { createdAt: -1 } });
+
+    let nextOrderNumber = 1;
+if (lastOrder && lastOrder.orderId) {
+      const lastNumber = parseInt(lastOrder.orderId.split("-")[1], 10);
+      if (!lastNumber) {
+        nextOrderNumber = lastNumber + 1;
+      }
+    }
+
+    this.orderId = `ORD-${nextOrderNumber.toString().padStart(6, "0")}`;
+  }
+  next();
+});
 
 export const OrderSchemaModel = mongoose.model("Order", orderSchema);

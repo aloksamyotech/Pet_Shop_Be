@@ -6,6 +6,7 @@ const connectDB = async () => {
   try {
     (async function () {
       const dbUri = database_urls.connection + database_urls.db_name;
+
       await mongoose.connect(dbUri, {
         // useNewUrlParser: true,
         // useUnifiedTopology: true,
