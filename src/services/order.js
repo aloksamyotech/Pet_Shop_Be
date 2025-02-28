@@ -8,7 +8,6 @@ export const getTotalOrders = async () => {
     return totalOrders;
  };
 
-
  export const orderData = async (req) => {
   const { products, customerId, customerName, customerEmail, customerPhone } = req?.body;
 
@@ -56,14 +55,6 @@ export const getTotalOrders = async () => {
   return order;
 };
 
-
-
-
-
-
-
-
-
 export const getOrderData = async () => {
   const condition_obj = { isDelete: false };
   const orders = await OrderSchemaModel.aggregate([
@@ -90,12 +81,6 @@ export const getOrderData = async () => {
 
   return orders;
 };
-
-
-
-  
-
-
 
 export const updateOrderData = async (req) => {
   const { orderId, products, totalAmount } = req?.body;
@@ -126,7 +111,6 @@ export const updateOrderData = async (req) => {
   return updatedOrder;
 };
 
-
 export const deleteOrderData = async (req) => {
   const { orderId } = req.params;
 
@@ -150,8 +134,6 @@ export const deleteOrderData = async (req) => {
 
   return order;
 };
-
-
 export const getTotalSalesForMonth = async (req) => {
   try {
     const {year} = req?.query;

@@ -24,5 +24,4 @@ const getProfile = async (req, res, next) => {
 export default {
     profile,
     getProfile
-   
   };

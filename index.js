@@ -6,6 +6,7 @@ import logger from './src/core/config/logger.js';
 import "dotenv/config"
 import responseInterceptor from './src/utils/responseInterceptor.js';
 
+
 import { userRouter , productRouter,customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter} from './src/routes/routes.js';
 
 
