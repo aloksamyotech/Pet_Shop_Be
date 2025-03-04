@@ -16,7 +16,7 @@
          isDelete  :{
           type : Boolean,
           default: false,
-        } ,
+        } , 
         categoryImage: {
         type:String ,
 }

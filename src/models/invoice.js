@@ -5,7 +5,6 @@ const InvoiceSchema = new Schema(
     invoiceId: {
       type: String,
       unique: true,
-      
     },
     orderId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -21,8 +20,8 @@ const InvoiceSchema = new Schema(
   { timestamps: true }
 );
 
-// Pre-save middleware to generate invoiceId
-InvoiceSchema.pre("save", async function (next) {
+
+ InvoiceSchema.pre("save", async function (next) {
   if (!this.invoiceId) {
     const lastInvoice = await mongoose
       .model("Invoice")

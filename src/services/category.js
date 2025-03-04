@@ -13,7 +13,7 @@ export const categoryData = async (req) => {
     );
   }
 
-  console.log("categorygfile00000000000 ",req.file)
+ 
   const  exitCategory = await CategorySchemaModel.findOne({name});
   if(exitCategory){
     throw new CustomError(
@@ -61,13 +61,14 @@ export const getCategoryData = async () => {
 export const updateCategoryData = async (req) => {
   const { name, description } = req.body;
     const { id } = req.params;
+    console.log("id777777777777",id)
 
-  if (!name || !description) {
+  if (!name && !description) {
     throw new CustomError(
       statusCodes?.badRequest,
-      Message?.incorrect_payload,
-      errorCodes?.bad_request,
-    );
+     Message?.notFound,
+      errorCodes?.server_error ,
+  )
   }
 
   const category = await CategorySchemaModel.findById(id);
@@ -78,6 +79,8 @@ export const updateCategoryData = async (req) => {
       errorCodes?.not_found,
     );
   }
+  
+
 
  
   category.name = name || category.name;

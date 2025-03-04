@@ -1,4 +1,5 @@
 import * as userService from "../services/user.js";
+import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 
 const userRegistration = async (req, res) => {
   const userData = await userService.registerUser(req);
@@ -45,4 +46,16 @@ const updateUserController = async (req, res) => {
     });
   }
 };
-export default { userRegistration, userLogin ,updateUserController};
+
+
+
+const updatePassword= async (req, res) =>{
+  const Password = await userService.updatePasswordData(req);
+  res.status(statusCodes?.ok).json({ 
+    success: true,
+    message: Message?.successfullyUpdate,
+    data: Password,
+  });
+   }
+
+export default { userRegistration, userLogin ,updateUserController,updatePassword};

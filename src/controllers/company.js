@@ -12,13 +12,11 @@ export const getCompanyCount = async (req, res) => {
   } catch (error) {
     res.status(statusCodes.internalServerError).json({
       success: false,
-     
-      error: error.message,
-    });
+     });
   }
 };
 
-const company = async (req, res, next) => {
+const company = async (req, res) => {
   
     const data = await companyData(req); 
     res.status(statusCodes?.created).json({ 

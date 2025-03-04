@@ -18,6 +18,7 @@ export const statusCodes = {
   unauthorized: 401,
   forbidden: 403,
   notFound: 404,
+  password_mismatch:406,
   methodNotAllowed: 405,
   conflict: 409,
   internalServerError: 500,

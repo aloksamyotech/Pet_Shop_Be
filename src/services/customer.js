@@ -92,11 +92,11 @@ export const updateCustomerData  = async (req) =>{
           { isDelete: true },);
 
         if(!customer){
-            throw new CustomError(
-                statusCodes?.notFound,
-                errorCodes?.notFound,
-                Message?.notFound
-            )
+          throw new CustomError(
+            statusCodes?.notFound,
+            Message?.notFound,
+            errorCodes?.server_error 
+        )
         }
      return customer;
      } 
