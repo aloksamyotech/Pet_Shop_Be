@@ -4,9 +4,7 @@ import CustomError from "../utils/exception.js";
 import { ProductSchemaModel } from "../models/product.js";
 
 export const purchaseData = async (req) => {
- 
-    const { productId , totalPrice,discount,quantity,paymentStatus,companyId } = req?.body;
-
+ const { productId , totalPrice,discount,quantity,paymentStatus,companyId } = req?.body;
     if (!productId || !totalPrice || !discount || !quantity || !paymentStatus || !companyId) {
       throw new CustomError(
         statusCodes?.badRequest,
@@ -14,13 +12,11 @@ export const purchaseData = async (req) => {
         errorCodes?.invalid_input
       );
     }
-
-    const product = await ProductSchemaModel.findById(productId);
+        const product = await ProductSchemaModel.findById(productId);
        product.quantity = product.quantity+ quantity; 
        await product.save();
 
-    
-const purchaseSchema = await PurchaseSchemaModel.create({
+    const purchaseSchema = await PurchaseSchemaModel.create({
       productId , totalPrice,discount,quantity,paymentStatus,companyId,
       isDelete: false,
     });
@@ -73,8 +69,7 @@ export const getPurchaseData = async () => {
     
   };
 
-
-  export const updatePurchaseData  = async (req) =>{
+ export const updatePurchaseData  = async (req) =>{
       const {productName , type, totalPrice,discount,quantity,paymentStatus} = req?.body;
        const { id } = req?.params;
        if( !productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus){
@@ -86,9 +81,6 @@ export const getPurchaseData = async () => {
 
        }
     const purchase = await PurchaseSchemaModel.findById(id);
-
-
-
        if(!purchase){
         throw new CustomError(
             statusCodes?.notFound,
@@ -97,19 +89,14 @@ export const getPurchaseData = async () => {
           )
 
        }
-
-      
-        purchase.productName = productName || purchase.productName;
+       purchase.productName = productName || purchase.productName;
        purchase.type = type || purchase.type;
        purchase.totalPrice = totalPrice || purchase.totalPrice;
        purchase.discount = discount || purchase.discount;
        purchase.quantity = quantity || purchase.quantity;
        purchase.paymentStatus = paymentStatus || purchase.paymentStatus;
-
-
-
+      
        const  updatePurchase = await purchase.save();
-
        if(!updatePurchase){
         throw new CustomError(
             statusCodes?.notFound,
@@ -118,19 +105,12 @@ export const getPurchaseData = async () => {
           )
 
        }
-
-       return updatePurchase;
-
-
-   
-  }
+return updatePurchase; }
   
   export const deletePurchaseData =  async (req) =>{
     const { id } = req?.params;  
-
-        if(! id){
-
-            throw new CustomError(
+     if(! id){
+              throw new CustomError(
                 statusCodes?.badRequest,
                 Message?.notFound ,
                 errorCodes?.invalid_input ,

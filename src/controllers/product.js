@@ -2,8 +2,6 @@ import { productData , getProductData,updateProductData,deleteProductData,produc
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
-
-
 const totalProducts = async (req, res) => {
     const total = await getTotalProducts();
     res.status(200).json({
@@ -11,18 +9,10 @@ const totalProducts = async (req, res) => {
       message: "Total products fetched successfully",
       totalProducts: total
     });
- 
-};
-
-
-
+ };
 
 const product = async (req, res) => {
-  
- 
-    const data = await productData(req); 
-
-   
+  const data = await productData(req); 
     res.status(statusCodes?.created).json({ 
       success: true,
       message : Message.Successfully,
@@ -32,21 +22,14 @@ const product = async (req, res) => {
   };
 
 
-  const products = async (req,res) =>{
-
+const products = async (req,res) =>{
 const bulkProduct =  await productBulk(req);
-
 res.status(statusCodes?.created).json({ 
   success: true,
   message : Message.Successfully,
   data : bulkProduct
 });
-
-
-
-
   }
-
 
 const getProducts = async (req, res, next) => {
   const products = await getProductData();
@@ -57,9 +40,6 @@ const getProducts = async (req, res, next) => {
     });
 };
 
-
-
-
 const updateProducts  = async (req, res, next) =>{
  const products = await updateProductData(req);
 res.status(statusCodes?.ok).json({ 
@@ -68,8 +48,6 @@ res.status(statusCodes?.ok).json({
   data: products,
 });
   }
-
-
 
   const deleteProducts  = async (req, res, next) =>{
    const products = await deleteProductData(req);
@@ -80,10 +58,6 @@ res.status(statusCodes?.ok).json({
   });
    }
 
-
-
-
-
 export default {
   product,
   getProducts,
@@ -91,5 +65,4 @@ export default {
   deleteProducts,
   products,
   totalProducts
- 
-};
+ };

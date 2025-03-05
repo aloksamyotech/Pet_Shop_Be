@@ -8,7 +8,6 @@ export const ProfileData = async (req) => {
       name, email, phoneNumber
       });
         return profileSchema; 
-    
   };
   
 export const getProfileData = async () => {

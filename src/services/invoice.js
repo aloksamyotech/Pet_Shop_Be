@@ -12,10 +12,8 @@ export const invoiceData = async (req) => {
       errorCodes?.invalid_input
     );
   }
-
   const invoice = await InvoiceSchemaModel.create({ orderId, customerId });
-
-  return invoice;
+return invoice;
 };
 
 
@@ -56,8 +54,5 @@ export const getInvoiceData = async () => {
          errorCodes?.not_Found 
        );
      }
-   
-     
-    
-    return products;
+  return products;
    };

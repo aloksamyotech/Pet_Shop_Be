@@ -12,6 +12,8 @@ export const categoryData = async (req) => {
       errorCodes?.invalid_input
     );
   }
+
+ 
   const  exitCategory = await CategorySchemaModel.findOne({name});
   if(exitCategory){
     throw new CustomError(
@@ -20,6 +22,7 @@ export const categoryData = async (req) => {
   }
    const categorySchema = await CategorySchemaModel.create({
     name, description,
+    categoryImage: req.file ? req.file.path :null,
     isDelete: false,
   });
   return categorySchema;
@@ -27,7 +30,24 @@ export const categoryData = async (req) => {
 
 export const getCategoryData = async () => {
   const condition_obj = { isDelete: false };
-   const category = await CategorySchemaModel.find(condition_obj).sort({ createdAt: -1 });
+   const category = await CategorySchemaModel.aggregate([
+    { $match: condition_obj},
+      
+      {
+        $addFields: {
+          imageUrl: {
+            $ifNull: [{ $concat: [image_url.url, "$categoryImage"] }, ""],
+          },
+        },
+      },
+      {
+        $sort:{
+          createdAt : -1,
+        }
+       }
+        
+        ])
+  ;
   if (!category) {
     throw new CustomError(
       statusCodes?.notFound,
@@ -41,13 +61,14 @@ export const getCategoryData = async () => {
 export const updateCategoryData = async (req) => {
   const { name, description } = req.body;
     const { id } = req.params;
+    console.log("id777777777777",id)
 
-  if (!name || !description) {
+  if (!name && !description) {
     throw new CustomError(
       statusCodes?.badRequest,
-      Message?.incorrect_payload,
-      errorCodes?.bad_request,
-    );
+     Message?.notFound,
+      errorCodes?.server_error ,
+  )
   }
 
   const category = await CategorySchemaModel.findById(id);
@@ -58,6 +79,8 @@ export const updateCategoryData = async (req) => {
       errorCodes?.not_found,
     );
   }
+  
+
 
  
   category.name = name || category.name;

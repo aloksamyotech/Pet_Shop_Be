@@ -1,10 +1,12 @@
 import { ProductSchemaModel } from "../models/product.js";
 import { errorCodes, Message, statusCodes, image_url } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+import {CategorySchemaModel} from "../models/category.js"
 
 export const productData = async (req) => {
+const { productName, price, discount ,categoryId,quantity} = req?.body;
 
-  const { productName, price, discount ,categoryId,quantity} = req?.body;
+
 
   if (!productName || !price || !discount ||!categoryId  ||!quantity) {
 
@@ -21,11 +23,8 @@ export const productData = async (req) => {
     categoryId,
     isDelete: false,
     quantity,
-    image: req.file ? req.file.path : null,
+    image: req.file ? req.file.path :null,
   });
-
-
- 
   return productSchema;
 };
 
@@ -70,64 +69,69 @@ export const getProductData = async () => {
       errorCodes?.not_Found 
     );
   }
-
-  
- 
- return products;
+  return products;
 };
 
 
 export const updateProductData = async (req) => {
-
-
-  const { productName, type, price, discount } = req?.body;
+  const { productName, type, price, discount, categoryId } = req?.body; 
   const { id } = req.params;
-
-  if (productName && !type && !price && !discount) {
-  throw new CustomError(
+console.log("data",categoryId)
+ 
+  if (!productName && !type && !price && !discount && !categoryId) {
+    throw new CustomError(
       statusCodes?.badRequest,
       Message?.inValid,
-      errorCodes?.server_error 
-    )
-
+      errorCodes?.server_error
+    );
   }
-  const product = await ProductSchemaModel.findById(id);
+const product = await ProductSchemaModel.findById(id);
 
   if (!product) {
     throw new CustomError(
       statusCodes?.notFound,
       Message?.notFound,
-      errorCodes?.server_error ,
-    
-    )
+      errorCodes?.server_error
+    );
   }
+
 
   product.productName = productName || product.productName;
   product.type = type || product.type;
   product.price = price || product.price;
   product.discount = discount || product.discount;
+  
+ 
+  if (categoryId) {
+     const categoryExists = await CategorySchemaModel.findById(categoryId);
+    if (!categoryExists) {
+      throw new CustomError(
+        statusCodes?.notFound,
+       errorCodes?.not_Found
+      );
+    }
+    product.categoryId = categoryId;
+  }
 
 
-  const updateProduct = await product.save();
+  const updatedProduct = await product.save();
 
-  if (!updateProduct) {
+  if (!updatedProduct) {
     throw new CustomError(
       statusCodes?.notFound,
-      Message?.notFound ,
-      errorCodes?.not_Found 
+      Message?.notFound,
+      errorCodes?.not_Found
     );
   }
-  return updateProduct;
 
+  return updatedProduct;
+};
 
-}
 
 export const deleteProductData = async (req) => {
   const {id} = req?.params;
-
-  if (! id) {
-
-    throw new CustomError(
+    if (! id) {
+        throw new CustomError(
       statusCodes?.badRequest,
      errorCodes?.invalid_input,
      Message?.notFound
@@ -143,17 +147,12 @@ export const deleteProductData = async (req) => {
       errorCodes?.notFound
     )
   }
-
-  return product;
-
-
+return product;
 } 
 
 export const productBulk = async (req) =>{
-
   const products = req?.body;
-  
-  if(! Array.isArray(products)){
+    if(! Array.isArray(products)){
     throw new CustomError(
       statusCodes?.notFound, 
       Message?.notFound,
@@ -162,6 +161,4 @@ export const productBulk = async (req) =>{
 
 const result =  await ProductSchemaModel.insertMany(products);
 return result;
-
-
 }

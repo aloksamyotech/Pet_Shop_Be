@@ -7,6 +7,7 @@ import categoryController from "./category.js"
 import orderController from "./order.js";
 import invoiceController from "./invoice.js"
 import ProfileController from "./Profile.js";
+import LogoController from './Logo.js'
 
 
 export { userController ,
@@ -17,6 +18,7 @@ export { userController ,
     categoryController,
     orderController,
     invoiceController,
-    ProfileController
+    ProfileController,
+    LogoController
     
 };

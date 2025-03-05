@@ -3,7 +3,6 @@ import { asyncHandler } from "../utils/asyncWrapper.js";
 import {customerController} from "../controllers/controllers.js";
 
 const router = Router();
-
 router.post("/save", asyncHandler(customerController.customer));
 router.get("/fetch", asyncHandler(customerController.getCustomer));
 router.put("/update/:id", asyncHandler(customerController.updateCustomers));

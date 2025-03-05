@@ -60,21 +60,28 @@ const orderSchema = new Schema(
 
 orderSchema.pre("save", async function (next) {
   if (!this.orderId) {
-    const lastOrder = await mongoose
-      .model("Order")
-      .findOne({}, {}, { sort: { createdAt: -1 } });
+    try {
+      const lastOrder = await mongoose
+        .model("Order")
+        .findOne({}, {}, { sort: { createdAt: -1 } });
 
-    let nextOrderNumber = 1;
-if (lastOrder && lastOrder.orderId) {
-      const lastNumber = parseInt(lastOrder.orderId.split("-")[1], 10);
-      if (!lastNumber) {
-        nextOrderNumber = lastNumber + 1;
+      let nextOrderNumber = 1;
+      if (lastOrder && lastOrder.orderId) {
+        const lastNumber = parseInt(lastOrder.orderId.split("-")[1], 10);
+        if (!isNaN(lastNumber)) {
+          nextOrderNumber = lastNumber + 1;
+        }
       }
-    }
 
-    this.orderId = `ORD-${nextOrderNumber.toString().padStart(6, "0")}`;
+      this.orderId = `ORD-${nextOrderNumber.toString().padStart(6, "0")}`;
+      next();
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    next();
   }
-  next();
 });
+
 
 export const OrderSchemaModel = mongoose.model("Order", orderSchema);

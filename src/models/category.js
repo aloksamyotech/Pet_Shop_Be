@@ -9,17 +9,14 @@
           required: true,
           trim: true,
         },
-        
         description: {
           type: String,
           required: true,
         },
-        
-
-        isDelete  :{
+         isDelete  :{
           type : Boolean,
           default: false,
-        } ,
+        } , 
         categoryImage: {
         type:String ,
 }
