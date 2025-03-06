@@ -4,15 +4,20 @@ import jwt from "jsonwebtoken";
 
 const userSchema = new Schema(
   {
-    firstname: { type: String, required: true, trim: true },
-    company: { type: String, default: null },
-    email: { type: String, required: true, unique: true },
-    phoneNumber: { type: Number, required: true, unique: true },
-    password: { type: String, required: true },
+    firstname: { type: String, required: true, trim: true, default: "John" },
+    company: { type: String, default: "Tech Solutions" },
+    email: { type: String, required: true, unique: true, default: "john@example.com" },
+    phoneNumber: { type: String, required: true, unique: true, default: "1234567890" },
+    password: {
+      type: String,
+      default: "$2b$10$XCiGWJlbCYF63nb1QGM1LuPTjUbCjFhZ7TA4KF3n5k2LWMIjaelmC",
+    },
+   
     refreshToken: { type: String },
   },
   { timestamps: true }
 );
+
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
@@ -20,9 +25,11 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
+
 
 userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
@@ -31,6 +38,7 @@ userSchema.methods.generateAccessToken = function () {
     { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
   );
 };
+
 
 userSchema.methods.generateRefreshToken = function () {
   return jwt.sign({ _id: this._id }, process.env.REFRESH_TOKEN_SECRET, {

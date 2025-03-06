@@ -4,11 +4,9 @@ import CustomError from "../utils/exception.js";
 import {CategorySchemaModel} from "../models/category.js"
 
 export const productData = async (req) => {
-const { productName, price, discount ,categoryId,quantity} = req?.body;
+const { productName, price, discount ,categoryId,quantity,categoryName} = req?.body;
 
-
-
-  if (!productName || !price || !discount ||!categoryId  ||!quantity) {
+if (!productName || !price || !discount ||!categoryId  ||!quantity ||!categoryName) {
 
     throw new CustomError(
       statusCodes?.badRequest,
@@ -21,6 +19,7 @@ const { productName, price, discount ,categoryId,quantity} = req?.body;
     price,
     discount,
     categoryId,
+    categoryName,
     isDelete: false,
     quantity,
     image: req.file ? req.file.path :null,
@@ -74,11 +73,10 @@ export const getProductData = async () => {
 
 
 export const updateProductData = async (req) => {
-  const { productName, type, price, discount, categoryId } = req?.body; 
+  const { productName, type, price, discount, categoryId ,categoryName} = req?.body; 
   const { id } = req.params;
-console.log("data",categoryId)
  
-  if (!productName && !type && !price && !discount && !categoryId) {
+  if (!productName && !type && !price && !discount && !categoryId && !categoryName) {
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.inValid,
@@ -100,6 +98,7 @@ const product = await ProductSchemaModel.findById(id);
   product.type = type || product.type;
   product.price = price || product.price;
   product.discount = discount || product.discount;
+  product.categoryName = categoryName || product.categoryName;
   
  
   if (categoryId) {
@@ -111,8 +110,8 @@ const product = await ProductSchemaModel.findById(id);
       );
     }
     product.categoryId = categoryId;
-  }
 
+  }
 
   const updatedProduct = await product.save();
 
