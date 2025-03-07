@@ -6,7 +6,7 @@ const userSchema = new Schema(
   {
     firstname: { type: String, required: true, trim: true, default: "John" },
     company: { type: String, default: "Tech Solutions" },
-    email: { type: String, required: true, unique: true, default: "john@example.com" },
+    email: { type: String, required: true, unique: true, default: "riya@samyotech.com" },
     phoneNumber: { type: String, required: true, unique: true, default: "1234567890" },
     password: {
       type: String,

@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+import sendEmail from "../core/common/mailer.js";
+import { loginEmailTemplate } from "../Templete/login.js";
 
 export const registerUser = async (req) => {
   const { firstname, company, email, password, phoneNumber } = req.body;
@@ -11,6 +13,8 @@ export const registerUser = async (req) => {
   if (isUserAlreadyExist) {
     throw new CustomError(409, "User already exists", "already_exist");
   }
+
+
   const user = await User.create({ firstname, company, email, password, phoneNumber });
   return await User.findById(user._id).select("-password -refreshToken");
 };
@@ -48,7 +52,8 @@ export const loginUser = async (req) => {
   const passwordVerify = await user.isPasswordCorrect(password);
   if (!passwordVerify) throw new CustomError(400, "Invalid credentials", "invalid_credentials");
   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
-  return {
+ await sendEmail(email, "Welcome to Pets Shop!", "Hello welcome to Pets Shop!");
+   return {
     accessToken,
     refreshToken,
     loginUser: await User.findById(user._id).select("-password -refreshToken"),
@@ -60,11 +65,7 @@ export const loginUser = async (req) => {
 export const updatePasswordData = async (req) => {
   const { currentPassword, newPassword } = req.body;
   const { id } = req?.params;
-
-
   const user = await User.findById(id);
-
-
   if (!user) {
     throw new CustomError(
       statusCodes?.notFound,
@@ -72,10 +73,8 @@ export const updatePasswordData = async (req) => {
       Message?.notFound,)
   }
 
+const passwordVerify = await user.isPasswordCorrect(currentPassword);
  
-  const passwordVerify = await user.isPasswordCorrect(currentPassword);
- 
-
   if (!passwordVerify) {
     throw new CustomError(
       statusCodes?.password_mismatch,
