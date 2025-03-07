@@ -14,7 +14,7 @@
       },
       description: {
         type: String,
-        required: true,
+       
       },
       email: {
         type: String,

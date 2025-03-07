@@ -61,7 +61,7 @@ export const getCategoryData = async () => {
 export const updateCategoryData = async (req) => {
   const { name, description } = req.body;
     const { id } = req.params;
-    console.log("id777777777777",id)
+ 
 
   if (!name && !description) {
     throw new CustomError(
