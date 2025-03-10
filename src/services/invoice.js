@@ -5,6 +5,8 @@ import CustomError from "../utils/exception.js";
 export const invoiceData = async (req) => {
   const { orderId, customerId } = req?.body;
 
+
+
   if (!orderId || !customerId) {
     throw new CustomError(
       statusCodes?.badRequest,

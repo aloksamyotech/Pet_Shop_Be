@@ -1,6 +1,9 @@
 import { CompanySchemaModel } from "../models/company.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+import { companyNotificationTemplate } from "../Templete/company.js";
+import sendEmail from "../core/common/mailer.js";
+import  {SettingsSchemaModel} from '../models/email.js'
 
 export const companyData = async (req) => {
   
@@ -27,6 +30,14 @@ export const companyData = async (req) => {
         companyName, address, description, email,phoneNumber,status,
         isDelete: false,
     });
+
+
+    
+      const settings = await SettingsSchemaModel.findOne();
+      if (settings?.purchase) {
+    await sendEmail(email, "Welcome to Pets Shop!", "",companyNotificationTemplate(companyName,email,phoneNumber,address));
+      }
+
     
     return companySchema; 
  
@@ -38,9 +49,6 @@ export const countCompany = async (req) => {
   
   const condition_obj = { isDelete: false };
   const companyCount = await CompanySchemaModel.countDocuments(condition_obj);
-  if (companyCount === 0) {
-    return { success: false, Message: "No data found" };
-  }
   return companyCount;
 };
 

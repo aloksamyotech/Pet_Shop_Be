@@ -8,6 +8,7 @@ import orderController from "./order.js";
 import invoiceController from "./invoice.js"
 import ProfileController from "./Profile.js";
 import LogoController from './Logo.js'
+import EmailController from './email.js'
 
 
 export { userController ,
@@ -19,6 +20,7 @@ export { userController ,
     orderController,
     invoiceController,
     ProfileController,
-    LogoController
+    LogoController,
+    EmailController
     
 };

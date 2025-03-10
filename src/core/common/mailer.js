@@ -1,28 +1,41 @@
-import Brevo from "@getbrevo/brevo";
-import SibApiV3Sdk from "sib-api-v3-sdk";
+import nodemailer from "nodemailer";
+import PDFDocument from "pdfkit";
 import dotenv from "dotenv";
 dotenv.config();
 
-const defaultClient = SibApiV3Sdk.ApiClient.instance;
-const apiKey = defaultClient.authentications["api-key"];
-apiKey.apiKey = process.env.BREVO_API_KEY;
-
-const sendEmail = async (to, subject, text) => {
-    try {
-      const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi
-      const emailData = new SibApiV3Sdk.SendSmtpEmail();
-      emailData.sender = { 
-        email: "priti.sahu@samyotech.com", 
-        name: "Priti Sahu" 
-      }; 
-      emailData.to = [{ email: to }];
-      emailData.subject = subject;
-      emailData.htmlContent = `<p>${text}</p>`;
-  
-      const response = await apiInstance.sendTransacEmail(emailData);
-  } catch (error) {
-      console.error("Error sending email:", JSON.stringify(error.response?.body || error.message, null, 2));
+const transporter = nodemailer.createTransport({
+  host: "smtp-relay.brevo.com",
+  port: 587,
+    auth: {
+        user: "879aaa001@smtp-brevo.com", 
+        pass: "B6sYF2k9Et5qHxmS",   
     }
-  };
-  
-export default sendEmail;
+});
+
+
+const sendMail = async (to, subject, text, html,attachmentPath) => {
+    try {
+        const mailOptions = {
+            from: 'ps8941844@gmail.com', 
+            to: to, 
+            subject: subject,
+            text: text, 
+            html: html ,
+            attachments: [
+                {
+                  filename: "invoice.pdf",
+                  path: attachmentPath,
+                }
+              ]
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email sent: " + info.response);
+        return info;
+    } catch (error) {
+        console.error("Error sending email:", error);
+        throw error;
+    }
+};
+
+export default sendMail;

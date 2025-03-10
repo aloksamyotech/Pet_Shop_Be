@@ -9,7 +9,8 @@ import orderRouter from "./order.js"
 import invoiceRouter from './invoice.js'
 import profileRouter from './profile.js'
 import LogoRouter from './Logo.js'
+import EmailRouter from './email.js'
 
-export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter
+export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter
 
 };
