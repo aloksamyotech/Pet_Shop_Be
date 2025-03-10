@@ -4,6 +4,7 @@ import "dotenv/config";
 import { User } from "../../models/user.js";
 import { LogoSchemaModel } from "../../models/Logo.js";
 
+
 const connectDB = async () => {
   try {
     const dbUri = database_urls.connection + database_urls.db_name;
@@ -28,11 +29,11 @@ const connectDB = async () => {
 
 const createDefaultUser = async () => {
   try {
-    const existingUser = await User.findOne({ email: "john@example.com" });
+    const existingUser = await User.findOne({ email:"rahul.malviya@samyotech.com" });
     if (!existingUser) {
       const defaultUser = new User({});
       await defaultUser.save();
-      console.log("Default user created:", defaultUser);
+     console.log("Default user created:", defaultUser);
     } else {
       console.log("Default user already exists.");
     }

@@ -1,6 +1,10 @@
 import { CustomerSchemaModel } from "../models/customer.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+import sendEmail from "../core/common/mailer.js";
+import { registrationEmailTemplate } from "../Templete/user.js";
+import  {SettingsSchemaModel} from '../models/email.js'
+
 
 export const customerData = async (req) => {
    
@@ -19,6 +23,12 @@ export const customerData = async (req) => {
         firstName, email, address, phoneNumber, status,
         isDelete: false,
       });
+
+
+      const settings = await SettingsSchemaModel.findOne();
+      if (settings?.customerAdd) {
+      await sendEmail(email, "Welcome to Pets Shop!", "",registrationEmailTemplate(firstName));
+      }
    return customerSchema; 
     
   };
@@ -26,9 +36,6 @@ export const customerData = async (req) => {
   export const countCustomer = async (req) => {
     const condition_obj = { isDelete: false };
      const customerCount = await CustomerSchemaModel.countDocuments(condition_obj);
-    if (customerCount === 0) {
-      return { success: false, Message: "No data found" };
-    }
     return customerCount
   };
 

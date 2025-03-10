@@ -3,17 +3,12 @@ import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
 export const getCompanyCount = async (req, res) => {
-  try {
     const companyCount = await countCompany(req);
     res.status(statusCodes.ok).json({
       success: true,
       count: companyCount,
     });
-  } catch (error) {
-    res.status(statusCodes.internalServerError).json({
-      success: false,
-     });
-  }
+ 
 };
 
 const company = async (req, res) => {

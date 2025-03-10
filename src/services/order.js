@@ -2,6 +2,14 @@ import { OrderSchemaModel } from "../models/order.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 import { ProductSchemaModel } from "../models/product.js";
+import sendEmail from "../core/common/mailer.js";
+import fs from "fs";
+import path from "path";
+import generateInvoicePDF from "../Invoice/invoice.js"
+import PDFDocument from "pdfkit";
+import  {SettingsSchemaModel} from '../models/email.js'
+
+
 
 export const getTotalOrders = async () => {
    const totalOrders = await OrderSchemaModel.countDocuments();
@@ -10,6 +18,8 @@ export const getTotalOrders = async () => {
 
  export const orderData = async (req) => {
   const { products, customerId, customerName, customerEmail, customerPhone } = req?.body;
+
+
 
   if (!Array.isArray(products)) {
     throw new CustomError(
@@ -51,6 +61,21 @@ export const getTotalOrders = async () => {
     customerPhone,
     isDelete: false,
   });
+
+
+  const settings = await SettingsSchemaModel.findOne();
+  if (settings?.order) {
+  const pdfPath = path.join("././invoice", `invoice_${order._id}.pdf`); 
+  await generateInvoicePDF(order, pdfPath);
+
+
+
+  const subject = "Your Order Invoice";
+  const text = `Dear ${customerName},\n\nThank you for your order! Please find your invoice attached.\n\nBest Regards,\nYour Company Name`;
+  const html = `<p>Dear ${customerName},</p><p>Thank you for your order! Please find your invoice attached.</p><p>Best Regards,<br>Your Company Name</p>`;
+  await sendEmail(customerEmail, subject, text, html, pdfPath);
+
+  }
 
   return order;
 };
