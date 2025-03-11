@@ -9,20 +9,20 @@ import  {SettingsSchemaModel} from '../models/email.js'
 
 
 export const registerUser = async (req) => {
-  const { firstname, company, email, password, phoneNumber } = req.body;
+  const { firstname, company, email, password, phoneNumber,country } = req.body;
   const isUserAlreadyExist = await User.findOne({ email });
   if (isUserAlreadyExist) {
     throw new CustomError(409, "User already exists", "already_exist");
   }
 
 
-  const user = await User.create({ firstname, company, email, password, phoneNumber });
+  const user = await User.create({ firstname, company, email, password, phoneNumber,country });
   return await User.findById(user._id).select("-password -refreshToken");
 };
 
 
 export const updateUser = async (userId, userData) => {
-  const { firstname, company, email, phoneNumber } = userData;
+  const { firstname, company, email, phoneNumber,country } = userData;
   const user = await User.findById(userId);
   if (!user) {
     throw new CustomError(404, "User not found", "user_not_found");
@@ -31,6 +31,7 @@ export const updateUser = async (userId, userData) => {
   user.company = company || user.company;
   user.email = email || user.email;
   user.phoneNumber = phoneNumber || user.phoneNumber;
+  user.country = country || user.country;
   const updatedUser = await user.save();
   return await User.findById(updatedUser._id).select("-password -refreshToken");
 };

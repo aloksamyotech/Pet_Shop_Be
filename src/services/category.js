@@ -79,10 +79,6 @@ export const updateCategoryData = async (req) => {
       errorCodes?.not_found,
     );
   }
-  
-
-
- 
   category.name = name || category.name;
   category.description = description || category.description;
 

@@ -64,17 +64,21 @@ export const getTotalOrders = async () => {
 
 
   const settings = await SettingsSchemaModel.findOne();
+
   if (settings?.order) {
-  const pdfPath = path.join("././invoice", `invoice_${order._id}.pdf`); 
-  await generateInvoicePDF(order, pdfPath);
-
-
-
-  const subject = "Your Order Invoice";
-  const text = `Dear ${customerName},\n\nThank you for your order! Please find your invoice attached.\n\nBest Regards,\nYour Company Name`;
-  const html = `<p>Dear ${customerName},</p><p>Thank you for your order! Please find your invoice attached.</p><p>Best Regards,<br>Your Company Name</p>`;
-  await sendEmail(customerEmail, subject, text, html, pdfPath);
-
+    const invoiceDir = path.join(process.cwd(), 'invoice');
+ if (!fs.existsSync(invoiceDir)) {
+      fs.mkdirSync(invoiceDir, { recursive: true });
+    }
+  
+    const pdfPath = path.join(invoiceDir, `invoice_${order._id}.pdf`);
+    await generateInvoicePDF(order, pdfPath);
+  
+    const subject = "Your Order Invoice";
+    const text = `Dear ${customerName},\n\nThank you for your order! Please find your invoice attached.\n\nBest Regards,\nYour Company Name`;
+    const html = `<p>Dear ${customerName},</p><p>Thank you for your order! Please find your invoice attached.</p><p>Best Regards,<br>Your Company Name</p>`;
+  
+    await sendEmail(customerEmail, subject, text, html, pdfPath);
   }
 
   return order;

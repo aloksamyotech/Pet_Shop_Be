@@ -5,8 +5,7 @@
       {
        
         logoImage: {
-        type:String ,
-        default:'uploads/cat.jpg'
+        type:String 
 }
       },
       { timestamps: true }

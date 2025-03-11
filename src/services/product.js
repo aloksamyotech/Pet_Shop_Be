@@ -4,9 +4,9 @@ import CustomError from "../utils/exception.js";
 import {CategorySchemaModel} from "../models/category.js"
 
 export const productData = async (req) => {
-const { productName, price, discount ,categoryId,quantity} = req?.body;
+const { productName, price, discount ,categoryId} = req?.body;
 
-if (!productName || !price || !discount ||!categoryId  ||!quantity) {
+if (!productName || !price || !discount ||!categoryId) {
 
     throw new CustomError(
       statusCodes?.badRequest,
@@ -20,7 +20,6 @@ if (!productName || !price || !discount ||!categoryId  ||!quantity) {
     discount,
     categoryId,
     isDelete: false,
-    quantity,
     image: req.file ? req.file.path :null,
   });
   return productSchema;

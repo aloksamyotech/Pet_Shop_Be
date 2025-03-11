@@ -8,6 +8,7 @@ const userSchema = new Schema(
     company: { type: String, default: "Tech Solutions" },
     email: { type: String, required: true, unique: true, default: "priti.sahu@samyotech.com" },
     phoneNumber: { type: String, required: true, unique: true, default: "1234567890" },
+    country: { type: String, default: "indain" },
     password: {
       type: String,
       default: "$2b$10$XCiGWJlbCYF63nb1QGM1LuPTjUbCjFhZ7TA4KF3n5k2LWMIjaelmC",
