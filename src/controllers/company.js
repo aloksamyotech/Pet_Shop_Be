@@ -13,13 +13,12 @@ export const getCompanyCount = async (req, res) => {
 
 const company = async (req, res) => {
   
-    const data = await companyData(req); 
+    const dataCompany = await companyData(req); 
     res.status(statusCodes?.created).json({ 
       success: true,
-      message : Message.Successfully,
-      data 
+      data : dataCompany,
     });
-  };
+  };  
 
 
 const getCompany= async (req, res, next) => {

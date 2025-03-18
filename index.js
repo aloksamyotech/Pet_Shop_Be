@@ -7,7 +7,7 @@ import "dotenv/config"
 import responseInterceptor from './src/utils/responseInterceptor.js';
 
 
-import { userRouter , productRouter,customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter} from './src/routes/routes.js';
+import { userRouter , productRouter,customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter} from './src/routes/routes.js';
 
 
 const app = express();
@@ -52,7 +52,7 @@ app.use('/invoice',invoiceRouter);
 app.use('/profile',profileRouter);
 app.use('/Logo',LogoRouter);
 app.use('/Email',EmailRouter);
-
+app.use('/employee',EmployeeRouter)
 
 
 app.use(globalExceptionHandler);

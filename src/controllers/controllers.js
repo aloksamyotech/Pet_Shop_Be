@@ -9,6 +9,7 @@ import invoiceController from "./invoice.js"
 import ProfileController from "./Profile.js";
 import LogoController from './Logo.js'
 import EmailController from './email.js'
+import EmployeeController from './employee.js'
 
 
 export { userController ,
@@ -21,6 +22,6 @@ export { userController ,
     invoiceController,
     ProfileController,
     LogoController,
-    EmailController
-    
+    EmailController,
+    EmployeeController
 };

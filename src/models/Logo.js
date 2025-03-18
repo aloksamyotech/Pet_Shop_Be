@@ -5,7 +5,8 @@
       {
        
         logoImage: {
-        type:String 
+        type:String ,
+       
 }
       },
       { timestamps: true }

@@ -15,7 +15,7 @@ const purchaseSchema = new Schema(
     },
     discount: {
       type: Number,
-     default:0,
+     default:0
     },
     quantity: {
         type: Number,

@@ -163,52 +163,52 @@ export const deleteOrderData = async (req) => {
 
   return order;
 };
-export const getTotalSalesForMonth = async (req) => {
-  try {
-    const {year} = req?.query;
-    const condition_obj = { isDelete: false };
-   if (year) {
-      condition_obj["createdAt"] = {
-        $gte: new Date(`${year}-01-01`),
-        $lt: new Date(`${parseInt(year) + 1}-01-01`),
-      };
-    }
-    const total = await OrderSchemaModel.aggregate([
-      { $match: condition_obj },
-      {
-        $group: {
-          _id: { $month: "$createdAt" },
-          total_sales_amount: { $sum: "$totalAmount" },
+  export const getTotalSalesForMonth = async (req) => {
+    try {
+      const {year} = req?.query;
+      const condition_obj = { isDelete: false };
+    if (year) {
+        condition_obj["createdAt"] = {
+          $gte: new Date(`${year}-01-01`),
+          $lt: new Date(`${parseInt(year) + 1}-01-01`),
+        };
+      }
+      const total = await OrderSchemaModel.aggregate([
+        { $match: condition_obj },
+        {
+          $group: {
+            _id: { $month: "$createdAt" },
+            total_sales_amount: { $sum: "$totalAmount" },
+          },
         },
-      },
-      {
-        $sort: { _id: 1 },
-      },
-    ]);
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const formattedData = months.map((month, index) => {
-      const monthData = total.find((data) => data._id === index + 1);
-      return monthData ? monthData.total_sales_amount : 0;
-    });
-    return formattedData;
-  } catch (error) {
-    console.error("Error fetching total sales for the month:", error);
-    throw new Error(data_not_found);
-  }
-};
+        {
+          $sort: { _id: 1 },
+        },
+      ]);
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const formattedData = months.map((month, index) => {
+        const monthData = total.find((data) => data._id === index + 1);
+        return monthData ? monthData.total_sales_amount : 0;
+      });
+      return formattedData;
+    } catch (error) {
+      console.error("Error fetching total sales for the month:", error);
+      throw new Error(data_not_found);
+    }
+  };
 
 export const getTotalQuantityForMonth = async (req) => {
   try {

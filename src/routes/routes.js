@@ -10,7 +10,8 @@ import invoiceRouter from './invoice.js'
 import profileRouter from './profile.js'
 import LogoRouter from './Logo.js'
 import EmailRouter from './email.js'
+import EmployeeRouter from'./Employee.js'
 
-export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter
+export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter
 
 };
