@@ -4,26 +4,32 @@ import CustomError from "../utils/exception.js";
 import {CategorySchemaModel} from "../models/category.js"
 
 export const productData = async (req) => {
-const { productName, price, discount ,categoryId} = req?.body;
-
-if (!productName || !price || !discount ||!categoryId) {
-
+  const { productName, price, discount, categoryId } = req?.body;
+if (!productName || !price || discount === undefined || !categoryId) {
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.invalidInput,
       errorCodes?.invalid_input
     );
   }
+
+  const finalPrice = Math.max(0, price - discount);
+
+  
   const productSchema = await ProductSchemaModel.create({
     productName,
-    price,
+    originalPrice: price, 
+    price: finalPrice, 
     discount,
     categoryId,
     isDelete: false,
-    image: req.file ? req.file.path :null,
+    image: req.file ? req.file.path : null,
   });
+
   return productSchema;
 };
+
+
 
 
 export const getTotalProducts = async () => {

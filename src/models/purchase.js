@@ -7,7 +7,10 @@ const purchaseSchema = new Schema(
           ref :'Product',  
           required:true
     },
-   
+    price: {
+      type: Number,
+      required: true,
+    },
    totalPrice: {
       type: Number,
       required: true,
@@ -35,6 +38,9 @@ const purchaseSchema = new Schema(
         type : Boolean,
         default: false,
       } ,
+      PurchaseImage: {
+        type:String ,
+}
   },    
   { timestamps: true },
 );

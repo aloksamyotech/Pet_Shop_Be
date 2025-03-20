@@ -1,11 +1,11 @@
 import { PurchaseSchemaModel } from "../models/purchase.js";
-import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
+import { errorCodes, Message, statusCodes,image_url } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 import { ProductSchemaModel } from "../models/product.js";
 
 export const purchaseData = async (req) => {
- const { productId , totalPrice,discount,quantity,paymentStatus,companyId } = req?.body;
-    if (!productId || !totalPrice || !discount || !quantity || !paymentStatus || !companyId) {
+ const { productId , totalPrice,discount,quantity,paymentStatus,companyId,price } = req?.body;
+    if (!productId || !totalPrice || !discount || !quantity || !paymentStatus || !companyId || !price) {
       throw new CustomError(
         statusCodes?.badRequest,
         Message?.invalidInput,
@@ -17,9 +17,10 @@ export const purchaseData = async (req) => {
        await product.save();
 
     const purchaseSchema = await PurchaseSchemaModel.create({
-      productId , totalPrice,discount,quantity,paymentStatus,companyId,
-      isDelete: false,
-    });
+      productId , totalPrice,discount,quantity,paymentStatus,companyId,price,
+      isDelete: false,   
+      PurchaseImage: req.file ? req.file.path :null,
+    }); 
      return purchaseSchema; 
  
 };
@@ -47,6 +48,13 @@ export const getPurchaseData = async () => {
             as: "CompanyName"
           } ,
          },
+          {
+                 $addFields: {
+                   imageUrl: {
+                     $ifNull: [{ $concat: [image_url.url, "$PurchaseImage"] }, ""],
+                   },
+                 },
+               },
 
          {
           $sort:{
@@ -70,9 +78,9 @@ export const getPurchaseData = async () => {
   };
 
  export const updatePurchaseData  = async (req) =>{
-      const {productName , type, totalPrice,discount,quantity,paymentStatus} = req?.body;
+      const {productName , type, totalPrice,discount,quantity,paymentStatus,price} = req?.body;
        const { id } = req?.params;
-       if( !productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus){
+       if( !productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus && !price){
 
         throw new CustomError(
             statusCodes?.badRequest,
@@ -95,6 +103,7 @@ export const getPurchaseData = async () => {
        purchase.discount = discount || purchase.discount;
        purchase.quantity = quantity || purchase.quantity;
        purchase.paymentStatus = paymentStatus || purchase.paymentStatus;
+       purchase.price = price || purchase.price;
       
        const  updatePurchase = await purchase.save();
        if(!updatePurchase){

@@ -14,6 +14,10 @@ email:{
 phoneNumber :{
     type:Number,
     required:true,
+},
+EId :{
+    type:Number,
+    required:true,
 }
 ,
 salary :{

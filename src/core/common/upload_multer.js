@@ -14,6 +14,7 @@ const storage = multer.diskStorage({
     cb(null, uniqueSuffix + '-' + file.originalname);
   },
 });
+
 export const upload = multer({
   storage: storage,
   limits: { fileSize: 50 * 1024 * 1024 }
@@ -32,6 +33,12 @@ export const categoryUpload = multer({
   storage: storage,
   limits: { fileSize: 50 * 1024 * 1024 }
 }).single('categoryImage');
+
+
+export const purchaseUpload = multer({
+  storage: storage,
+  limits: { fileSize: 50 * 1024 * 1024 }
+}).single('PurchaseImage');
 
 
 

@@ -4,7 +4,7 @@ import CustomError from "../utils/exception.js";
 
 
 export const employeeData = async (req) => {
-   const { name, email, address, phoneNumber ,salary} = req?.body;
+   const { name, email, address, phoneNumber ,salary,EId} = req?.body;
      const existingEmployee = await EmploySchemaModel.findOne({ email });
       if (existingEmployee) {
         throw new CustomError(
@@ -14,7 +14,7 @@ export const employeeData = async (req) => {
         );
       }
 const employSchema = await EmploySchemaModel.create({
-        name, email, address, phoneNumber,salary,
+        name, email, address, phoneNumber,salary,EId,
         isDelete: false,
       });
 return employSchema; 
@@ -45,9 +45,9 @@ return employSchema;
   
   
   export const updateEmployData  = async (req) =>{
-           const {name,email,address,phoneNumber,salary} = req?.body;
+           const {name,email,address,phoneNumber,salary,EId} = req?.body;
            const {id} = req?.params
-         if(name && !email && !address && !phoneNumber  && salary)
+         if(name && !email && !address && !phoneNumber  && salary && EId)
           {
               throw new CustomError(
               statusCodes?.badRequest,
@@ -72,6 +72,7 @@ return employSchema;
         customer.address = address || customer.address;
         customer.phoneNumber = phoneNumber || customer.phoneNumber;
         customer.salary = salary || customer.salary;
+        customer.EId = EId || customer.EId;
       const  updateCustomer = await customer.save();
          return updateCustomer;
     }

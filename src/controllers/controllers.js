@@ -10,6 +10,7 @@ import ProfileController from "./Profile.js";
 import LogoController from './Logo.js'
 import EmailController from './email.js'
 import EmployeeController from './employee.js'
+import SubCategoryController from "./SubCategory.js";
 
 
 export { userController ,
@@ -23,5 +24,6 @@ export { userController ,
     ProfileController,
     LogoController,
     EmailController,
-    EmployeeController
+    EmployeeController,
+    SubCategoryController
 };
