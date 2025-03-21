@@ -38,22 +38,22 @@ connectDB()
     });
 
 
-// user Route
+// 
 
 app.use(responseInterceptor);
-app.use('/user', userRouter);
-app.use('/product', productRouter);
-app.use('/customer', customerRouter);
-app.use('/company', companyRouter);
-app.use('/purchase', purchaseRouter);
-app.use('/category',categoryRouter);
-app.use('/order',orderRouter);
-app.use('/invoice',invoiceRouter);
-app.use('/profile',profileRouter);
-app.use('/Logo',LogoRouter);
-app.use('/Email',EmailRouter);
-app.use('/employee',EmployeeRouter)
-app.use('/Subcategory',SubCategoryRouter)
+app.use('/api/user', userRouter);
+app.use('/api/product', productRouter);
+app.use('/api/customer', customerRouter);
+app.use('/api/company', companyRouter);
+app.use('/api/purchase', purchaseRouter);
+app.use('/api/category',categoryRouter);
+app.use('/api/order',orderRouter);
+app.use('/api/invoice',invoiceRouter);
+app.use('/api/profile',profileRouter);
+app.use('/api/Logo',LogoRouter);
+app.use('/api/Email',EmailRouter);
+app.use('/api/employee',EmployeeRouter)
+app.use('/api/Subcategory',SubCategoryRouter)
 
 
 app.use(globalExceptionHandler);
