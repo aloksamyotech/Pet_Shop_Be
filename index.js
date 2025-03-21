@@ -38,7 +38,7 @@ connectDB()
     });
 
 
-// user Route
+// 
 
 app.use(responseInterceptor);
 app.use('/api/user', userRouter);
