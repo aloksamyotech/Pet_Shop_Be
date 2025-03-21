@@ -1,12 +1,12 @@
-import { CategorySchemaModel } from "../models/category.js";
+import { SubCategorySchemaModel } from "../models/SubCategory.js";
 import { errorCodes, Message, statusCodes ,image_url} from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
-import { SubCategorySchemaModel } from "../models/SubCategory.js";
+import {CategorySchemaModel} from "../models/category.js"
 
 
 export const categoryData = async (req) => {
-  const { name, description } = req?.body;
-  if (!name || !description) {
+  const { name, description ,categoryId} = req?.body;
+  if (!name || !description || !categoryId) {
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.invalidInput,
@@ -15,41 +15,33 @@ export const categoryData = async (req) => {
   }
 
  
-  const  exitCategory = await CategorySchemaModel.findOne({name});
-  if(exitCategory){
-    throw new CustomError(
-      statusCodes?.badRequest,
-      Message?.alreadyExist )
-  }
-   const categorySchema = await CategorySchemaModel.create({
-    name, description,
-    categoryImage: req.file ? req.file.path :null,
-    isDelete: false,
+  // const  exitCategory = await SubCategorySchemaModel.findOne({name});
+  // if(exitCategory){
+  //   throw new CustomError(
+  //     statusCodes?.badRequest,
+  //     Message?.alreadyExist )
+  // }
+   const categorySchema = await SubCategorySchemaModel.create({
+    name, description,categoryId,
+isDelete: false,
   });
   return categorySchema;
 };
 
 export const getCategoryData = async () => {
   const condition_obj = { isDelete: false };
-   const category = await CategorySchemaModel.aggregate([
+   const category = await SubCategorySchemaModel.aggregate([
     { $match: condition_obj},
     {
       $lookup: {
-        from: "subcategories",
-        localField: "SubcategoryId",
+        from: "categories",
+        localField: "categoryId",
         foreignField: "_id",
-        as: "subcategory"
+        as: "category"
       } 
     },
-        
       
-      {
-        $addFields: {
-          imageUrl: {
-            $ifNull: [{ $concat: [image_url.url, "$categoryImage"] }, ""],
-          },
-        },
-      },
+      
       {
         $sort:{
           createdAt : -1,
@@ -69,11 +61,11 @@ export const getCategoryData = async () => {
 };
 
 export const updateCategoryData = async (req) => {
-  const { name, description } = req.body;
+  const { name, description,categoryId } = req.body;
     const { id } = req.params;
  
 
-  if (!name && !description) {
+  if (!name && !description && !categoryId) {
     throw new CustomError(
       statusCodes?.badRequest,
      Message?.notFound,
@@ -81,7 +73,7 @@ export const updateCategoryData = async (req) => {
   )
   }
 
-  const category = await CategorySchemaModel.findById(id);
+  const category = await SubCategorySchemaModel.findById(id);
   if (!category) {
     throw new CustomError(
       statusCodes?.notFound,
@@ -91,6 +83,7 @@ export const updateCategoryData = async (req) => {
   }
   category.name = name || category.name;
   category.description = description || category.description;
+  category.categoryId = categoryId || category.categoryId;
 
   const updatedCategory = await category.save();
 
@@ -111,7 +104,7 @@ export const deleteCategoryData = async (req) => {
   if (!id) {
     throw new CustomError(statusCodes?.badRequest, errorCodes?.not_found);
   }
-  const category = await CategorySchemaModel.findByIdAndUpdate(
+  const category = await SubCategorySchemaModel.findByIdAndUpdate(
     id,
     { isDelete: true },
    );

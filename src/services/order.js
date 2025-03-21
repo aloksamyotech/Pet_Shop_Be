@@ -64,17 +64,21 @@ export const getTotalOrders = async () => {
 
 
   const settings = await SettingsSchemaModel.findOne();
+
   if (settings?.order) {
-  const pdfPath = path.join("././invoice", `invoice_${order._id}.pdf`); 
-  await generateInvoicePDF(order, pdfPath);
-
-
-
-  const subject = "Your Order Invoice";
-  const text = `Dear ${customerName},\n\nThank you for your order! Please find your invoice attached.\n\nBest Regards,\nYour Company Name`;
-  const html = `<p>Dear ${customerName},</p><p>Thank you for your order! Please find your invoice attached.</p><p>Best Regards,<br>Your Company Name</p>`;
-  await sendEmail(customerEmail, subject, text, html, pdfPath);
-
+    const invoiceDir = path.join(process.cwd(), 'invoice');
+ if (!fs.existsSync(invoiceDir)) {
+      fs.mkdirSync(invoiceDir, { recursive: true });
+    }
+  
+    const pdfPath = path.join(invoiceDir, `invoice_${order._id}.pdf`);
+    await generateInvoicePDF(order, pdfPath);
+  
+    const subject = "Your Order Invoice";
+    const text = `Dear ${customerName},\n\nThank you for your order! Please find your invoice attached.\n\nBest Regards,\nYour Company Name`;
+    const html = `<p>Dear ${customerName},</p><p>Thank you for your order! Please find your invoice attached.</p><p>Best Regards,<br>Your Company Name</p>`;
+  
+    await sendEmail(customerEmail, subject, text, html, pdfPath);
   }
 
   return order;
@@ -159,52 +163,52 @@ export const deleteOrderData = async (req) => {
 
   return order;
 };
-export const getTotalSalesForMonth = async (req) => {
-  try {
-    const {year} = req?.query;
-    const condition_obj = { isDelete: false };
-   if (year) {
-      condition_obj["createdAt"] = {
-        $gte: new Date(`${year}-01-01`),
-        $lt: new Date(`${parseInt(year) + 1}-01-01`),
-      };
-    }
-    const total = await OrderSchemaModel.aggregate([
-      { $match: condition_obj },
-      {
-        $group: {
-          _id: { $month: "$createdAt" },
-          total_sales_amount: { $sum: "$totalAmount" },
+  export const getTotalSalesForMonth = async (req) => {
+    try {
+      const {year} = req?.query;
+      const condition_obj = { isDelete: false };
+    if (year) {
+        condition_obj["createdAt"] = {
+          $gte: new Date(`${year}-01-01`),
+          $lt: new Date(`${parseInt(year) + 1}-01-01`),
+        };
+      }
+      const total = await OrderSchemaModel.aggregate([
+        { $match: condition_obj },
+        {
+          $group: {
+            _id: { $month: "$createdAt" },
+            total_sales_amount: { $sum: "$totalAmount" },
+          },
         },
-      },
-      {
-        $sort: { _id: 1 },
-      },
-    ]);
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const formattedData = months.map((month, index) => {
-      const monthData = total.find((data) => data._id === index + 1);
-      return monthData ? monthData.total_sales_amount : 0;
-    });
-    return formattedData;
-  } catch (error) {
-    console.error("Error fetching total sales for the month:", error);
-    throw new Error(data_not_found);
-  }
-};
+        {
+          $sort: { _id: 1 },
+        },
+      ]);
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const formattedData = months.map((month, index) => {
+        const monthData = total.find((data) => data._id === index + 1);
+        return monthData ? monthData.total_sales_amount : 0;
+      });
+      return formattedData;
+    } catch (error) {
+      console.error("Error fetching total sales for the month:", error);
+      throw new Error(data_not_found);
+    }
+  };
 
 export const getTotalQuantityForMonth = async (req) => {
   try {

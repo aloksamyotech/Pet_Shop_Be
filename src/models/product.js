@@ -11,6 +11,13 @@ const productSchema = new Schema(
       type: Number,
       required: true,
     },
+    originalPrice:
+      {
+        type: Number,
+        required: true,
+      },
+    
+   
     discount: {
       type: Number,
       default:0,
@@ -18,6 +25,11 @@ const productSchema = new Schema(
     },
     
     categoryId:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref :'Category',  
+      required:true
+    },
+    SubCategoryId:{
       type: mongoose.Schema.Types.ObjectId,
       ref :'Category',  
       required:true

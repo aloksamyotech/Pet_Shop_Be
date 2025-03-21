@@ -4,27 +4,33 @@ import CustomError from "../utils/exception.js";
 import {CategorySchemaModel} from "../models/category.js"
 
 export const productData = async (req) => {
-const { productName, price, discount ,categoryId,quantity} = req?.body;
-
-if (!productName || !price || !discount ||!categoryId  ||!quantity) {
-
+  const { productName, price, discount, categoryId,SubCategoryId } = req?.body;
+if (!productName || !price || discount === undefined || !categoryId || !SubCategoryId) {
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.invalidInput,
       errorCodes?.invalid_input
     );
   }
+
+  const finalPrice = Math.max(0, price - discount);
+
+  
   const productSchema = await ProductSchemaModel.create({
     productName,
-    price,
+    originalPrice: price, 
+    price: finalPrice, 
     discount,
     categoryId,
     isDelete: false,
-    quantity,
-    image: req.file ? req.file.path :null,
+    SubCategoryId,
+    image: req.file ? req.file.path : null,
   });
+
   return productSchema;
 };
+
+
 
 
 export const getTotalProducts = async () => {
@@ -43,6 +49,14 @@ export const getProductData = async () => {
         localField: "categoryId",
         foreignField: "_id",
         as: "category"
+      } 
+    },
+    {
+      $lookup: {
+        from: "subcategories",
+        localField: "SubCategoryId",
+        foreignField: "_id",
+        as: "SubCategory"
       } 
     },
     {
@@ -72,10 +86,10 @@ export const getProductData = async () => {
 
 
 export const updateProductData = async (req) => {
-  const { productName, type, price, discount, categoryId ,categoryName} = req?.body; 
+  const { productName, type, price, discount, categoryId ,categoryName,SubCategoryId} = req?.body; 
   const { id } = req.params;
  
-  if (!productName && !type && !price && !discount && !categoryId && !categoryName) {
+  if (!productName && !type && !price && !discount && !categoryId && !categoryName && !SubCategoryId) {
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.inValid,
@@ -98,6 +112,7 @@ const product = await ProductSchemaModel.findById(id);
   product.price = price || product.price;
   product.discount = discount || product.discount;
   product.categoryName = categoryName || product.categoryName;
+  product.SubCategoryId = SubCategoryId || product.SubCategoryId;
   
  
   if (categoryId) {

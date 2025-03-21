@@ -57,5 +57,39 @@ const updatePassword= async (req, res) =>{
     data: Password,
   });
    }
+   const updateCurrencyData= async (req, res) =>{
+    const Currency = await userService.updatedCurrency(req);
+    res.status(statusCodes?.ok).json({ 
+      success: true,
+      message: Message?.successfullyUpdate,
+      data: Currency,
+    });
+     }
 
-export default { userRegistration, userLogin ,updateUserController,updatePassword};
+
+   const getUser = async (req, res, next) => {
+   
+     const user = await userService.getUserData();
+     res.status(statusCodes?.ok).json({ 
+       success: true,
+       message: Message.FetchSuccessfully,
+       data: user,
+     });
+   
+   };
+   
+
+
+   const updateLogoData  = async (req,res) =>{
+    const logo = await userService.updateLogo(req);
+    
+    res.status(statusCodes?.ok).json({ 
+      success: true,
+      message: Message.successfullyUpdate,
+      data: logo,
+    });
+  }
+
+
+
+export default { userRegistration, userLogin ,updateUserController,updatePassword,updateLogoData,getUser,updateCurrencyData};

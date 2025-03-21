@@ -2,17 +2,21 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+
 const userSchema = new Schema(
   {
     firstname: { type: String, required: true, trim: true, default: "John" },
     company: { type: String, default: "Tech Solutions" },
     email: { type: String, required: true, unique: true, default: "priti.sahu@samyotech.com" },
     phoneNumber: { type: String, required: true, unique: true, default: "1234567890" },
+    country: { type: String, default: "indain" },
+    currencyCode: { type: String, default: "USD" },
+    currencySymbol: { type: String, default: "$" },
     password: {
       type: String,
       default: "$2b$10$XCiGWJlbCYF63nb1QGM1LuPTjUbCjFhZ7TA4KF3n5k2LWMIjaelmC",
     },
-   
+    logoImage: { type: String, default: null },
     refreshToken: { type: String },
   },
   { timestamps: true }

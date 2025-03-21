@@ -7,7 +7,10 @@ const purchaseSchema = new Schema(
           ref :'Product',  
           required:true
     },
-   
+    price: {
+      type: Number,
+      required: true,
+    },
    totalPrice: {
       type: Number,
       required: true,
@@ -15,7 +18,7 @@ const purchaseSchema = new Schema(
     },
     discount: {
       type: Number,
-     default:0,
+     default:0
     },
     quantity: {
         type: Number,
@@ -35,6 +38,9 @@ const purchaseSchema = new Schema(
         type : Boolean,
         default: false,
       } ,
+      PurchaseImage: {
+        type:String ,
+}
   },    
   { timestamps: true },
 );
