@@ -1,6 +1,7 @@
 import { CategorySchemaModel } from "../models/category.js";
 import { errorCodes, Message, statusCodes ,image_url} from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
+import { SubCategorySchemaModel } from "../models/SubCategory.js";
 
 
 export const categoryData = async (req) => {
@@ -32,6 +33,15 @@ export const getCategoryData = async () => {
   const condition_obj = { isDelete: false };
    const category = await CategorySchemaModel.aggregate([
     { $match: condition_obj},
+    {
+      $lookup: {
+        from: "subcategories",
+        localField: "SubcategoryId",
+        foreignField: "_id",
+        as: "subcategory"
+      } 
+    },
+        
       
       {
         $addFields: {

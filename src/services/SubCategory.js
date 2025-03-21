@@ -5,8 +5,8 @@ import {CategorySchemaModel} from "../models/category.js"
 
 
 export const categoryData = async (req) => {
-  const { name, description ,categoryId,categoryName} = req?.body;
-  if (!name || !description || !categoryId ||!categoryName) {
+  const { name, description ,categoryId} = req?.body;
+  if (!name || !description || !categoryId) {
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.invalidInput,
@@ -15,14 +15,14 @@ export const categoryData = async (req) => {
   }
 
  
-  const  exitCategory = await SubCategorySchemaModel.findOne({name});
-  if(exitCategory){
-    throw new CustomError(
-      statusCodes?.badRequest,
-      Message?.alreadyExist )
-  }
+  // const  exitCategory = await SubCategorySchemaModel.findOne({name});
+  // if(exitCategory){
+  //   throw new CustomError(
+  //     statusCodes?.badRequest,
+  //     Message?.alreadyExist )
+  // }
    const categorySchema = await SubCategorySchemaModel.create({
-    name, description,categoryId,categoryName,
+    name, description,categoryId,
 isDelete: false,
   });
   return categorySchema;
@@ -32,6 +32,14 @@ export const getCategoryData = async () => {
   const condition_obj = { isDelete: false };
    const category = await SubCategorySchemaModel.aggregate([
     { $match: condition_obj},
+    {
+      $lookup: {
+        from: "categories",
+        localField: "categoryId",
+        foreignField: "_id",
+        as: "category"
+      } 
+    },
       
       
       {

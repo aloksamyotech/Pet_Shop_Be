@@ -17,7 +17,11 @@ import mongoose, { Schema } from "mongoose";
         } , 
         categoryImage: {
         type:String ,
-}
+},
+   SubcategoryId:{
+         type: mongoose.Schema.Types.ObjectId,
+           ref :'SubCategory'
+        },
       },
       { timestamps: true }
     );
