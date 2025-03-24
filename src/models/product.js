@@ -31,7 +31,7 @@ const productSchema = new Schema(
     },
     SubCategoryId:{
       type: mongoose.Schema.Types.ObjectId,
-      ref :'Category',  
+      ref :'SubCategory',  
       required:true
     },
    categoryName: {
@@ -58,3 +58,7 @@ const productSchema = new Schema(
 );
 
 export const ProductSchemaModel = mongoose.model("Product", productSchema);
+
+
+
+
