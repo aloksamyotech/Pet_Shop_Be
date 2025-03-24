@@ -13,7 +13,8 @@ export const purchaseData = async (req) => {
       );
     }
         const product = await ProductSchemaModel.findById(productId);
-       product.quantity = product.quantity+ quantity; 
+       product.quantity = product.quantity + quantity; 
+       console.log("quantity000000000000000000000", product.quantity)
        await product.save();
 
     const purchaseSchema = await PurchaseSchemaModel.create({
@@ -77,51 +78,56 @@ export const getPurchaseData = async () => {
     
   };
 
- export const updatePurchaseData  = async (req) =>{
-      const {productName , type, totalPrice,discount,quantity,paymentStatus,price} = req?.body;
-       const { id } = req?.params;
-       if( !productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus && !price ){
-
-        throw new CustomError(
-            statusCodes?.badRequest,
-            Message?.notFound,
-            errorCodes?.server_error , )
-
-       }
+  export const updatePurchaseData = async (req) => {
+    const { productName, type, totalPrice, discount, quantity, paymentStatus, price, productId } = req?.body;
+    const { id } = req?.params;
+ 
+    if (!productName && !type && !totalPrice && !discount && !quantity && !paymentStatus && !price && !productId) {
+      throw new CustomError(
+        statusCodes?.badRequest,
+        Message?.invalidInput,
+        errorCodes?.badRequest
+      );
+    }
+  
     const purchase = await PurchaseSchemaModel.findById(id);
-       if(!purchase){
-        throw new CustomError(
-            statusCodes?.notFound,
-            Message?.notFound ,
-            errorCodes?.server_error,
-          )
+    if (!purchase) {
+      throw new CustomError(
+        statusCodes?.notFound,
+        Message?.notFound,
+        errorCodes?.server_error
+      );
+    }
+  
+   
+    const product = await ProductSchemaModel.findById(productId);
+    if (!product) {
+      throw new CustomError(
+        statusCodes?.notFound,
+        Message?.productNotFound,
+        errorCodes?.server_error
+      );
+    }
+  const quantityDifference = quantity - purchase.quantity;
+     product.quantity = product.quantity + quantityDifference;
+    await product.save();
 
-       }
-
-
+    purchase.productName = productName || purchase.productName;
+    purchase.type = type || purchase.type;
+    purchase.totalPrice = totalPrice || purchase.totalPrice;
+    purchase.discount = discount || purchase.discount;
+    purchase.quantity = quantity || purchase.quantity;
+    purchase.paymentStatus = paymentStatus || purchase.paymentStatus;
+    purchase.price = price || purchase.price;
+    purchase.PurchaseImage = req.file ? req.file.path : purchase.PurchaseImage;
+  
+    const updatedPurchase = await purchase.save();
     
-
-
-       purchase.productName = productName || purchase.productName;
-       purchase.type = type || purchase.type;
-       purchase.totalPrice = totalPrice || purchase.totalPrice;
-       purchase.discount = discount || purchase.discount;
-       purchase.quantity = quantity || purchase.quantity;
-       purchase.paymentStatus = paymentStatus || purchase.paymentStatus;
-       purchase.price = price || purchase.price;
-       purchase.PurchaseImage =  req.file ? req.file.path : purchase.PurchaseImage;
-
-      
-       const  updatePurchase = await purchase.save();
-       if(!updatePurchase){
-        throw new CustomError(
-            statusCodes?.notFound,
-            Message?.notFound ,
-            errorCodes?.server_error,
-          )
-
-       }
-return updatePurchase; }
+  
+    return updatedPurchase;
+  };
+  
+  
   
   export const deletePurchaseData =  async (req) =>{
     const { id } = req?.params;  
