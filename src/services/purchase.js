@@ -80,7 +80,7 @@ export const getPurchaseData = async () => {
  export const updatePurchaseData  = async (req) =>{
       const {productName , type, totalPrice,discount,quantity,paymentStatus,price} = req?.body;
        const { id } = req?.params;
-       if( !productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus && !price){
+       if( !productName && !type && !totalPrice && !discount  && !quantity && !paymentStatus && !price ){
 
         throw new CustomError(
             statusCodes?.badRequest,
@@ -97,6 +97,11 @@ export const getPurchaseData = async () => {
           )
 
        }
+
+
+    
+
+
        purchase.productName = productName || purchase.productName;
        purchase.type = type || purchase.type;
        purchase.totalPrice = totalPrice || purchase.totalPrice;
@@ -104,6 +109,8 @@ export const getPurchaseData = async () => {
        purchase.quantity = quantity || purchase.quantity;
        purchase.paymentStatus = paymentStatus || purchase.paymentStatus;
        purchase.price = price || purchase.price;
+       purchase.PurchaseImage =  req.file ? req.file.path : purchase.PurchaseImage;
+
       
        const  updatePurchase = await purchase.save();
        if(!updatePurchase){
