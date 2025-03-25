@@ -14,7 +14,7 @@ const connectDB = async () => {
       useUnifiedTopology: true,
     });
 
-    console.log("Database connected successfully");
+  
 
     
     await createDefaultUser();
@@ -29,7 +29,7 @@ const connectDB = async () => {
 
 const createDefaultUser = async () => {
   try {
-    const existingUser = await User.findOne({ email:"rahul.malviya@samyotech.com" });
+    const existingUser = await User.findOne({ email:"priti.sahu@samyotech.com" });
     if (!existingUser) {
       const defaultUser = new User({});
       await defaultUser.save();
