@@ -4,7 +4,7 @@ export const database_urls = Object.freeze({
   db_name: process.env.DB_NAME || "heyreach",
 });
 
-export const image_url = {url: "https://petstore.samyotech.in/"};
+export const image_url = {url: "http://165.22.218.55:7200/"};
 
 export const statusCodes = {
   ok: 200,

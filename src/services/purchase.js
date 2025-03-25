@@ -14,7 +14,6 @@ export const purchaseData = async (req) => {
     }
         const product = await ProductSchemaModel.findById(productId);
        product.quantity = product.quantity + quantity; 
-       console.log("quantity000000000000000000000", product.quantity)
        await product.save();
 
     const purchaseSchema = await PurchaseSchemaModel.create({
