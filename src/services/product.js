@@ -113,6 +113,7 @@ const product = await ProductSchemaModel.findById(id);
   product.discount = discount || product.discount;
   product.categoryName = categoryName || product.categoryName;
   product.SubCategoryId = SubCategoryId || product.SubCategoryId;
+  product.image =req.file ? req.file.path : product.image;
   
  
   if (categoryId) {
