@@ -39,8 +39,18 @@ export const getTotalProducts = async () => {
 };
 
 
-export const getProductData = async () => {
+export const getProductData = async (sortPrice) => {
   const condition_obj = { isDelete: false };
+
+  let sortByPrice = { createdAt: -1 }; 
+
+  if (sortPrice === "High to Low") {
+    sortByPrice = { price: -1 }; 
+  } else if (sortPrice === "Low to High") {
+    sortByPrice = { price: 1 };
+  }
+
+
  const products = await ProductSchemaModel.aggregate([
   { $match: condition_obj},
     {
@@ -67,9 +77,7 @@ export const getProductData = async () => {
       },
     },
     {
-      $sort:{
-        createdAt : -1,
-      }
+      $sort :sortByPrice
      }
       
       ])

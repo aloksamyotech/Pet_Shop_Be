@@ -32,7 +32,10 @@ res.status(statusCodes?.created).json({
   }
 
 const getProducts = async (req, res, next) => {
-  const products = await getProductData();
+ 
+  const sortPrice = req.query.sort || "";
+ 
+  const products = await getProductData(sortPrice);
     res.status(statusCodes?.ok).json({ 
       success: true,
       message: Message.FetchSuccessfully,
