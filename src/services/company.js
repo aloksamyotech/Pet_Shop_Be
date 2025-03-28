@@ -46,7 +46,6 @@ export const companyData = async (req) => {
 
 
 export const countCompany = async (req) => {
-  
   const condition_obj = { isDelete: false };
   const companyCount = await CompanySchemaModel.countDocuments(condition_obj);
   return companyCount;
@@ -57,7 +56,6 @@ export const countCompany = async (req) => {
 export const getCompanyData = async () => {
   const condition_obj = { isDelete: false };
    const company = await CompanySchemaModel.find(condition_obj).sort({ createdAt: -1 });
-  
       if (!company) {
         throw new CustomError(
           statusCodes?.notFound,
@@ -86,19 +84,12 @@ export const getCompanyData = async () => {
 
        }
     const company = await CompanySchemaModel.findById(id);
-
-
-
        if(!company){
         throw new CustomError(
             statusCodes?.notFound,
             Message?.notFound,
-            errorCodes?.server_error 
-        )
-
-       }
-
-
+            errorCodes?.server_error  )
+}
        company.companyName = companyName || company.companyName;
        company.address = address || company.address;
        company.email = email || company.email;

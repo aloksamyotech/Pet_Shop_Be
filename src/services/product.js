@@ -113,8 +113,6 @@ const product = await ProductSchemaModel.findById(id);
       errorCodes?.server_error
     );
   }
-
-
   product.productName = productName || product.productName;
   product.type = type || product.type;
   product.price = price || product.price;
@@ -172,15 +170,27 @@ export const deleteProductData = async (req) => {
 return product;
 } 
 
-export const productBulk = async (req) =>{
-  const products = req?.body;
-    if(! Array.isArray(products)){
-    throw new CustomError(
-      statusCodes?.notFound, 
-      Message?.notFound,
-      errorCodes?.notFound
-      ) }
+export const productBulk = async (req) => {
+  try {
+    const products = req.body;
 
-const result =  await ProductSchemaModel.insertMany(products);
-return result;
-}
+    if (!Array.isArray(products) || products.length === 0) {
+      throw new CustomError(statusCodes.badRequest, "Invalid or empty product array", errorCodes.invalid_input);
+    }
+
+    
+    const validatedProducts = products.map((product) => {
+      if (!product.productName || !product.price || product.discount === undefined || !product.categoryId || !product.SubCategoryId) {
+        throw new CustomError(statusCodes.badRequest, "Invalid product input", errorCodes.invalid_input);
+      }
+
+      const finalPrice = Math.max(0, product.price - product.discount);
+      return { ...product, price: finalPrice, isDelete: false , originalPrice: product.price, };
+    });
+
+    const result = await ProductSchemaModel.insertMany(validatedProducts);
+    return result;
+  } catch (error) {
+    throw new CustomError(statusCodes.internalServerError, error.message, errorCodes.server_error);
+  }
+};
