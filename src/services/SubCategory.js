@@ -40,15 +40,11 @@ export const getCategoryData = async () => {
         as: "category"
       } 
     },
-      
-      
-      {
+        {
         $sort:{
           createdAt : -1,
         }
-       }
-        
-        ])
+       }  ])
   ;
   if (!category) {
     throw new CustomError(

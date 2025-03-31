@@ -28,8 +28,7 @@ export const purchaseData = async (req) => {
 
 
 export const getPurchaseData = async () => {
-    
-  const condition_obj = { isDelete: false };
+   const condition_obj = { isDelete: false };
       const purchase = await PurchaseSchemaModel.aggregate([
         { $match: condition_obj},
         {
@@ -49,7 +48,7 @@ export const getPurchaseData = async () => {
           } ,
          },
           {
-                 $addFields: {
+           $addFields: {
                    imageUrl: {
                      $ifNull: [{ $concat: [image_url.url, "$PurchaseImage"] }, ""],
                    },
@@ -119,10 +118,7 @@ export const getPurchaseData = async () => {
     purchase.paymentStatus = paymentStatus || purchase.paymentStatus;
     purchase.price = price || purchase.price;
     purchase.PurchaseImage = req.file ? req.file.path : purchase.PurchaseImage;
-  
-    const updatedPurchase = await purchase.save();
-    
-  
+  const updatedPurchase = await purchase.save();
     return updatedPurchase;
   };
   

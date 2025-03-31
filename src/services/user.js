@@ -6,8 +6,6 @@ import CustomError from "../utils/exception.js";
 import sendEmail from "../core/common/mailer.js";
 import  {SettingsSchemaModel} from '../models/email.js'
 
-
-
 export const registerUser = async (req) => {
   const { firstname, company, email, password, phoneNumber,country ,logoImage,currencyCode,currencySymbol} = req.body;
   const isUserAlreadyExist = await User.findOne({ email });
@@ -110,10 +108,6 @@ export const updateLogo = async (req) => {
 
   return updatedLogo;
 };
-
-
-
-
 
 const generateAccessAndRefreshTokens = async (userId) => {
   const user = await User.findById(userId);

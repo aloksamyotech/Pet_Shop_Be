@@ -39,8 +39,18 @@ export const getTotalProducts = async () => {
 };
 
 
-export const getProductData = async () => {
+export const getProductData = async (sortPrice) => {
   const condition_obj = { isDelete: false };
+
+  let sortByPrice = { createdAt: -1 }; 
+
+  if (sortPrice === "High to Low") {
+    sortByPrice = { price: -1 }; 
+  } else if (sortPrice === "Low to High") {
+    sortByPrice = { price: 1 };
+  }
+
+
  const products = await ProductSchemaModel.aggregate([
   { $match: condition_obj},
     {
@@ -67,9 +77,7 @@ export const getProductData = async () => {
       },
     },
     {
-      $sort:{
-        createdAt : -1,
-      }
+      $sort :sortByPrice
      }
       
       ])
@@ -105,8 +113,6 @@ const product = await ProductSchemaModel.findById(id);
       errorCodes?.server_error
     );
   }
-
-
   product.productName = productName || product.productName;
   product.type = type || product.type;
   product.price = price || product.price;
@@ -164,15 +170,24 @@ export const deleteProductData = async (req) => {
 return product;
 } 
 
-export const productBulk = async (req) =>{
-  const products = req?.body;
-    if(! Array.isArray(products)){
-    throw new CustomError(
-      statusCodes?.notFound, 
-      Message?.notFound,
-      errorCodes?.notFound
-      ) }
+export const productBulk = async (req) => {
+    const products = req.body;
+  if (!Array.isArray(products) ) {
+      throw new CustomError(statusCodes.badRequest,
+         errorCodes.invalid_input);
+    }
 
-const result =  await ProductSchemaModel.insertMany(products);
-return result;
-}
+    const validatedProducts = products.map((product) => {
+      if (!product.productName || !product.price || product.discount === undefined || !product.categoryId || !product.SubCategoryId) {
+        throw new CustomError(statusCodes.badRequest, 
+          errorCodes.invalid_input);
+      }
+
+      const finalPrice = Math.max(0, product.price - product.discount);
+      return { ...product, price: finalPrice, isDelete: false , originalPrice: product.price, };
+    });
+
+    const result = await ProductSchemaModel.insertMany(validatedProducts);
+    return result;
+ 
+};
