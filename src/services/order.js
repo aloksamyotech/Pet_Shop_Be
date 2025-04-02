@@ -76,7 +76,7 @@ export const getTotalOrders = async () => {
   
     const subject = "Your Order Invoice";
     const text = `Dear ${customerName},\n\nThank you for your order! Please find your invoice attached.\n\nBest Regards,\nYour Company Name`;
-    const html = `<p>Dear ${customerName},</p><p>Thank you for your order! Please find your invoice attached.</p><p>Best Regards,<br>Your Company Name</p>`;
+    const html = `<p>Dear ${customerName},</p><p>Thank you for your order! Please find your invoice attached.</p><p>Best Regards,<br>Pet Shop System</p>`;
   
     await sendEmail(customerEmail, subject, text, html, pdfPath);
   }

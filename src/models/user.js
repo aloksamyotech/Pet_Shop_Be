@@ -7,7 +7,7 @@ const userSchema = new Schema(
   {
     firstname: { type: String, required: true, trim: true, default: "John" },
     company: { type: String, default: "Tech Solutions" },
-    email: { type: String, required: true, unique: true, default: "admin@gmail.com" },
+    email: { type: String, required: true, unique: true, default:"admin@gmail.com" },
     phoneNumber: { type: String, required: true, unique: true, default: "1234567890" },
     country: { type: String, default: "indain" },
     currencyCode: { type: String, default: "USD" },

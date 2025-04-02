@@ -19,7 +19,7 @@ export const registrationEmailTemplate = (firstName) => {
                     <p>We're excited to have you at <b>Pet Shop</b>! Thank you for registering with us.</p>
                     <p>We are committed to providing the best products and services for your beloved pets.</p>
                     <p>Explore our latest collections and offers by visiting our store.</p>
-                    <p><a href="https://your-petshop.com" class="btn">Visit Pet Shop</a></p>
+          
                 </div>
                 <div class="footer">
                     <p>Best Regards,</p>
