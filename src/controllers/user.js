@@ -8,6 +8,7 @@ const userRegistration = async (req, res) => {
 
 const userLogin = async (req, res) => {
   const data = await userService.loginUser(req);
+  
 res
     .cookie("accessToken", data.accessToken, {
       httpOnly: true, 

@@ -14,13 +14,6 @@ export const categoryData = async (req) => {
     );
   }
 
- 
-  // const  exitCategory = await SubCategorySchemaModel.findOne({name});
-  // if(exitCategory){
-  //   throw new CustomError(
-  //     statusCodes?.badRequest,
-  //     Message?.alreadyExist )
-  // }
    const categorySchema = await SubCategorySchemaModel.create({
     name, description,categoryId,
 isDelete: false,

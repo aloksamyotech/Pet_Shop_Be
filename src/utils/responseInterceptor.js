@@ -2,7 +2,7 @@ const responseInterceptor = (req, res, next) => {
   const oldSend = res.json;
 
   res.json = (data) => {
-    console.log("data================>>>>>>", data);
+    
 
     if (data && data.status && data.status === "error") {
       const formattedResponse = {
@@ -12,7 +12,7 @@ const responseInterceptor = (req, res, next) => {
         error: data.errorCode || data.message || "Unknown Error",
         timestamp: new Date().toISOString(),
       };
-      console.log("formattedResponse", formattedResponse);
+      
       oldSend.call(res, formattedResponse);
     } else {
       const formattedResponse = {

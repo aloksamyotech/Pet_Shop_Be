@@ -9,14 +9,7 @@ const connectDB = async () => {
   try {
     const dbUri = database_urls.connection + database_urls.db_name;
 
-    await mongoose.connect(dbUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
-  
-
-    
+    await mongoose.connect(dbUri);
     await createDefaultUser();
     await createDefaultLogo();
   } catch (error) {
@@ -25,23 +18,20 @@ const connectDB = async () => {
   }
 };
 
-
-
-const createDefaultUser = async () => {
-  try {
-    const existingUser = await User.findOne({ email:"priti.sahu@samyotech.com" });
-    if (!existingUser) {
-      const defaultUser = new User({});
-      await defaultUser.save();
-     console.log("Default user created:", defaultUser);
-    } else {
-      console.log("Default user already exists.");
-    }
-  } catch (error) {
-    console.error("Error creating default user:", error.message);
-  }
+const defaultUser = {
+  email:"admin@gmail.com",
+  password:"admin123",
+  phoneNumber: 1234567890,
 };
 
+const createDefaultUser = async () => {
+  const existingUser = await User.findOne({ email: "admin@gmail.com" });
+  if (!existingUser) {
+      const admin = new User(defaultUser);
+      await admin.save();
+      
+  } 
+};
 
 
 const createDefaultLogo = async () => {
@@ -51,14 +41,10 @@ const createDefaultLogo = async () => {
     if (!existingLogo) {
       const defaultLogo = new LogoSchemaModel(); 
       await defaultLogo.save();
-      console.log("Default logo created:", defaultLogo);
-    } else {
-      console.log("Default logo already exists.");
-    }
+    } 
   } catch (error) {
     console.error("Error creating default logo:", error.message);
   }
 };
-
 
 export default connectDB;

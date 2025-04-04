@@ -11,8 +11,7 @@ import LogoController from './Logo.js'
 import EmailController from './email.js'
 import EmployeeController from './employee.js'
 import SubCategoryController from "./SubCategory.js";
-import ChatBotController from  "./chatBot.js"
-import chatMessageController from './chatMessage.js'
+
 
 
 export { userController ,
@@ -28,6 +27,5 @@ export { userController ,
     EmailController,
     EmployeeController,
     SubCategoryController,
-    ChatBotController,
-    chatMessageController
+   
 };

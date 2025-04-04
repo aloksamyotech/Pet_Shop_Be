@@ -8,7 +8,7 @@ const getOrderCount = async (req, res) => {
   const totalOrders = await getTotalOrders();
   res.status(statusCodes?.ok).json({
     success: true,
-    message: 'Successfully fetched total orders',
+    message: Message.FetchSuccessfully,
     totalOrders
   });
 
@@ -49,7 +49,7 @@ res.status(statusCodes?.ok).json({
    const orders = await deleteOrderData(req);
   res.status(statusCodes?.ok).json({ 
     success: true,
-    message: "orders delete  successfully.",
+    message:Message.DeleteSuccessfully,
     data: orders,
   });
    }
@@ -57,33 +57,22 @@ res.status(statusCodes?.ok).json({
 
 
    export const getMonthlySalesReport = async (req, res) => {
-    try {
-      const salesData = await getTotalSalesForMonth(req);
+     const salesData = await getTotalSalesForMonth(req);
       res.status(statusCodes.ok).json({
         success: true,
         data: salesData
       });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "errro "
-      });
-    }
+    
   };
   
 export const getTotalQuantity = async (req, res) => {
-    try {
+    
       const salesData = await getTotalQuantityForMonth(req);
       res.status(statusCodes.ok).json({
         success: true,
         data: salesData
       });
-    } catch (error) {
-      res.status(statusCodes.internalServerError).json({
-        success: false,
-        message: "error"
-      });
-    }
+   
   };  
 
 export default {

@@ -122,10 +122,14 @@ const generateAccessAndRefreshTokens = async (userId) => {
 export const loginUser = async (req) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+  console.log(`user`,user);
+  
 
 
   if (!user) throw new CustomError(404, "User not found", "not_found");
   const passwordVerify = await user.isPasswordCorrect(password);
+  console.log(`passwordVerify`,passwordVerify);
+  
   if (!passwordVerify) throw new CustomError(400, "Invalid credentials", "invalid_credentials");
   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
 

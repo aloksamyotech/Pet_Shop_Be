@@ -6,7 +6,7 @@ export const authenticateJWT = (req, res, next) => {
   let token = req.headers["Authorization"]?.split(" ")[1]?.replace(/^"|"$/g, "").trim();
   if (!token) {
     return res
-      .status(statusCodes.forbidden)
+      .status(statusCodes.forbidden) 
       .json({ success: false, message: messages.required });
   }
   jwt.verify(token, secret, (err, decoded) => {

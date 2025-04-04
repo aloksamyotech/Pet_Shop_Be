@@ -1,9 +1,9 @@
 export const companyNotificationTemplate = (companyName, companyEmail, phoneNumber, address) => {
     return `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
-            <h2 style="color: #4CAF50; text-align: center;">New Company Registration</h2>
-            <p>Dear <strong>Pet Shop Team</strong>,</p>
-            <p>We are excited to inform you that a new company has successfully registered in the Pet Shop system.</p>
+            <h2 style="color: #4CAF50; text-align: center;">Company Registration</h2>
+            <p>Dear <strong>${companyName}</strong>,</p>
+            <p>Congratulations! You have successfully registered in the Pet Shop System..</p>
 
             <h3 style="color: #333;">Company Details:</h3>
             <ul>
@@ -15,9 +15,9 @@ export const companyNotificationTemplate = (companyName, companyEmail, phoneNumb
 
             <hr style="border: none; border-top: 1px solid #ddd;">
             <p style="text-align: center;">
-                <a href="https://your-petshop-website.com/admin" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View Dashboard</a>
+                <a href="https://your-petshop-website.com/admin" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View POS</a>
             </p>
-            <p>Thank you for being a part of our growing community! 🐶🐱</p>
+            <p>Thank you for joining us!! 🐶🐱</p>
             <p>Best regards,</p>
             <p><strong>Pet Shop System</strong></p>
         </div>

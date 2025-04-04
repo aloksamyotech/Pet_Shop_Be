@@ -2,6 +2,8 @@ import { ProductSchemaModel } from "../models/product.js";
 import { errorCodes, Message, statusCodes, image_url } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 import {CategorySchemaModel} from "../models/category.js"
+import { SubCategorySchemaModel } from "../models/SubCategory.js";
+import mongoose from "mongoose";
 
 export const productData = async (req) => {
   const { productName, price, discount, categoryId,SubCategoryId } = req?.body;
@@ -170,24 +172,56 @@ export const deleteProductData = async (req) => {
 return product;
 } 
 
-export const productBulk = async (req) => {
-    const products = req.body;
-  if (!Array.isArray(products) ) {
-      throw new CustomError(statusCodes.badRequest,
-         errorCodes.invalid_input);
-    }
 
-    const validatedProducts = products.map((product) => {
-      if (!product.productName || !product.price || product.discount === undefined || !product.categoryId || !product.SubCategoryId) {
-        throw new CustomError(statusCodes.badRequest, 
-          errorCodes.invalid_input);
+
+export const productBulk = async (req) => {
+  const products = req.body;
+ 
+    if (!Array.isArray(products)) {
+    throw new CustomError(statusCodes.badRequest, errorCodes.invalid_input);
+  }
+
+  const validatedProducts = await Promise.all(
+    products.map(async (product) => {
+      const { productName, price, discount, categoryId, SubCategoryId } = product;
+
+      if (!productName || !price || discount === undefined || !categoryId || !SubCategoryId) {
+        throw new CustomError(statusCodes.badRequest, errorCodes.invalid_input);
       }
 
-      const finalPrice = Math.max(0, product.price - product.discount);
-      return { ...product, price: finalPrice, isDelete: false , originalPrice: product.price, };
-    });
+      let category = await CategorySchemaModel.findOne({ name: categoryId });
+      if (!category) {
+        category = await CategorySchemaModel.create({ name: categoryId });
+      }
 
-    const result = await ProductSchemaModel.insertMany(validatedProducts);
-    return result;
- 
+    
+      let subCategory = await SubCategorySchemaModel.findOne({
+        name: SubCategoryId,
+        categoryId: category._id,
+      });
+
+      if (!subCategory) {
+        subCategory = await SubCategorySchemaModel.create({
+          name: SubCategoryId,
+          categoryId: category._id,
+        });
+      }
+
+    
+
+      const finalPrice = Math.max(0, price - discount);
+      return {
+        ...product,
+        categoryId: category._id,
+        SubCategoryId: subCategory._id,
+        price: finalPrice,
+        isDelete: false,
+        originalPrice: price,
+      };
+    })
+  );
+
+  const result = await ProductSchemaModel.insertMany(validatedProducts);
+  return result;
 };
+

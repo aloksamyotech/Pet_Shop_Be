@@ -49,6 +49,7 @@ export const Message = {
   serverError: "Intrnal Server Error",
   invalidInput :"Invalid input", 
   incorrect_payload : "Incorrect Payload",
+  total_product:"Total products fetched successfully"
   
 };
 

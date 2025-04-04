@@ -3,18 +3,6 @@ import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 
 
-
-//  const getCustomerCount = async (req, res) => {
-//     const customerCount = await getEmployData(req);
-//     res.status(statusCodes.ok).json({
-//       success: true,
-//      count: customerCount,
-//     });
- 
-// };
-
-
-
 const employee = async (req, res, next) => {
     const data = await employeeData (req); 
     res.status(statusCodes?.created).json({ 
@@ -53,7 +41,7 @@ res.status(statusCodes?.ok).json({
   const customers = await deleteEmployData(req);
   res.status(statusCodes?.ok).json({ 
     success: true,
-    message: "Customer  data delete  successfully.",
+    message: Message.DeleteSuccessfully,
     data: customers,
   });
   }

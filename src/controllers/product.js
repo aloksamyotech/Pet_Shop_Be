@@ -6,7 +6,7 @@ const totalProducts = async (req, res) => {
     const total = await getTotalProducts();
     res.status(200).json({
       success: true,
-      message: "Total products fetched successfully",
+      message: Message. total_product,
       totalProducts: total
     });
  };

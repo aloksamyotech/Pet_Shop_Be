@@ -1,6 +1,6 @@
 import { ProfileData, getProfileData} from "../services/Profile.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
-import CustomError from "../utils/exception.js";
+
 
 const profile = async (req, res) => {
  const data = await ProfileData(req);

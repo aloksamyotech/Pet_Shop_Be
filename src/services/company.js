@@ -17,7 +17,7 @@ export const companyData = async (req) => {
       );
     }
 
-    const existingCompany = await CompanySchemaModel.findOne({ email });
+    const existingCompany = await CompanySchemaModel.findOne({ email,isDelete: false });
       if (existingCompany) {
         throw new CustomError(
           statusCodes?.badRequest,

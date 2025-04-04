@@ -9,7 +9,7 @@ import mongoose, { Schema } from "mongoose";
         },
         description: {
           type: String,
-          required: true,
+         
         },
          isDelete  :{
           type : Boolean,

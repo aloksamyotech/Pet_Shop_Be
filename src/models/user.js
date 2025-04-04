@@ -7,14 +7,13 @@ const userSchema = new Schema(
   {
     firstname: { type: String, required: true, trim: true, default: "John" },
     company: { type: String, default: "Tech Solutions" },
-    email: { type: String, required: true, unique: true, default: "priti.sahu@samyotech.com" },
-    phoneNumber: { type: String, required: true, unique: true, default: "1234567890" },
-    country: { type: String, default: "indain" },
+    email: { type: String, required: true, unique: true},
+    phoneNumber: { type: String, required: true, unique: true },
+    country: { type: String, default: "Indian" },
     currencyCode: { type: String, default: "USD" },
     currencySymbol: { type: String, default: "$" },
     password: {
-      type: String,
-      default: "$2b$10$XCiGWJlbCYF63nb1QGM1LuPTjUbCjFhZ7TA4KF3n5k2LWMIjaelmC",
+      type: String
     },
     logoImage: { type: String, default: null },
     refreshToken: { type: String },
@@ -26,12 +25,12 @@ const userSchema = new Schema(
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
-  next();
+next();
 });
 
 
 userSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.password);
+ return await bcrypt.compare(password, this.password);
 };
 
 

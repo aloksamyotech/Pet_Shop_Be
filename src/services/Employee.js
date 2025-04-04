@@ -20,15 +20,6 @@ const employSchema = await EmploySchemaModel.create({
 return employSchema; 
     
   };
-
-
-
-//   export const countCustomer = async (req) => {
-//       const condition_obj = { isDelete: false };
-//        const customerCount = await EmploySchemaModel.countDocuments(condition_obj);
-//       return customerCount
-//     };
-  
   export const getEmployData = async () => {
     const condition_obj = { isDelete: false };
         const customers = await EmploySchemaModel.find(condition_obj).sort({ createdAt: -1 });
@@ -66,8 +57,7 @@ return employSchema;
   
          }
   
-  
-           customer.name = name || customer.name;
+      customer.name = name || customer.name;
           customer.email = email || customer.email;
         customer.address = address || customer.address;
         customer.phoneNumber = phoneNumber || customer.phoneNumber;

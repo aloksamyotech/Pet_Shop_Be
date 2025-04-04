@@ -53,7 +53,7 @@ res.status(statusCodes?.ok).json({
   const customers = await deleteCustomerData(req);
   res.status(statusCodes?.ok).json({ 
     success: true,
-    message: "Customer  data delete  successfully.",
+    message: Message.DeleteSuccessfully,
     data: customers,
   });
   }
