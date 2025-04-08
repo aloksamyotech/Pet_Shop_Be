@@ -16,12 +16,12 @@
       },
       address: {
         type: String,
-       
+        default: null,
         trim: true,
       },
       phoneNumber: {
         type: Number,
-       
+        default: null
       },
            
       status: {

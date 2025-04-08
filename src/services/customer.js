@@ -20,7 +20,8 @@ export const customerData = async (req) => {
       }
 
  const customerSchema = await CustomerSchemaModel.create({
-        firstName, email, address, phoneNumber, status,
+        firstName, 
+        email, address, phoneNumber, status,
         isDelete: false,
       });
 
@@ -55,9 +56,11 @@ export const getCustomerData = async () => {
 
 
 export const updateCustomerData  = async (req) =>{
-         const {firstName,email,address,phoneNumber,customerType,status} = req?.body;
+         const {firstName,email,address,phoneNumber,status} = req?.body;
+         console.log("req?.body----------------------------",req?.body);
+         
          const {id} = req?.params
-       if(firstName && !email && !address && !phoneNumber  && !customerType && !status)
+       if(firstName && !email && !address && !phoneNumber  && !status)
         {
             throw new CustomError(
             statusCodes?.badRequest,
@@ -77,12 +80,12 @@ export const updateCustomerData  = async (req) =>{
        }
 
 
-         customer.firstName = firstName || customer.firstName;
-        customer.email = email || customer.email;
-      customer.address = address || customer.address;
-      customer.phoneNumber = phoneNumber || customer.phoneNumber;
-   customer.customerType = customerType || customer.customerType;
-      customer.status = status || customer.status;
+       customer.firstName = firstName || customer.firstName;
+customer.email = email || customer.email;
+customer.address = (address && address !== 'N/A') ? address : null;
+customer.phoneNumber = (phoneNumber && phoneNumber !== 'N/A') ? phoneNumber : null;
+customer.status = (status && status !== 'N/A') ? status : null;
+
  const  updateCustomer = await customer.save();
        return updateCustomer;
   }
