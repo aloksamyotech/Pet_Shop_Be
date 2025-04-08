@@ -55,6 +55,7 @@ export const Message = {
 
 export const errorCodes = Object.freeze({
   already_exist: "ALREADY_EXIST Email_Id",
+  already_existID:"ALREADY_EXIST_ID",
   invalid_input: "INVALID_INPUT",
   not_found: "NOT_FOUND",
   unauthorized: "UNAUTHORIZED",
