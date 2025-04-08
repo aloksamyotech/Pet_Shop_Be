@@ -97,6 +97,11 @@ export const getOrderData = async () => {
         as: "customer"
       } 
     },
+    {
+      $sort:{
+        createdAt : -1,
+      }
+     }
     
   ]);
 

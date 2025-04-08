@@ -21,16 +21,17 @@ const connectDB = async () => {
 const defaultUser = {
   email:"admin@gmail.com",
   password:"admin123",
-  phoneNumber: 1234567890,
+  phoneNumber : 9847365789
 };
 
 const createDefaultUser = async () => {
   const existingUser = await User.findOne({ email: "admin@gmail.com" });
+  
   if (!existingUser) {
       const admin = new User(defaultUser);
       await admin.save();
-      
-  } 
+  }  
+  
 };
 
 

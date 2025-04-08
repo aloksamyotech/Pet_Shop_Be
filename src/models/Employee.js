@@ -18,6 +18,7 @@ phoneNumber :{
 EId :{
     type:Number,
     required:true,
+    unique: true
 }
 ,
 salary :{

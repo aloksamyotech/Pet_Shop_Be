@@ -4,22 +4,39 @@ import CustomError from "../utils/exception.js";
 
 
 export const employeeData = async (req) => {
-   const { name, email, address, phoneNumber ,salary,EId} = req?.body;
-     const existingEmployee = await EmploySchemaModel.findOne({ email });
-      if (existingEmployee) {
-        throw new CustomError(
-          statusCodes?.badRequest,
-          errorCodes?.already_exist,
-          Message?.alreadyExist,
-        );
-      }
-const employSchema = await EmploySchemaModel.create({
-        name, email, address, phoneNumber,salary,EId,
-        isDelete: false,
-      });
-return employSchema; 
-    
-  };
+  const { name, email, address, phoneNumber, salary, EId } = req?.body;
+
+  const existingByEmail = await EmploySchemaModel.findOne({ email });
+  if (existingByEmail) {
+    throw new CustomError(
+      statusCodes?.badRequest,
+      errorCodes?.already_exist,
+      Message?.alreadyExist
+    );
+  }
+
+  const existingByEId = await EmploySchemaModel.findOne({ EId });
+  if (existingByEId) {
+    throw new CustomError(
+      statusCodes?.badRequest,
+      errorCodes?.already_existID,
+      Message?.alreadyExist
+    );
+  }
+
+  const employSchema = await EmploySchemaModel.create({
+    name,
+    email,
+    address,
+    phoneNumber,
+    salary,
+    EId,
+    isDelete: false
+  });
+
+  return employSchema;
+};
+
   export const getEmployData = async () => {
     const condition_obj = { isDelete: false };
         const customers = await EmploySchemaModel.find(condition_obj).sort({ createdAt: -1 });
