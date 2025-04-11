@@ -96,49 +96,20 @@ export const getProductData = async (sortPrice) => {
 
 
 export const updateProductData = async (req) => {
-  const { productName, type, price, discount, categoryId ,categoryName,SubCategoryId} = req?.body; 
+  const { productName, type, price, discount, categoryId, categoryName, SubCategoryId } = req?.body;
   const { id } = req.params;
+
  
-  if (!productName && !type && !price && !discount && !categoryId && !categoryName && !SubCategoryId) {
+  if (!productName && !type && price === undefined && discount === undefined && !categoryId && !categoryName && !SubCategoryId && !req.file) {
     throw new CustomError(
       statusCodes?.badRequest,
       Message?.inValid,
-      errorCodes?.server_error
+      errorCodes?.invalid_input
     );
   }
-const product = await ProductSchemaModel.findById(id);
 
+  const product = await ProductSchemaModel.findById(id);
   if (!product) {
-    throw new CustomError(
-      statusCodes?.notFound,
-      Message?.notFound,
-      errorCodes?.server_error
-    );
-  }
-  product.productName = productName || product.productName;
-  product.type = type || product.type;
-  product.price = price || product.price;
-  product.discount = discount || product.discount;
-  product.categoryName = categoryName || product.categoryName;
-  product.SubCategoryId = SubCategoryId || product.SubCategoryId;
-  product.image =req.file ? req.file.path : product.image;
-  
- 
-  if (categoryId) {
-     const categoryExists = await CategorySchemaModel.findById(categoryId);
-    if (!categoryExists) {
-      throw new CustomError(
-        statusCodes?.notFound,
-       errorCodes?.not_Found
-      );
-    }
-    product.categoryId = categoryId;
-
-  }
-
-  const updatedProduct = await product.save();
-
-  if (!updatedProduct) {
     throw new CustomError(
       statusCodes?.notFound,
       Message?.notFound,
@@ -146,8 +117,39 @@ const product = await ProductSchemaModel.findById(id);
     );
   }
 
+
+  if (productName) product.productName = productName;
+  if (type) product.type = type;
+  if (price !== undefined) product.originalPrice = price;
+  if (discount !== undefined) product.discount = discount;
+  if (categoryName) product.categoryName = categoryName;
+  if (SubCategoryId) product.SubCategoryId = SubCategoryId;
+  if (req.file) product.image = req.file.path;
+
+ 
+  if (price !== undefined || discount !== undefined) {
+    const newPrice = price !== undefined ? price : product.originalPrice;
+    const newDiscount = discount !== undefined ? discount : product.discount;
+    product.price = Math.max(0, newPrice - newDiscount);
+  }
+
+
+  if (categoryId) {
+    const categoryExists = await CategorySchemaModel.findById(categoryId);
+    if (!categoryExists) {
+      throw new CustomError(
+        statusCodes?.notFound,
+        Message?.notFound,
+        errorCodes?.not_Found
+      );
+    }
+    product.categoryId = categoryId;
+  }
+
+  const updatedProduct = await product.save();
   return updatedProduct;
 };
+
 
 
 export const deleteProductData = async (req) => {

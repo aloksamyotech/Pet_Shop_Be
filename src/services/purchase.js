@@ -4,26 +4,43 @@ import CustomError from "../utils/exception.js";
 import { ProductSchemaModel } from "../models/product.js";
 
 export const purchaseData = async (req) => {
- const { productId , totalPrice,discount,quantity,paymentStatus,companyId,price } = req?.body;
-    if (!productId || !totalPrice || !discount || !quantity || !paymentStatus || !companyId || !price) {
-      throw new CustomError(
-        statusCodes?.badRequest,
-        Message?.invalidInput,
-        errorCodes?.invalid_input
-      );
-    }
-        const product = await ProductSchemaModel.findById(productId);
-       product.quantity = product.quantity + quantity; 
-       await product.save();
+  const { productId, totalPrice, discount, quantity, paymentStatus, companyId, price } = req?.body;
 
-    const purchaseSchema = await PurchaseSchemaModel.create({
-      productId , totalPrice,discount,quantity,paymentStatus,companyId,price,
-      isDelete: false,   
-      PurchaseImage: req.file ? req.file.path :null,
-    }); 
-     return purchaseSchema; 
- 
+  if (!productId || !totalPrice || !discount || !quantity || !paymentStatus || !companyId || !price) {
+    throw new CustomError(
+      statusCodes?.badRequest,
+      Message?.invalidInput,
+      errorCodes?.invalid_input
+    );
+  }
+
+  const product = await ProductSchemaModel.findById(productId);
+
+  if (!product) {
+    throw new CustomError(
+      statusCodes?.notFound,
+      errorCodes?.not_found
+    );
+  }
+  const addedQuantity = Number(quantity);
+  product.quantity = (product.quantity || 0) + addedQuantity;
+  await product.save();
+
+  const purchaseSchema = await PurchaseSchemaModel.create({
+    productId,
+    totalPrice,
+    discount,
+    quantity: addedQuantity,
+    paymentStatus,
+    companyId,
+    price,
+    isDelete: false,
+    PurchaseImage: req.file ? req.file.path : null,
+  });
+
+  return purchaseSchema;
 };
+
 
 
 
