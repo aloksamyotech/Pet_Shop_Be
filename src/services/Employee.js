@@ -4,7 +4,7 @@ import CustomError from "../utils/exception.js";
 
 
 export const employeeData = async (req) => {
-  const { name, email, address, phoneNumber, salary, EId } = req?.body;
+  const { name, email, address, phoneNumber, salary } = req?.body;
 
   const existingByEmail = await EmploySchemaModel.findOne({ email });
   if (existingByEmail) {
@@ -15,14 +15,14 @@ export const employeeData = async (req) => {
     );
   }
 
-  const existingByEId = await EmploySchemaModel.findOne({ EId });
-  if (existingByEId) {
-    throw new CustomError(
-      statusCodes?.badRequest,
-      errorCodes?.already_existID,
-      Message?.alreadyExist
-    );
-  }
+  // const existingByEId = await EmploySchemaModel.findOne({ EId });
+  // if (existingByEId) {
+  //   throw new CustomError(
+  //     statusCodes?.badRequest,
+  //     errorCodes?.already_existID,
+  //     Message?.alreadyExist
+  //   );
+  // }
 
   const employSchema = await EmploySchemaModel.create({
     name,
@@ -30,7 +30,6 @@ export const employeeData = async (req) => {
     address,
     phoneNumber,
     salary,
-    EId,
     isDelete: false
   });
 
@@ -53,9 +52,9 @@ export const employeeData = async (req) => {
   
   
   export const updateEmployData  = async (req) =>{
-           const {name,email,address,phoneNumber,salary,EId} = req?.body;
+           const {name,email,address,phoneNumber,salary} = req?.body;
            const {id} = req?.params
-         if(name && !email && !address && !phoneNumber  && salary && EId)
+         if(name && !email && !address && !phoneNumber  && salary)
           {
               throw new CustomError(
               statusCodes?.badRequest,
@@ -79,7 +78,7 @@ export const employeeData = async (req) => {
         customer.address = address || customer.address;
         customer.phoneNumber = phoneNumber || customer.phoneNumber;
         customer.salary = salary || customer.salary;
-        customer.EId = EId || customer.EId;
+      
       const  updateCustomer = await customer.save();
          return updateCustomer;
     }
