@@ -15,7 +15,7 @@ const app = express();
 
 const PORT = (() => {
     const env = process.env.ENV;
-    return env === 'development' ? 7001 : 7001;
+    return env === 'development' ? 7002 : 7002;
 })();
 
 
