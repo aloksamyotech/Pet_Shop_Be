@@ -19,8 +19,9 @@ const responseInterceptor = (req, res, next) => {
         error: data.errorCode || data.message || "Unknown Error",
         timestamp: new Date().toISOString(),
       };
-      const encryptedResponseData = encryptResponse(formattedResponse)
-      oldSend.call(res, encryptedResponseData);
+      // const encryptedResponseData = encryptResponse(formattedResponse)
+      // oldSend.call(res, encryptedResponseData);
+      oldSend.call(res,formattedResponse)
       
     } else {
       const formattedResponse = {
@@ -30,8 +31,9 @@ const responseInterceptor = (req, res, next) => {
         error: null,
         timestamp: new Date().toISOString(),
       };
-      const encryptedResponseData = encryptResponse(formattedResponse)
-      oldSend.call(res, encryptedResponseData);
+      oldSend.call(res,formattedResponse)
+      // const encryptedResponseData = encryptResponse(formattedResponse)
+      // oldSend.call(res, encryptedResponseData);
     }
   };
 
@@ -43,8 +45,9 @@ const responseInterceptor = (req, res, next) => {
       error: error || message,
       timestamp: new Date().toISOString(),
     };
-    const encryptedResponseData = encryptResponse(formattedResponse)
-    res.status(statusCode).json(encryptedResponseData);
+    // const encryptedResponseData = encryptResponse(formattedResponse)
+    // res.status(statusCode).json(encryptedResponseData);
+    res.status(statusCode).json(formattedResponse)
   };
 
   next();

@@ -12,8 +12,9 @@ import LogoRouter from './Logo.js'
 import EmailRouter from './email.js'
 import EmployeeRouter from'./Employee.js'
 import SubCategoryRouter from "./SubCategory.js";
+import RegistrationRouter from "./Registration.js"
 
 
-export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter,SubCategoryRouter
+export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter,SubCategoryRouter,RegistrationRouter
 
 };
