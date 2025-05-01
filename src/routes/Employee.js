@@ -1,9 +1,9 @@
 
 
 import { Router } from "express";
-import { asyncHandler } from "../utils/asyncWrapper.js";
+import {asyncHandler } from "../utils/asyncWrapper.js";
 import { EmployeeController } from "../controllers/controllers.js";
-// import { authenticateJWT } from "../middlewares/Auto.js";
+import { authenticateJWT } from "../middlewares/Auto.js";
 
 const router = Router();
 
@@ -48,7 +48,7 @@ const router = Router();
  *       201:
  *         description: Employee created successfully
  */
-router.post("/save",  asyncHandler(EmployeeController.employee));
+router.post("/save",  asyncHandler(authenticateJWT),asyncHandler(EmployeeController.employee));
 
 /**
  * @swagger
@@ -62,7 +62,7 @@ router.post("/save",  asyncHandler(EmployeeController.employee));
  *       200:
  *         description: List of employees
  */
-router.get("/fetch",  asyncHandler(EmployeeController.getEmployee));
+router.get("/fetch",  asyncHandler(authenticateJWT),asyncHandler(EmployeeController.getEmployee));
 
 /**
  * @swagger
@@ -100,7 +100,7 @@ router.get("/fetch",  asyncHandler(EmployeeController.getEmployee));
  *       200:
  *         description: Employee updated successfully
  */
-router.put("/update/:id",  asyncHandler(EmployeeController.updateEmployee));
+router.put("/update/:id",  asyncHandler(authenticateJWT),asyncHandler(EmployeeController.updateEmployee));
 
 /**
  * @swagger
@@ -121,6 +121,6 @@ router.put("/update/:id",  asyncHandler(EmployeeController.updateEmployee));
  *       200:
  *         description: Employee deleted successfully
  */
-router.delete("/:id",  asyncHandler(EmployeeController.deleteEmployee));
+router.delete("/:id",  asyncHandler(authenticateJWT),asyncHandler(EmployeeController.deleteEmployee));
 
 export default router;

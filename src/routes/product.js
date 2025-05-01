@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { asyncHandler } from "../utils/asyncWrapper.js";
+import {asyncHandler } from "../utils/asyncWrapper.js";
 import { productController } from "../controllers/controllers.js";
 import { upload } from "../core/common/upload_multer.js";
-// import { authenticateJWT } from "../middlewares/Auto.js";
+import { authenticateJWT } from "../middlewares/Auto.js";
 
 const router = Router();
 
@@ -55,7 +55,7 @@ const router = Router();
  *       201:
  *         description: Product created successfully
  */
-router.post("/save",  upload, asyncHandler(productController.product));
+router.post("/save",  upload, asyncHandler(authenticateJWT),asyncHandler(productController.product));
 
 /**
  * @swagger
@@ -69,7 +69,7 @@ router.post("/save",  upload, asyncHandler(productController.product));
  *       200:
  *         description: List of products
  */
-router.get("/fetch",  asyncHandler(productController.getProducts));
+router.get("/fetch",  asyncHandler(authenticateJWT),asyncHandler(productController.getProducts));
 
 /**
  * @swagger
@@ -115,7 +115,7 @@ router.get("/fetch",  asyncHandler(productController.getProducts));
  *       200:
  *         description: Product updated successfully
  */
-router.put("/update/:id",  upload, asyncHandler(productController.updateProducts));
+router.put("/update/:id",  upload, asyncHandler(authenticateJWT),asyncHandler(productController.updateProducts));
 
 /**
  * @swagger
@@ -135,7 +135,7 @@ router.put("/update/:id",  upload, asyncHandler(productController.updateProducts
  *       200:
  *         description: Product deleted successfully
  */
-router.delete("/:id",  asyncHandler(productController.deleteProducts));
+router.delete("/:id",  asyncHandler(authenticateJWT),asyncHandler(productController.deleteProducts));
 
 /**
  * @swagger
@@ -174,7 +174,7 @@ router.delete("/:id",  asyncHandler(productController.deleteProducts));
  *       201:
  *         description: Products uploaded successfully
  */
-router.post("/bulkUpload",  asyncHandler(productController.products));
+router.post("/bulkUpload",  asyncHandler(authenticateJWT),asyncHandler(productController.products));
 
 /**
  * @swagger
@@ -188,6 +188,6 @@ router.post("/bulkUpload",  asyncHandler(productController.products));
  *       200:
  *         description: Total product count
  */
-router.get("/count",  asyncHandler(productController.totalProducts));
+router.get("/count",  asyncHandler(authenticateJWT),asyncHandler(productController.totalProducts));
 
 export default router;

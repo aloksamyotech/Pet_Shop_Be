@@ -7,9 +7,10 @@ import CustomError from "../utils/exception.js";
 
 
 export const RegistrationData =  async (req) =>{
+console.log("req-----------------",req.body);
 
 
-    const {Name , phone,email,petType,breed,genderPet,petAge,city,service,size,startDate,endDate} = req?.body;
+    const {name , phone,email,petType,breed,gender,petAge,city,service,size,startDate,endDate,pickupLocation} = req?.body;
 
     const existingCustomer =  await RegistrationSchemaModel.findOne({email})
 
@@ -21,7 +22,7 @@ export const RegistrationData =  async (req) =>{
             );
           }
 
-    const createDate = await RegistrationSchemaModel.create({Name,phone,email,petType,breed,genderPet,petAge,city,service,size,startDate,endDate});
+    const createDate = await RegistrationSchemaModel.create({name,phone,email,petType,breed,gender,petAge,city,service,size,startDate,endDate,pickupLocation});
 
     return createDate;
 
@@ -46,10 +47,10 @@ return UserData
 
 export const UpdateRegistrationUser = async (req) =>{
     const {id} = req?.params;
-    const  {Name , phone,email,petType,breed,genderPet,petAge,city,service,size,startDate,endDate} = req?.body
+    const  {name , phone,email,petType,breed,genderPet,petAge,city,service,size,startDate,endDate} = req?.body
         const UserData = await RegistrationSchemaModel.findById(id);
 
-    UserData.Name = Name || UserData.Name,
+    UserData.name = Name || UserData.name,
     UserData.phone = phone || UserData.phone,
     UserData.email = email || UserData.email,
     UserData.petType = petType || UserData.petType,
@@ -113,7 +114,7 @@ if(UserData.status == "approved")
 
     const datePart = new Date().toISOString().slice(0,10).replace(/-/g,"");
     const randomPart = Math.floor(1000 + Math.random() * 9000);
-    UserData.customerID = `PET-${datePart}-${randomPart}`;
+    UserData.customerID = `BK-${randomPart}`;
 }
 
 
@@ -121,4 +122,12 @@ if(UserData.status == "approved")
 const UpdatedStatus = await UserData.save();
 
 return UpdatedStatus;
+}
+
+
+export const userIdData = async(req) =>{
+
+const {id} = req?.params;
+const findUserData = await RegistrationSchemaModel.findById(id);
+return findUserData;
 }

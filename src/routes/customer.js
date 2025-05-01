@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { asyncHandler } from "../utils/asyncWrapper.js";
 import { customerController } from "../controllers/controllers.js";
-// import { authenticateJWT } from "../middlewares/Auto.js";
+import { authenticateJWT } from "../middlewares/Auto.js";
 
 const router = Router();
 
@@ -36,7 +36,7 @@ const router = Router();
  *       400:
  *         description: Invalid input
  */
-router.post("/save", asyncHandler(customerController.customer));
+router.post("/save",asyncHandler(authenticateJWT), asyncHandler(customerController.customer));
 
 /**
  * @swagger
@@ -49,7 +49,7 @@ router.post("/save", asyncHandler(customerController.customer));
  *       403:
  *         description: Forbidden
  */
-router.get("/fetch", asyncHandler(customerController.getCustomer));
+router.get("/fetch",asyncHandler(authenticateJWT), asyncHandler(customerController.getCustomer));
 
 /**
  * @swagger
@@ -87,7 +87,7 @@ router.get("/fetch", asyncHandler(customerController.getCustomer));
  *       400:
  *         description: Invalid input
  */
-router.put("/update/:id", asyncHandler(customerController.updateCustomers));
+router.put("/update/:id",asyncHandler(authenticateJWT), asyncHandler(customerController.updateCustomers));
 
 /**
  * @swagger
@@ -105,7 +105,7 @@ router.put("/update/:id", asyncHandler(customerController.updateCustomers));
  *       404:
  *         description: Customer not found
  */
-router.delete("/:id", asyncHandler(customerController.deleteCustomers));
+router.delete("/:id",asyncHandler(authenticateJWT), asyncHandler(customerController.deleteCustomers));
 
 /**
  * @swagger
@@ -118,6 +118,6 @@ router.delete("/:id", asyncHandler(customerController.deleteCustomers));
  *       403:
  *         description: Forbidden
  */
-router.get("/count", asyncHandler(customerController.getCustomerCount));
+router.get("/count",asyncHandler(authenticateJWT), asyncHandler(customerController.getCustomerCount));
 
 export default router;

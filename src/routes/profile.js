@@ -38,7 +38,7 @@ const router = Router();
  *       201:
  *         description: Profile created or updated successfully
  */
-router.post("/save",  asyncHandler(ProfileController.profile));
+router.post("/save",  asyncHandler(authenticateJWT),asyncHandler(ProfileController.profile));
 
 /**
  * @swagger
@@ -52,6 +52,6 @@ router.post("/save",  asyncHandler(ProfileController.profile));
  *       200:
  *         description: Profile data fetched successfully
  */
-router.get("/fetch",  asyncHandler(ProfileController.getProfile));
+router.get("/fetch",  asyncHandler(authenticateJWT),asyncHandler(ProfileController.getProfile));
 
 export default router;

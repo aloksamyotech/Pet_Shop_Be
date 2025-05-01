@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { asyncHandler } from "../utils/asyncWrapper.js";
+import {  asyncHandler } from "../utils/asyncWrapper.js";
 import { logoUpload } from "../core/common/upload_multer.js";
 import { authenticateJWT } from "../middlewares/Auto.js";
 import { userController } from "../controllers/controllers.js";
@@ -54,7 +54,7 @@ const router = Router();
  *       201:
  *         description: User registered successfully
  */
-router.post("/register",  logoUpload, asyncHandler(userController.userRegistration));
+router.post("/register",  logoUpload,  asyncHandler(authenticateJWT),asyncHandler(userController.userRegistration));
 
 /**
  * @swagger
@@ -80,7 +80,7 @@ router.post("/register",  logoUpload, asyncHandler(userController.userRegistrati
  *       200:
  *         description: User logged in successfully
  */
-router.post("/login", asyncHandler(userController.userLogin));
+router.post("/login",asyncHandler(userController.userLogin));
 
 /**
  * @swagger
@@ -116,7 +116,7 @@ router.post("/login", asyncHandler(userController.userLogin));
  *       200:
  *         description: User updated successfully
  */
-router.put("/update/:id",  asyncHandler(userController.updateUserController));
+router.put("/update/:id",   asyncHandler(authenticateJWT),asyncHandler(userController.updateUserController));
 
 /**
  * @swagger
@@ -146,7 +146,7 @@ router.put("/update/:id",  asyncHandler(userController.updateUserController));
  *       200:
  *         description: Password updated successfully
  */
-router.put("/updatePassword/:id",  asyncHandler(userController.updatePassword));
+router.put("/updatePassword/:id",   asyncHandler(authenticateJWT),asyncHandler(userController.updatePassword));
 
 /**
  * @swagger
@@ -176,7 +176,7 @@ router.put("/updatePassword/:id",  asyncHandler(userController.updatePassword));
  *       200:
  *         description: Currency info updated
  */
-router.put("/updateCurrency/:id",  asyncHandler(userController.updateCurrencyData));
+router.put("/updateCurrency/:id",   asyncHandler(authenticateJWT),asyncHandler(userController.updateCurrencyData));
 
 /**
  * @swagger
@@ -208,7 +208,7 @@ router.put("/updateCurrency/:id",  asyncHandler(userController.updateCurrencyDat
  *       200:
  *         description: Logo updated successfully
  */
-router.put("/updatelogo/:id",  logoUpload, asyncHandler(userController.updateLogoData));
+router.put("/updatelogo/:id",  logoUpload,  asyncHandler(authenticateJWT),asyncHandler(userController.updateLogoData));
 
 /**
  * @swagger
@@ -222,6 +222,6 @@ router.put("/updatelogo/:id",  logoUpload, asyncHandler(userController.updateLog
  *       200:
  *         description: User data retrieved
  */
-router.get("/fetch",  asyncHandler(userController.getUser));
+router.get("/fetch",   asyncHandler(authenticateJWT),asyncHandler(userController.getUser));
 
 export default router;

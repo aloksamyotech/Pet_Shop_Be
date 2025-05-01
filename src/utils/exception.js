@@ -2,7 +2,7 @@ class CustomError extends Error {
   constructor(
     statusCode,
     message = "Something went wrong",
-    errorCode = "UNKNWON_ERROR",
+    errorCode = "UNKNOWN_ERROR",
     errors = [],
     isOperational = true,
     stack = "",

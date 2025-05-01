@@ -2,9 +2,6 @@ import { key } from "../core/common/constant.js";
 import { encrypt, encryptResponse, encryptWithAESKey } from "../core/common/crypto.js";
 import { generateRandomString } from "../core/crypto/cr.js";
 
-
-
-
 const responseInterceptor = (req, res, next) => {
   const oldSend = res.json;
 
@@ -19,9 +16,9 @@ const responseInterceptor = (req, res, next) => {
         error: data.errorCode || data.message || "Unknown Error",
         timestamp: new Date().toISOString(),
       };
-      // const encryptedResponseData = encryptResponse(formattedResponse)
-      // oldSend.call(res, encryptedResponseData);
-      oldSend.call(res,formattedResponse)
+      const encryptedResponseData = encryptResponse(formattedResponse)
+      oldSend.call(res, encryptedResponseData);
+      // oldSend.call(res,formattedResponse)
       
     } else {
       const formattedResponse = {
@@ -31,9 +28,9 @@ const responseInterceptor = (req, res, next) => {
         error: null,
         timestamp: new Date().toISOString(),
       };
-      oldSend.call(res,formattedResponse)
-      // const encryptedResponseData = encryptResponse(formattedResponse)
-      // oldSend.call(res, encryptedResponseData);
+      // oldSend.call(res,formattedResponse)
+      const encryptedResponseData = encryptResponse(formattedResponse)
+      oldSend.call(res, encryptedResponseData);
     }
   };
 
@@ -45,9 +42,9 @@ const responseInterceptor = (req, res, next) => {
       error: error || message,
       timestamp: new Date().toISOString(),
     };
-    // const encryptedResponseData = encryptResponse(formattedResponse)
-    // res.status(statusCode).json(encryptedResponseData);
-    res.status(statusCode).json(formattedResponse)
+    const encryptedResponseData = encryptResponse(formattedResponse)
+    res.status(statusCode).json(encryptedResponseData);
+    // res.status(statusCode).json(formattedResponse)
   };
 
   next();

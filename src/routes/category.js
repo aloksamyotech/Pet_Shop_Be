@@ -2,7 +2,7 @@ import { Router } from "express";
 import { asyncHandler } from "../utils/asyncWrapper.js";
 import { categoryController } from "../controllers/controllers.js";
 import { categoryUpload } from "../core/common/upload_multer.js";
-// import { authenticateJWT } from "../middlewares/Auto.js";
+import { authenticateJWT } from "../middlewares/Auto.js";
 
 const router = Router();
 
@@ -34,7 +34,7 @@ const router = Router();
  *       400:
  *         description: Invalid input
  */
-router.post("/save", categoryUpload, asyncHandler(categoryController.category));
+router.post("/save",asyncHandler(authenticateJWT), categoryUpload, asyncHandler(categoryController.category));
 
 /**
  * @swagger
@@ -47,7 +47,7 @@ router.post("/save", categoryUpload, asyncHandler(categoryController.category));
  *       403:
  *         description: Forbidden
  */
-router.get("/fetch", asyncHandler(categoryController.getCategory));
+router.get("/fetch",asyncHandler(authenticateJWT), asyncHandler(categoryController.getCategory));
 
 /**
  * @swagger
@@ -82,7 +82,7 @@ router.get("/fetch", asyncHandler(categoryController.getCategory));
  *       400:
  *         description: Invalid input
  */
-router.put("/update/:id", asyncHandler(categoryController.updateCategory));
+router.put("/update/:id",asyncHandler(authenticateJWT), asyncHandler(categoryController.updateCategory));
 
 /**
  * @swagger
@@ -100,6 +100,6 @@ router.put("/update/:id", asyncHandler(categoryController.updateCategory));
  *       404:
  *         description: Category not found
  */
-router.delete("/:id", asyncHandler(categoryController.deleteCategory));
+router.delete("/:id", asyncHandler(authenticateJWT),asyncHandler(categoryController.deleteCategory));
 
 export default router;

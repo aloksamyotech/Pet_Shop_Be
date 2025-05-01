@@ -13,8 +13,10 @@ import EmailRouter from './email.js'
 import EmployeeRouter from'./Employee.js'
 import SubCategoryRouter from "./SubCategory.js";
 import RegistrationRouter from "./Registration.js"
+import AddItemRouter from './AddItem.js'
+import PetTypeRouter from './petType.js'
 
 
-export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter,SubCategoryRouter,RegistrationRouter
+export { userRouter,productRouter , customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter,SubCategoryRouter,RegistrationRouter,AddItemRouter,PetTypeRouter
 
 };

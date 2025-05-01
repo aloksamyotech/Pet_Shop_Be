@@ -8,7 +8,7 @@ import responseInterceptor from './src/utils/responseInterceptor.js';
 import swaggerDocs from './src/core/config/swagger.js';
 
 
-import { userRouter , productRouter,customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter,SubCategoryRouter,RegistrationRouter} from './src/routes/routes.js';
+import { userRouter , productRouter,customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter,SubCategoryRouter,RegistrationRouter,AddItemRouter,PetTypeRouter} from './src/routes/routes.js';
 
 
 const app = express();
@@ -57,6 +57,8 @@ app.use('/api/Email',EmailRouter);
 app.use('/api/employee',EmployeeRouter);
 app.use('/api/Subcategory',SubCategoryRouter);
 app.use('/api/registrationData',RegistrationRouter);
+app.use('/api/addItem',AddItemRouter)
+app.use('/api/petType',PetTypeRouter)
 
 
 

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { asyncHandler } from "../utils/asyncWrapper.js";
 import { orderController } from "../controllers/controllers.js";
-// import { authenticateJWT } from "../middlewares/Auto.js";
+import { authenticateJWT } from "../middlewares/Auto.js";
 
 const router = Router();
 
@@ -61,7 +61,7 @@ const router = Router();
  *       400:
  *         description: Invalid input
  */
-router.post("/save", asyncHandler(orderController.order));
+router.post("/save",asyncHandler(authenticateJWT), asyncHandler(orderController.order));
 
 /**
  * @swagger
@@ -75,7 +75,7 @@ router.post("/save", asyncHandler(orderController.order));
  *       200:
  *         description: A list of orders
  */
-router.get("/fetch", asyncHandler(orderController.getOrders));
+router.get("/fetch",asyncHandler(authenticateJWT), asyncHandler(orderController.getOrders));
 
 /**
  * @swagger
@@ -89,7 +89,7 @@ router.get("/fetch", asyncHandler(orderController.getOrders));
  *       200:
  *         description: Order updated
  */
-router.put("/updated", asyncHandler(orderController.updateOrders));
+router.put("/updated",asyncHandler(authenticateJWT), asyncHandler(orderController.updateOrders));
 
 /**
  * @swagger
@@ -109,7 +109,7 @@ router.put("/updated", asyncHandler(orderController.updateOrders));
  *       200:
  *         description: Order deleted
  */
-router.delete("/:orderId", asyncHandler(orderController.deleteOrders));
+router.delete("/:orderId",asyncHandler(authenticateJWT), asyncHandler(orderController.deleteOrders));
 
 /**
  * @swagger
@@ -123,7 +123,7 @@ router.delete("/:orderId", asyncHandler(orderController.deleteOrders));
  *       200:
  *         description: Order count retrieved
  */
-router.get("/count", asyncHandler(orderController.getOrderCount));
+router.get("/count",asyncHandler(authenticateJWT), asyncHandler(orderController.getOrderCount));
 
 /**
  * @swagger
@@ -137,7 +137,7 @@ router.get("/count", asyncHandler(orderController.getOrderCount));
  *       200:
  *         description: Monthly sales data
  */
-router.get("/totalSales", asyncHandler(orderController.getMonthlySalesReport));
+router.get("/totalSales", asyncHandler(authenticateJWT),asyncHandler(orderController.getMonthlySalesReport));
 
 /**
  * @swagger
@@ -151,6 +151,6 @@ router.get("/totalSales", asyncHandler(orderController.getMonthlySalesReport));
  *       200:
  *         description: Total quantity
  */
-router.get("/totalQuantity", asyncHandler(orderController.getTotalQuantity));
+router.get("/totalQuantity", asyncHandler(authenticateJWT),asyncHandler(orderController.getTotalQuantity));
 
 export default router;
