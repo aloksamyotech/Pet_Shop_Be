@@ -15,6 +15,7 @@ const AddItem = new Schema(
       required: true
     },
     customerId: mongoose.Schema.Types.ObjectId,
+    
     isDelete: {
       type: Boolean,
       default: false

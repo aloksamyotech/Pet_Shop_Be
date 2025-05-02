@@ -18,15 +18,13 @@ email:{
 },
 
 petType:{
-
-    type: String,
-    enum:['cat' , 'dogs','small pet']
-}
+type: String,
+   }
 ,
-breed:{
-    type:String,
+pacKage:{
+    type: mongoose.Schema.Types.ObjectId,
     required:true
-},
+   },
 gender:{
     type:String,
     enum:["male" , "female"]

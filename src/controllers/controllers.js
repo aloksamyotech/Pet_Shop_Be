@@ -14,6 +14,7 @@ import SubCategoryController from "./SubCategory.js";
 import registrationController from "./Registration.js";
 import AddItemController from './AddItem.js'
 import petTypeController from './petType.js'
+import packageController from './package.js'
 
 
 export { userController ,
@@ -31,6 +32,7 @@ export { userController ,
     SubCategoryController,
     registrationController,
     AddItemController,
-    petTypeController
+    petTypeController,
+    packageController
    
 };

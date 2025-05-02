@@ -1,16 +1,10 @@
 import { RegistrationSchemaModel } from "../models/Registration.js";
 import { errorCodes, Message, statusCodes,image_url } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
-
-
-
-
+import mongoose from "mongoose";
 
 export const RegistrationData =  async (req) =>{
-console.log("req-----------------",req.body);
-
-
-    const {name , phone,email,petType,breed,gender,petAge,city,service,size,startDate,endDate,pickupLocation} = req?.body;
+    const {name , phone,email,petType,pacKage,gender,petAge,city,service,size,startDate,endDate,pickupLocation} = req?.body;
 
     const existingCustomer =  await RegistrationSchemaModel.findOne({email})
 
@@ -21,11 +15,8 @@ console.log("req-----------------",req.body);
               Message?.alreadyExist,
             );
           }
-
-    const createDate = await RegistrationSchemaModel.create({name,phone,email,petType,breed,gender,petAge,city,service,size,startDate,endDate,pickupLocation});
-
+const createDate = await RegistrationSchemaModel.create({name,phone,email,petType,pacKage,gender,petAge,city,service,size,startDate,endDate,pickupLocation});
     return createDate;
-
 }
 
 
@@ -33,6 +24,14 @@ export const FetchRegistrationData = async () =>{
     const condition_obj = { isDelete: false };
     const UserData = await RegistrationSchemaModel.aggregate([
         { $match: condition_obj},
+        {
+            $lookup: {
+              from: "packagemodels",
+              localField: "pacKage",
+              foreignField: "_id",
+              as: "package"
+            } 
+          },
     ]);
     
 if(!UserData){
@@ -40,21 +39,20 @@ if(!UserData){
         statusCodes?.notFound,
         Message?.notFound ,
         errorCodes?.not_Found ,
-      );
-}
+      );}
 return UserData
 }
 
 export const UpdateRegistrationUser = async (req) =>{
     const {id} = req?.params;
-    const  {name , phone,email,petType,breed,genderPet,petAge,city,service,size,startDate,endDate} = req?.body
+    const  {name , phone,email,petType,pacKage,genderPet,petAge,city,service,size,startDate,endDate} = req?.body
         const UserData = await RegistrationSchemaModel.findById(id);
 
-    UserData.name = Name || UserData.name,
+    UserData.name = name || UserData.name,
     UserData.phone = phone || UserData.phone,
     UserData.email = email || UserData.email,
     UserData.petType = petType || UserData.petType,
-    UserData.breed = breed || UserData.breed,
+    UserData.pacKage = pacKage || UserData.pacKage,
     UserData.genderPet = genderPet || UserData.genderPet,
     UserData.petAge = petAge || UserData.petAge,
     UserData.city = city || UserData.city,
@@ -65,14 +63,10 @@ export const UpdateRegistrationUser = async (req) =>{
 
     const UpdatedUserData = await UserData.save();
     return UpdatedUserData
+  }
 
 
-
-
-}
-
-export const DeleteUserData =  async (req) =>{
-
+  export const DeleteUserData =  async (req) =>{
 const {id} = req.params;
 const UserData = await RegistrationSchemaModel.findById(id);
 
@@ -81,13 +75,9 @@ if(!UserData){
                     statusCodes?.badRequest,
                     Message?.notFound ,
                     errorCodes?.invalid_input ,
-                  );
-}
-
-
+                  );}
 const deleteUser = await RegistrationSchemaModel.findByIdAndUpdate(id,{isDelete:true});
-
-    return deleteUser
+return deleteUser
 
 }
 
@@ -95,8 +85,7 @@ const deleteUser = await RegistrationSchemaModel.findByIdAndUpdate(id,{isDelete:
 
 
 export const statusUpdated = async (req) =>{
-
-    const {id} = req?.params;
+   const {id} = req?.params;
 const {status} = req?.body;
     const UserData = await RegistrationSchemaModel.findById(id);
 
@@ -116,18 +105,28 @@ if(UserData.status == "approved")
     const randomPart = Math.floor(1000 + Math.random() * 9000);
     UserData.customerID = `BK-${randomPart}`;
 }
-
-
-
 const UpdatedStatus = await UserData.save();
-
 return UpdatedStatus;
 }
 
 
 export const userIdData = async(req) =>{
-
 const {id} = req?.params;
-const findUserData = await RegistrationSchemaModel.findById(id);
+const findUserData = await RegistrationSchemaModel.aggregate([
+{
+    $match:{
+        _id : new mongoose.Types.ObjectId(id)  }
+},
+{
+    $lookup: {
+      from: "packagemodels",
+      localField: "pacKage",
+      foreignField: "_id",
+      as: "package"
+    } 
+  },
+
+])
+
 return findUserData;
 }
