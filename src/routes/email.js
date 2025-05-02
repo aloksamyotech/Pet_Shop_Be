@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { asyncHandler } from "../utils/asyncWrapper.js";
+import {asyncHandler } from "../utils/asyncWrapper.js";
 import { EmailController } from "../controllers/controllers.js";
-// import { authenticateJWT } from "../middlewares/Auto.js";
+import { authenticateJWT } from "../middlewares/Auto.js";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ const router = Router();
  *       403:
  *         description: Forbidden
  */
-router.get("/fetch", asyncHandler(EmailController.fetchEmailSettings));
+router.get("/fetch",asyncHandler(authenticateJWT), asyncHandler(EmailController.fetchEmailSettings));
 
 /**
  * @swagger
@@ -46,6 +46,6 @@ router.get("/fetch", asyncHandler(EmailController.fetchEmailSettings));
  *       403:
  *         description: Forbidden
  */
-router.put("/update", asyncHandler(EmailController.modifyEmailSettings));
+router.put("/update",asyncHandler(authenticateJWT), asyncHandler(EmailController.modifyEmailSettings));
 
 export default router;

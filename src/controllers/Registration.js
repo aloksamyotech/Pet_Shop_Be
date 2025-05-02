@@ -1,4 +1,4 @@
-import { RegistrationData ,FetchRegistrationData,UpdateRegistrationUser,DeleteUserData,statusUpdated} from "../services/Registration.js";
+import { RegistrationData ,FetchRegistrationData,UpdateRegistrationUser,DeleteUserData,statusUpdated,userIdData} from "../services/Registration.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 
 
@@ -63,4 +63,17 @@ const UpdatedStatus =  async (req,res,next) =>{
 }
 
 
-export default {registrationUserData,registrationUserFetch,registrationUpdated,registrationDelete,UpdatedStatus}
+const UserFind = async (req, res,next) =>{
+
+  const UserData = await userIdData(req);
+  res.status(statusCodes?.ok).json({ 
+    success: true,
+    message: Message.DeleteSuccessfully,
+    data: UserData,
+  });
+
+
+}
+
+
+export default {registrationUserData,registrationUserFetch,registrationUpdated,registrationDelete,UpdatedStatus,UserFind}

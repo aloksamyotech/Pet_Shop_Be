@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { asyncHandler } from "../utils/asyncWrapper.js";
 import { invoiceController } from "../controllers/controllers.js";
-// import { authenticateJWT } from "../middlewares/Auto.js";
+import { authenticateJWT } from "../middlewares/Auto.js";
 
 const router = Router();
 
@@ -20,7 +20,7 @@ const router = Router();
  *       403:
  *         description: Forbidden
  */
-router.get("/fetch",  asyncHandler(invoiceController.invoiceGet));
+router.get("/fetch", asyncHandler(authenticateJWT), asyncHandler(invoiceController.invoiceGet));
 
 /**
  * @swagger
@@ -55,6 +55,6 @@ router.get("/fetch",  asyncHandler(invoiceController.invoiceGet));
  *       403:
  *         description: Forbidden
  */
-router.post("/save",  asyncHandler(invoiceController.invoice));
+router.post("/save", asyncHandler(authenticateJWT), asyncHandler(invoiceController.invoice));
 
 export default router;

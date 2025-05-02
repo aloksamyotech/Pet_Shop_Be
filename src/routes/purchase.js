@@ -56,7 +56,7 @@ const router = Router();
  *       201:
  *         description: Purchase created successfully
  */
-router.post("/save", purchaseUpload, asyncHandler(purchaseController.purchase));
+router.post("/save", purchaseUpload, asyncHandler(authenticateJWT),asyncHandler(purchaseController.purchase));
 
 /**
  * @swagger
@@ -70,7 +70,7 @@ router.post("/save", purchaseUpload, asyncHandler(purchaseController.purchase));
  *       200:
  *         description: Purchases fetched successfully
  */
-router.get("/fetch", asyncHandler(purchaseController.getPurchases));
+router.get("/fetch", asyncHandler(authenticateJWT),asyncHandler(purchaseController.getPurchases));
 
 /**
  * @swagger
@@ -111,7 +111,7 @@ router.get("/fetch", asyncHandler(purchaseController.getPurchases));
  *       200:
  *         description: Purchase updated successfully
  */
-router.put("/update/:id", purchaseUpload, asyncHandler(purchaseController.updatePurchases));
+router.put("/update/:id", purchaseUpload, asyncHandler(authenticateJWT),asyncHandler(purchaseController.updatePurchases));
 
 /**
  * @swagger
@@ -131,6 +131,6 @@ router.put("/update/:id", purchaseUpload, asyncHandler(purchaseController.update
  *       200:
  *         description: Purchase deleted successfully
  */
-router.delete("/:id", asyncHandler(purchaseController.deletePurchases));
+router.delete("/:id", asyncHandler(authenticateJWT),asyncHandler(purchaseController.deletePurchases));
 
 export default router;

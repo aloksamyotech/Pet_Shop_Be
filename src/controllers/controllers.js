@@ -12,7 +12,9 @@ import EmailController from './email.js'
 import EmployeeController from './employee.js'
 import SubCategoryController from "./SubCategory.js";
 import registrationController from "./Registration.js";
-
+import AddItemController from './AddItem.js'
+import petTypeController from './petType.js'
+import packageController from './package.js'
 
 
 export { userController ,
@@ -28,6 +30,9 @@ export { userController ,
     EmailController,
     EmployeeController,
     SubCategoryController,
-    registrationController
+    registrationController,
+    AddItemController,
+    petTypeController,
+    packageController
    
 };

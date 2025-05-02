@@ -2,17 +2,14 @@ import mongoose,{Schema} from "mongoose"
 
 
 const Registration = new Schema({
-Name:{
+name:{
     type:String,
-    
-    trim: true
+     trim: true
 },
 
 phone:{
     type:Number,
-    required:true,
-
-},
+    required:true,},
 
 email:{
     type:String,
@@ -21,21 +18,19 @@ email:{
 },
 
 petType:{
-
-    type: String,
-    enum:['cat' , 'dogs','small pet']
-}
+type: String,
+   }
 ,
-breed:{
-    type:String,
+pacKage:{
+    type: mongoose.Schema.Types.ObjectId,
     required:true
-},
-genderPet:{
+   },
+gender:{
     type:String,
     enum:["male" , "female"]
 },
 petAge:{
-    type:Number,
+    type:String,
     required:true
 },
 city:{
@@ -47,8 +42,13 @@ service:{
     type:String,
     enum:["self","staff"]
 },
+pickupLocation:{
+    type:String,
+    default:"null"
+},
 size:{
-    type:Number,
+    type:String,
+    enum:["small","medium","large","extra-large"],
     required:true
 },
 startDate:{
@@ -60,7 +60,7 @@ type:Date
 },
 status:{
 type:String,
-enum:["pending","approved"],
+enum:["pending","approved","rejected"],
 default:"pending"
 },
 

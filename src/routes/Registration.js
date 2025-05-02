@@ -1,6 +1,7 @@
 import { registrationController } from "../controllers/controllers.js";
 import { Router } from "express";
 import { asyncHandler } from "../utils/asyncWrapper.js";
+import { authenticateJWT } from "../middlewares/Auto.js";
 
 const router = Router();
 
@@ -65,7 +66,7 @@ const router = Router();
  *       201:
  *         description: Registration created successfully
  */
-router.post("/save", asyncHandler(registrationController.registrationUserData));
+router.post("/save",    asyncHandler(registrationController.registrationUserData));
 
 /**
  * @swagger
@@ -77,7 +78,7 @@ router.post("/save", asyncHandler(registrationController.registrationUserData));
  *       200:
  *         description: List of all registrations
  */
-router.get("/fetch", asyncHandler(registrationController.registrationUserFetch));
+router.get("/fetch",    asyncHandler(registrationController.registrationUserFetch));
 
 /**
  * @swagger
@@ -107,7 +108,7 @@ router.get("/fetch", asyncHandler(registrationController.registrationUserFetch))
  *       200:
  *         description: Registration updated
  */
-router.put("/update/:id", asyncHandler(registrationController.registrationUpdated));
+router.put("/update/:id",   asyncHandler(registrationController.registrationUpdated));
 
 /**
  * @swagger
@@ -125,7 +126,7 @@ router.put("/update/:id", asyncHandler(registrationController.registrationUpdate
  *       200:
  *         description: Registration deleted successfully
  */
-router.delete("/:id", asyncHandler(registrationController.registrationDelete));
+router.delete("/:id",   asyncHandler(registrationController.registrationDelete));
 
 /**
  * @swagger
@@ -154,6 +155,9 @@ router.delete("/:id", asyncHandler(registrationController.registrationDelete));
  *       200:
  *         description: Status updated
  */
-router.put("/:id", asyncHandler(registrationController.UpdatedStatus));
+router.put("/:id",  asyncHandler(registrationController.UpdatedStatus));
+
+router.get("/:id",asyncHandler(registrationController.UserFind))
+    
 
 export default router;

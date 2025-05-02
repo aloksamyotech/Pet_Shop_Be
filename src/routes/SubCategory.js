@@ -42,7 +42,7 @@ const router = Router();
  *       201:
  *         description: Subcategory created successfully
  */
-router.post("/save",  asyncHandler(SubCategoryController.category));
+router.post("/save",   asyncHandler(authenticateJWT),asyncHandler(SubCategoryController.category));
 
 /**
  * @swagger
@@ -56,7 +56,7 @@ router.post("/save",  asyncHandler(SubCategoryController.category));
  *       200:
  *         description: List of subcategories
  */
-router.get("/fetch",  asyncHandler(SubCategoryController.getCategory));
+router.get("/fetch",   asyncHandler(authenticateJWT),asyncHandler(SubCategoryController.getCategory));
 
 /**
  * @swagger
@@ -91,7 +91,7 @@ router.get("/fetch",  asyncHandler(SubCategoryController.getCategory));
  *       200:
  *         description: Subcategory updated successfully
  */
-router.put("/update/:id",  asyncHandler(SubCategoryController.updateCategory));
+router.put("/update/:id",   asyncHandler(authenticateJWT),asyncHandler(SubCategoryController.updateCategory));
 
 /**
  * @swagger
@@ -111,6 +111,6 @@ router.put("/update/:id",  asyncHandler(SubCategoryController.updateCategory));
  *       200:
  *         description: Subcategory deleted successfully
  */
-router.delete("/:id",  asyncHandler(SubCategoryController.deleteCategory));
+router.delete("/:id",   asyncHandler(authenticateJWT),asyncHandler(SubCategoryController.deleteCategory));
 
 export default router;
