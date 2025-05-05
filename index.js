@@ -5,12 +5,14 @@ import globalExceptionHandler from './src/utils/globalException.js';
 import logger from './src/core/config/logger.js';
 import "dotenv/config"
 import responseInterceptor from './src/utils/responseInterceptor.js';
+import swaggerDocs from './src/core/config/swagger.js';
 
 
-import { userRouter , productRouter,customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter,SubCategoryRouter} from './src/routes/routes.js';
+import { userRouter , productRouter,customerRouter,companyRouter,purchaseRouter,categoryRouter,orderRouter,invoiceRouter,profileRouter,LogoRouter,EmailRouter,EmployeeRouter,SubCategoryRouter,RegistrationRouter,AddItemRouter,PetTypeRouter , PackageRouter} from './src/routes/routes.js';
 
 
 const app = express();
+swaggerDocs(app);
 
 
 const PORT = (() => {
@@ -52,8 +54,12 @@ app.use('/api/invoice',invoiceRouter);
 app.use('/api/profile',profileRouter);
 app.use('/api/Logo',LogoRouter);
 app.use('/api/Email',EmailRouter);
-app.use('/api/employee',EmployeeRouter)
-app.use('/api/Subcategory',SubCategoryRouter)
+app.use('/api/employee',EmployeeRouter);
+app.use('/api/Subcategory',SubCategoryRouter);
+app.use('/api/registrationData',RegistrationRouter);
+app.use('/api/addItem',AddItemRouter);
+app.use('/api/petType',PetTypeRouter);
+app.use('/api/package',PackageRouter)
 
 
 
