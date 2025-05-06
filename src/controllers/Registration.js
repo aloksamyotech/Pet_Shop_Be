@@ -1,5 +1,32 @@
-import { RegistrationData ,FetchRegistrationData,UpdateRegistrationUser,DeleteUserData,statusUpdated,userIdData} from "../services/Registration.js";
+import { RegistrationData ,FetchRegistrationData,UpdateRegistrationUser,DeleteUserData,statusUpdated,userIdData,bookingToday,bookingByStatusData} from "../services/Registration.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
+
+
+
+const bookingStatus = async (req,res,next) =>{
+
+  const DataStatus = await bookingByStatusData(req);
+  res.status(statusCodes?.ok).json({ 
+    success: true,
+    message : Message.Successfully,
+    data : DataStatus,
+  });
+
+}
+
+
+
+const bookingTodayData = async (req,res,next) =>{
+  const BookingData = await bookingToday();
+  res.status(statusCodes?.ok).json({ 
+       success: true,
+       message : Message.Successfully,
+       data : BookingData,
+     });
+
+
+
+}
 
 
 const registrationUserData = async (req,res,next) =>{
@@ -76,4 +103,4 @@ const UserFind = async (req, res,next) =>{
 }
 
 
-export default {registrationUserData,registrationUserFetch,registrationUpdated,registrationDelete,UpdatedStatus,UserFind}
+export default {registrationUserData,registrationUserFetch,registrationUpdated,registrationDelete,UpdatedStatus,UserFind ,bookingTodayData,bookingStatus}

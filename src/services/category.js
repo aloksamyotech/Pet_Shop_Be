@@ -23,7 +23,6 @@ export const categoryData = async (req) => {
   }
    const categorySchema = await CategorySchemaModel.create({
     name, description,
-    categoryImage: req.file ? req.file.path :null,
     isDelete: false,
   });
   return categorySchema;
