@@ -112,10 +112,14 @@ return UpdatedStatus;
 
 export const userIdData = async(req) =>{
 const {id} = req?.params;
+
+if (!mongoose.Types.ObjectId.isValid(id)) {
+  throw new Error("Invalid ID format");
+}
 const findUserData = await RegistrationSchemaModel.aggregate([
 {
     $match:{
-        _id : new mongoose.Types.ObjectId(id)  }
+      _id: new mongoose.Types.ObjectId(id), }
 },
 {
     $lookup: {
@@ -129,4 +133,47 @@ const findUserData = await RegistrationSchemaModel.aggregate([
 ])
 
 return findUserData;
+}
+
+
+export const bookingToday = async() =>{
+ const now = new Date();
+  const startOfDay = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    0, 0, 0, 0
+  ));
+  const endOfDay = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    23, 59, 59, 999
+  ));
+  
+
+const TodayData = await RegistrationSchemaModel.find({
+  isDelete: false,
+  createdAt: { $gte: startOfDay, $lte: endOfDay }
+})
+return TodayData;
+
+
+}
+
+
+
+export const bookingByStatusData = async (req) =>{
+
+  const status = req.query.status;
+
+  if(!status){
+    throw new Error("status is not get");
+  }
+
+  const statusData = await RegistrationSchemaModel.find({
+    status: status,
+    isDelete: false
+  })
+  return statusData;
 }
