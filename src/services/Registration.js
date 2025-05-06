@@ -81,9 +81,6 @@ return deleteUser
 
 }
 
-
-
-
 export const statusUpdated = async (req) =>{
    const {id} = req?.params;
 const {status} = req?.body;
@@ -96,9 +93,8 @@ const {status} = req?.body;
             errorCodes?.not_Found ,
           );
     }
-
-    UserData.status = status || UserData.status;
-if(UserData.status == "approved")
+UserData.status = status || UserData.status;
+if(UserData.status == "completed")
 {
 
     const datePart = new Date().toISOString().slice(0,10).replace(/-/g,"");
