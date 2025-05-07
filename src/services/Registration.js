@@ -2,6 +2,14 @@ import { RegistrationSchemaModel } from "../models/Registration.js";
 import { errorCodes, Message, statusCodes,image_url } from "../core/common/constant.js";
 import CustomError from "../utils/exception.js";
 import mongoose from "mongoose";
+import sendEmail from "../core/common/mailer.js";
+import { generateBookingApprovalEmail } from "../Templete/approved.js";
+import fs from "fs";
+import path from "path";
+import PDFDocument from "pdfkit";
+import generateInvoicePDFBooking from "../Invoice/bookingInvoice.js";
+import { generateBookingRejectionEmail } from "../Templete/rejected.js";
+import { generateBookingPendingEmail } from "../Templete/padding.js";
 
 export const RegistrationData =  async (req) =>{
     const {name , phone,email,petType,pacKage,gender,petAge,city,service,size,startDate,endDate,pickupLocation} = req?.body;
@@ -16,6 +24,17 @@ export const RegistrationData =  async (req) =>{
             );
           }
 const createDate = await RegistrationSchemaModel.create({name,phone,email,petType,pacKage,gender,petAge,city,service,size,startDate,endDate,pickupLocation});
+
+const customerName=createDate.name;
+const customerEmail= createDate.email;
+const customerPhone= createDate.phone;
+
+
+if(createDate.status == "pending"){
+  const html = generateBookingPendingEmail(customerName, customerEmail, customerPhone);
+await sendEmail(customerEmail, "We Received Your Grooming Booking – Pending Confirmation", "", html, null);
+
+}
     return createDate;
 }
 
@@ -83,7 +102,7 @@ return deleteUser
 
 export const statusUpdated = async (req) =>{
    const {id} = req?.params;
-const {status} = req?.body;
+  const {status} = req?.body;
     const UserData = await RegistrationSchemaModel.findById(id);
 
     if(!UserData){
@@ -94,6 +113,22 @@ const {status} = req?.body;
           );
     }
 UserData.status = status || UserData.status;
+const customerName =UserData.name;
+const customerEmail = UserData.email;
+const customerPhone = UserData.phone;
+
+if(UserData.status == "approved"){
+  const html = generateBookingApprovalEmail(customerName, customerEmail, customerPhone);
+await sendEmail(customerEmail, "Your Grooming Booking is Approved", "", html);
+}
+
+if(UserData.status == "rejected"){
+  const html = generateBookingRejectionEmail(customerName, customerEmail, customerPhone);
+await sendEmail(customerEmail, "Your Grooming Booking Was Not Approved", "", html, null);
+
+}
+
+
 if(UserData.status == "completed")
 {
 
@@ -173,3 +208,81 @@ export const bookingByStatusData = async (req) =>{
   })
   return statusData;
 }
+
+
+export const sendEmailToUser = async (req) => {
+  const { id } = req?.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new Error("Invalid ID format");
+  }
+
+  const findUserData = await RegistrationSchemaModel.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(id),
+      },
+    },
+    {
+      $lookup: {
+        from: "packagemodels",
+        localField: "pacKage",
+        foreignField: "_id",
+        as: "package",
+      },
+    },
+  ]);
+
+  if (!findUserData || findUserData.length === 0) {
+    throw new Error("User not found");
+  }
+
+  const user = findUserData[0];
+  const customerEmail = user?.email;
+
+  const invoiceDir = path.join(process.cwd(), 'invoice');
+  if (!fs.existsSync(invoiceDir)) {
+    fs.mkdirSync(invoiceDir, { recursive: true });
+  }
+
+  const pdfPath = path.join(invoiceDir, `invoice_${id}.pdf`);
+
+  const invoiceData = {
+    bookingId: user.customerID,
+    petName: user.petType,
+    breed: user.breed || "N/A",
+    bookingStatus: user.status,
+    packageName: user.package?.[0]?.name || "N/A",
+    bookingDateTime: new Date(user.createdAt).toLocaleString(),
+    service: user.service,
+    customerInfo: {
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      address: user.city,
+    },
+    paymentInfo: {
+      status: "Paid",
+      price: user.package?.[0]?.price || 0,
+      type: "Credit Card", 
+      date: new Date().toLocaleDateString(),
+      paid: user.package?.[0]?.price || 0,
+      advance: 500, 
+    },
+    extraItems: [], 
+  };
+
+  await generateInvoicePDFBooking(invoiceData, pdfPath);
+
+  const subject = "Your Order Invoice";
+  const text = "Please find your invoice attached.";
+  const html = `
+    <p>Dear ${user.name},</p>
+    <p>Thank you for your order! Please find your invoice attached.</p>
+    <p>Best Regards,<br>Pet Shop System</p>
+  `;
+
+  await sendEmail(customerEmail, subject, text, html, pdfPath);
+
+  return findUserData;
+};

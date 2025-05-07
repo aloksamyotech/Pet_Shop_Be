@@ -57,7 +57,6 @@ export const getCustomerData = async () => {
 
 export const updateCustomerData  = async (req) =>{
          const {firstName,email,address,phoneNumber,status} = req?.body;
-         console.log("req?.body----------------------------",req?.body);
          
          const {id} = req?.params
        if(firstName && !email && !address && !phoneNumber  && !status)
