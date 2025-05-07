@@ -1,4 +1,4 @@
-import { RegistrationData ,FetchRegistrationData,UpdateRegistrationUser,DeleteUserData,statusUpdated,userIdData,bookingToday,bookingByStatusData} from "../services/Registration.js";
+import { sendEmailToUser,RegistrationData ,FetchRegistrationData,UpdateRegistrationUser,DeleteUserData,statusUpdated,userIdData,bookingToday,bookingByStatusData} from "../services/Registration.js";
 import { errorCodes, Message, statusCodes } from "../core/common/constant.js";
 
 
@@ -101,6 +101,17 @@ const UserFind = async (req, res,next) =>{
 
 
 }
+const UserEmail = async (req, res,next) =>{
+
+  const UserData = await sendEmailToUser(req);
+  res.status(statusCodes?.ok).json({ 
+    success: true,
+    message: Message.DeleteSuccessfully,
+    data: UserData,
+  });
 
 
-export default {registrationUserData,registrationUserFetch,registrationUpdated,registrationDelete,UpdatedStatus,UserFind ,bookingTodayData,bookingStatus}
+}
+
+
+export default {registrationUserData,registrationUserFetch,registrationUpdated,registrationDelete,UpdatedStatus,UserFind ,bookingTodayData,bookingStatus,UserEmail}

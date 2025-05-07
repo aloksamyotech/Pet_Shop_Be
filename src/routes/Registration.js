@@ -160,7 +160,9 @@ router.delete('/:id', asyncHandler(registrationController.registrationDelete));
 router.put('/:id', asyncHandler(registrationController.UpdatedStatus));
 router.get('/status',asyncHandler(registrationController.bookingStatus))
 router.get('/todayBooking', asyncHandler(registrationController.bookingTodayData));
+router.get('/emailSend/:id',asyncHandler(registrationController.UserEmail));
 router.get('/:id', asyncHandler(registrationController.UserFind));
+
 
 
 export default router;
