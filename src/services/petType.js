@@ -32,7 +32,12 @@ export const getPetTypeData = async () =>{
     const condition_obj = {isDelete:false}
 
 const ItemData = await PetTypeModelSchema.aggregate([
-    {$match :condition_obj}
+    {$match :condition_obj},
+    {
+        $sort: {
+          createdAt: -1
+        }
+      }
     
 ]);
 return ItemData;

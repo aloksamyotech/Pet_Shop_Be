@@ -51,6 +51,11 @@ export const FetchRegistrationData = async () =>{
               as: "package"
             } 
           },
+          {
+            $sort:{
+              createdAt : -1,
+            }
+           }
     ]);
     
 if(!UserData){
@@ -63,6 +68,7 @@ return UserData
 }
 
 export const UpdateRegistrationUser = async (req) =>{
+
     const {id} = req?.params;
     const  {name , phone,email,petType,pacKage,genderPet,petAge,city,service,size,startDate,endDate} = req?.body
         const UserData = await RegistrationSchemaModel.findById(id);
@@ -160,6 +166,11 @@ const findUserData = await RegistrationSchemaModel.aggregate([
       as: "package"
     } 
   },
+  {
+    $sort:{
+      createdAt : -1,
+    }
+   }
 
 ])
 
@@ -167,8 +178,8 @@ return findUserData;
 }
 
 
-export const bookingToday = async() =>{
- const now = new Date();
+export const bookingToday = async () => {
+  const now = new Date();
   const startOfDay = new Date(Date.UTC(
     now.getUTCFullYear(),
     now.getUTCMonth(),
@@ -181,16 +192,23 @@ export const bookingToday = async() =>{
     now.getUTCDate(),
     23, 59, 59, 999
   ));
-  
 
-const TodayData = await RegistrationSchemaModel.find({
-  isDelete: false,
-  createdAt: { $gte: startOfDay, $lte: endOfDay }
-})
-return TodayData;
+  const TodayData = await RegistrationSchemaModel.aggregate([
+    {
+      $match: {
+        isDelete: false,
+        createdAt: { $gte: startOfDay, $lte: endOfDay }
+      }
+    },
+    {
+      $sort: {
+        createdAt: -1
+      }
+    }
+  ]);
 
-
-}
+  return TodayData;
+};
 
 
 
@@ -231,6 +249,11 @@ export const sendEmailToUser = async (req) => {
         as: "package",
       },
     },
+    {
+      $sort:{
+        createdAt : -1,
+      }
+     }
   ]);
 
   if (!findUserData || findUserData.length === 0) {
