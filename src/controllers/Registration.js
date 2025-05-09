@@ -52,14 +52,11 @@ const registrationUserFetch = async(req,res,next) =>{
 }
 
 const registrationUpdated = async (req,res,next) =>{
-
-
-
-    const UserData =  await UpdateRegistrationUser(req);
+const UserData =  await UpdateRegistrationUser(req);
     res.status(statusCodes?.ok).json({ 
         success: true,
         message: Message.successfullyUpdate,
-        data: purchases,
+        data: UserData,
       });
 
 }
