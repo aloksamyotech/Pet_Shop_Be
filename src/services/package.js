@@ -26,7 +26,12 @@ export const getPackageData = async () =>{
     const condition_obj = {isDelete:false}
 
 const ItemData = await PackageModelSchema.aggregate([
-    {$match :condition_obj}
+    {$match :condition_obj},
+    {
+        $sort: {
+          createdAt: -1
+        }
+      }
     
 ]);
 return ItemData;
