@@ -1,26 +1,28 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema } from "mongoose";
 
 const Package = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
-    price:{
-        type:Number,
-        required:true
-},
+    price: {
+      type: Number,
+      required: true,
+    },
     isDelete: {
-        type: Boolean,
-        default: false
-      }
-   
+      type: Boolean,
+      default: false,
+    },
+    PackageImage: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
 
-export const PackageModelSchema = mongoose.model('PackageModel', Package);
+export const PackageModelSchema = mongoose.model("PackageModel", Package);
